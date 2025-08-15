@@ -17,7 +17,7 @@ export function Header() {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-blue-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-blue-900/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="hidden md:flex">
           <FreshozLogo />
@@ -31,7 +31,7 @@ export function Header() {
                 <Input
                   type="search"
                   placeholder="Search for groceries..."
-                  className="w-full rounded-full bg-muted pl-10"
+                  className="w-full rounded-full bg-muted pl-10 text-foreground"
                 />
               </div>
             </form>
@@ -40,23 +40,23 @@ export function Header() {
 
         <div className="flex items-center gap-2">
            <a href={`tel:${storePhoneNumber}`} className="hidden sm:inline-flex">
-            <Button variant="outline">
+            <Button variant="outline" className="text-foreground">
               <Phone className="mr-2 h-4 w-4" />
               Call Us
             </Button>
           </a>
           <a href={`https://wa.me/${storePhoneNumber}?text=${whatsappMessage}`} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex">
-            <Button variant="outline">
+            <Button variant="outline" className="text-foreground">
               <MessageSquare className="mr-2 h-4 w-4" />
               Chat
             </Button>
           </a>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="hover:bg-white/20">
             <User className="h-5 w-5" />
             <span className="sr-only">Profile</span>
           </Button>
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative hover:bg-white/20">
               <ShoppingCart className="h-5 w-5" />
               {totalItems > 0 && (
                 <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 justify-center rounded-full p-0">
