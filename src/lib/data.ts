@@ -1,7 +1,8 @@
 import type { Category, Product } from '@/lib/types';
-import { Apple, Carrot, Milk, Soup, Sandwich, Fish, Cookie, Coffee, GlassWater, Sparkles, Hand } from 'lucide-react';
+import { Apple, Carrot, Milk, Soup, Sandwich, Fish, Cookie, Coffee, GlassWater, Sparkles, Hand, Grip } from 'lucide-react';
 
 export const categories: Category[] = [
+  { id: 'all', name_en: 'All', name_hi: 'सब', slug: 'all', icon: Grip },
   { id: '1', name_en: 'Vegetables & Fruits', name_hi: 'सब्जियाँ और फल', slug: 'vegetables-fruits', icon: Carrot },
   { id: '3', name_en: 'Dairy & Bakery', name_hi: 'दूध और बेकरी', slug: 'dairy-bakery', icon: Milk },
   { id: '4', name_en: 'Staples & Grocery', name_hi: 'किराना', slug: 'groceries', icon: Soup },
