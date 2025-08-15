@@ -13,6 +13,7 @@ export type Product = {
   id: string;
   name_en: string;
   name_hi: string;
+  description?: string;
   brand: string;
   category_id: string;
   mrp: number;
