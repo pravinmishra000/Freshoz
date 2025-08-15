@@ -1,6 +1,8 @@
 import { FreshozLogo } from './freshoz-logo';
 
 export function Footer() {
+  const storePhoneNumber = '9097882555';
+
   return (
     <footer className="border-t bg-muted/40">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -10,7 +12,7 @@ export function Footer() {
           </div>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary">About Us</a>
-            <a href="#" className="hover:text-primary">Contact</a>
+            <a href={`tel:${storePhoneNumber}`} className="hover:text-primary">Contact: {storePhoneNumber}</a>
             <a href="#" className="hover:text-primary">Terms of Service</a>
             <a href="#" className="hover:text-primary">Privacy Policy</a>
           </div>
