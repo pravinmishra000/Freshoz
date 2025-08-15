@@ -39,18 +39,20 @@ export default function CartPage() {
                     <ul className="divide-y">
                       {cart.map((item) => (
                         <li key={item.id} className="flex items-center gap-4 p-4">
-                          <Image
-                            src={item.image}
-                            alt={item.name_en}
-                            width={80}
-                            height={80}
-                            className="rounded-md object-cover"
-                            data-ai-hint="product image"
-                          />
-                          <div className="flex-1">
-                            <p className="font-semibold">{item.name_en}</p>
-                            <p className="text-sm text-muted-foreground">₹{item.price}</p>
-                          </div>
+                          <Link href={`/product/${item.id}`} className="flex flex-1 items-center gap-4">
+                            <Image
+                              src={item.image}
+                              alt={item.name_en}
+                              width={80}
+                              height={80}
+                              className="rounded-md object-cover"
+                              data-ai-hint="product image"
+                            />
+                            <div>
+                              <p className="font-semibold hover:text-primary">{item.name_en}</p>
+                              <p className="text-sm text-muted-foreground">₹{item.price}</p>
+                            </div>
+                          </Link>
                           <div className="flex items-center gap-2">
                             <Button
                               size="icon"
