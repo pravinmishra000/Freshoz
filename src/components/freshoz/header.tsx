@@ -44,7 +44,7 @@ export function Header() {
 
         <div className="flex items-center gap-1">
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative text-primary-foreground">
+            <Button variant="ghost" size="icon" className="relative text-primary-foreground hover:text-white">
               <ShoppingCart className="h-6 w-6" />
               {totalItems > 0 && (
                 <Badge variant="destructive" className="absolute -right-1 -top-1 h-5 w-5 justify-center rounded-full p-0 text-xs">
@@ -54,7 +54,7 @@ export function Header() {
               <span className="sr-only">Cart</span>
             </Button>
           </Link>
-          <Button variant="ghost" size="icon" className="text-primary-foreground">
+          <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-white">
             <User className="h-6 w-6" />
             <span className="sr-only">Profile</span>
           </Button>
