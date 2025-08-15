@@ -1,12 +1,19 @@
+
+'use client';
+
 import { Search, ShoppingCart, User, Phone, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FreshozLogo } from './freshoz-logo';
 import { Badge } from '../ui/badge';
+import { useCart } from '@/context/cart-context';
 
 export function Header() {
   const storePhoneNumber = '9097882555';
   const whatsappMessage = encodeURIComponent("Hello Freshoz! I have a query.");
+  const { cart } = useCart();
+  
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -49,7 +56,11 @@ export function Header() {
           </Button>
           <Button variant="ghost" size="icon" className="relative">
             <ShoppingCart className="h-5 w-5" />
-            <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 justify-center rounded-full p-0">2</Badge>
+            {totalItems > 0 && (
+              <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 justify-center rounded-full p-0">
+                {totalItems}
+              </Badge>
+            )}
             <span className="sr-only">Cart</span>
           </Button>
         </div>

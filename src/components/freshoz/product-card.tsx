@@ -1,15 +1,22 @@
+
+'use client';
+
 import Image from 'next/image';
 import type { Product } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
+import { useCart } from '@/context/cart-context';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { addToCart, removeFromCart, getCartItem } = useCart();
+  const cartItem = getCartItem(product.id);
+
   const discountPercent = product.mrp > product.price 
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;
@@ -45,9 +52,21 @@ export function ProductCard({ product }: ProductCardProps) {
           <p className="text-lg font-bold text-primary">₹{product.price}</p>
           {product.mrp > product.price && <p className="text-sm text-muted-foreground line-through">₹{product.mrp}</p>}
         </div>
-        <Button size="icon" aria-label="Add to cart">
-          <Plus className="h-5 w-5" />
-        </Button>
+        {cartItem ? (
+          <div className="flex items-center gap-2">
+            <Button size="icon" variant="outline" onClick={() => removeFromCart(product.id)} className="h-8 w-8">
+              <Minus className="h-4 w-4" />
+            </Button>
+            <span className="w-8 text-center font-bold">{cartItem.quantity}</span>
+            <Button size="icon" variant="outline" onClick={() => addToCart(product)} className="h-8 w-8">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <Button size="sm" aria-label="Add to cart" onClick={() => addToCart(product)}>
+            <Plus className="h-4 w-4 mr-1" /> Add
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
