@@ -16,7 +16,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-blue-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-blue-900/60 md:hidden">
+    <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-green-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-green-900/60 md:hidden">
       <div className="grid h-16 grid-cols-3">
         {navItems.map((item) => {
           const isActive = pathname === item.href;

@@ -17,7 +17,7 @@ export function Header() {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-blue-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-blue-900/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-green-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-green-900/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="hidden md:flex">
           <FreshozLogo />
