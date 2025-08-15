@@ -1,3 +1,4 @@
+
 import { Leaf } from 'lucide-react';
 
 export function FreshozLogo() {
@@ -7,8 +8,8 @@ export function FreshozLogo() {
         <Leaf className="h-6 w-6 text-primary" />
       </div>
       <div>
-        <h1 className="font-headline text-xl font-bold">Freshoz</h1>
-        <p className="text-xs text-primary-foreground/80">Fresh & Fast</p>
+        <h1 className="font-headline text-2xl font-bold uppercase">Freshoz</h1>
+        <p className="text-xs uppercase tracking-wider text-primary-foreground/80">Fresh & Fast</p>
       </div>
     </a>
   );
