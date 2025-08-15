@@ -16,7 +16,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-green-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-green-900/60 md:hidden">
+    <div className="fixed bottom-0 left-0 z-50 w-full border-t border-t-primary/20 bg-primary/95 text-primary-foreground backdrop-blur supports-[backdrop-filter]:bg-primary/80 md:hidden">
       <div className="grid h-16 grid-cols-3">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -25,12 +25,12 @@ export function BottomNav() {
               key={item.label}
               href={item.href}
               className={cn(
-                'inline-flex flex-col items-center justify-center px-5 hover:bg-white/20',
-                isActive ? 'text-yellow-300' : 'text-gray-300'
+                'inline-flex flex-col items-center justify-center px-5 hover:bg-primary-foreground/20',
+                isActive ? 'text-accent' : 'text-primary-foreground/80'
               )}
             >
               <item.icon className="h-6 w-6" />
-              <span className="text-xs">{item.label}</span>
+              <span className="text-xs font-medium">{item.label}</span>
             </Link>
           );
         })}
