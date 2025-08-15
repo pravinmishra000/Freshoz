@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle2 } from 'lucide-react';
 import type { CartItem } from '@/context/cart-context';
+import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 interface OrderDetails {
     items: CartItem[];
@@ -43,7 +44,7 @@ export default function OrderConfirmationPage() {
     return (
         <div className="flex min-h-screen flex-col bg-background">
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 pb-20">
                 <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
                     <Card className="mx-auto max-w-2xl">
                         <CardHeader className="items-center text-center">
@@ -83,6 +84,7 @@ export default function OrderConfirmationPage() {
                 </div>
             </main>
             <Footer />
+            <BottomNav />
         </div>
     );
 }

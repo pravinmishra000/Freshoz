@@ -10,6 +10,7 @@ import { Header } from '@/components/freshoz/header';
 import { Footer } from '@/components/freshoz/footer';
 import { Minus, Plus, Trash2, ShoppingCart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart, clearCart } = useCart();
@@ -19,7 +20,7 @@ export default function CartPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-20">
         <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <h1 className="mb-8 font-headline text-3xl font-bold">Your Cart</h1>
           {cart.length === 0 ? (
@@ -122,6 +123,7 @@ export default function CartPage() {
         </div>
       </main>
       <Footer />
+      <BottomNav />
     </div>
   );
 }

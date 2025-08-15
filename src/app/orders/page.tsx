@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Separator } from '@/components/ui/separator';
 import { Package } from 'lucide-react';
 import type { CartItem } from '@/context/cart-context';
+import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 interface Order {
     items: CartItem[];
@@ -31,7 +32,7 @@ export default function OrdersPage() {
     return (
         <div className="flex min-h-screen flex-col bg-background">
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 pb-20">
                 <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
                     <h1 className="mb-8 font-headline text-3xl font-bold">My Orders</h1>
                     {orders.length === 0 ? (
@@ -74,6 +75,7 @@ export default function OrdersPage() {
                 </div>
             </main>
             <Footer />
+            <BottomNav />
         </div>
     );
 }

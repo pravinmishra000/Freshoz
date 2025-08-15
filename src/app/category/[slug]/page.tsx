@@ -6,6 +6,7 @@ import { products, categories } from '@/lib/data';
 import { ProductCard } from '@/components/freshoz/product-card';
 import { Header } from '@/components/freshoz/header';
 import { Footer } from '@/components/freshoz/footer';
+import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 export default function CategoryPage() {
   const params = useParams();
@@ -23,7 +24,7 @@ export default function CategoryPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-20">
         <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="mb-6 font-headline text-3xl font-bold">
             {currentCategory?.name_en || 'Category'}
@@ -42,6 +43,7 @@ export default function CategoryPage() {
         </div>
       </main>
       <Footer />
+      <BottomNav />
     </div>
   );
 }

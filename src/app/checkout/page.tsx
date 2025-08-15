@@ -13,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CreditCard, Wallet, MapPin, User, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -53,6 +54,7 @@ export default function CheckoutPage() {
                 </div>
             </main>
             <Footer />
+            <BottomNav />
         </div>
     )
   }
@@ -60,7 +62,7 @@ export default function CheckoutPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-20">
         <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <h1 className="mb-8 font-headline text-3xl font-bold">Checkout</h1>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
@@ -177,6 +179,7 @@ export default function CheckoutPage() {
         </div>
       </main>
       <Footer />
+      <BottomNav />
     </div>
   );
 }
