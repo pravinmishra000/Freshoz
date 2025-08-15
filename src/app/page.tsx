@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Header } from '@/components/freshoz/header';
-import { Footer } from '@/components/freshoz/footer';
 import { categories, products } from '@/lib/data';
 import { CategoryCard } from '@/components/freshoz/category-card';
 import { ProductCard } from '@/components/freshoz/product-card';
@@ -14,6 +13,7 @@ import FreshozBuddy from '@/components/freshoz/freshoz-buddy';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import SplashScreen from '@/components/freshoz/splash-screen';
+import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-20">
         <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
           {/* Hero Section */}
           <section className="relative mb-12 h-64 w-full overflow-hidden rounded-lg bg-primary/10">
@@ -121,7 +121,7 @@ export default function Home() {
           </section>
         </div>
       </main>
-      <Footer />
+      <BottomNav />
       <LocationGate />
       <FreshozBuddy />
     </div>

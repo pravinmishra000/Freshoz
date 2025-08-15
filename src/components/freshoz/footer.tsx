@@ -4,7 +4,7 @@ export function Footer() {
   const storePhoneNumber = '9097882555';
 
   return (
-    <footer className="border-t bg-muted/40">
+    <footer className="border-t bg-muted/40 hidden md:block">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           <div className="flex-shrink-0">
