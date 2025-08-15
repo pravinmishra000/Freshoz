@@ -14,6 +14,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import SplashScreen from '@/components/freshoz/splash-screen';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
+import { Footer } from '@/components/freshoz/footer';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -121,6 +122,7 @@ export default function Home() {
           </section>
         </div>
       </main>
+      <Footer />
       <BottomNav />
       <LocationGate />
       <FreshozBuddy />
