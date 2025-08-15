@@ -3,12 +3,73 @@ import { Apple, Carrot, Milk, Soup, Sandwich, Fish, Cookie, Coffee, GlassWater, 
 
 export const categories: Category[] = [
   { id: 'all', name_en: 'All', name_hi: 'सब', slug: 'all', icon: Grip },
-  { id: '1', name_en: 'Vegetables & Fruits', name_hi: 'सब्जियाँ और फल', slug: 'vegetables-fruits', icon: Carrot },
-  { id: '3', name_en: 'Dairy & Bakery', name_hi: 'दूध और बेकरी', slug: 'dairy-bakery', icon: Milk },
-  { id: '4', name_en: 'Staples & Grocery', name_hi: 'किराना', slug: 'groceries', icon: Soup },
+  { 
+    id: '1', 
+    name_en: 'Vegetables & Fruits', 
+    name_hi: 'सब्जियाँ और फल', 
+    slug: 'vegetables-fruits', 
+    icon: Carrot,
+    subCategories: [
+      "Fresh Vegetables",
+      "Fresh Fruits",
+      "Organic",
+      "Cut & Chopped",
+      "Leafy Greens",
+      "Seasonal Fruits"
+    ]
+  },
+  { 
+    id: '3', 
+    name_en: 'Dairy & Bakery', 
+    name_hi: 'दूध और बेकरी', 
+    slug: 'dairy-bakery', 
+    icon: Milk,
+    subCategories: [
+      "Milk",
+      "Bread",
+      "Cheese",
+      "Butter",
+      "Paneer",
+      "Curd & Yogurt",
+      "Bakery Snacks",
+      "Cakes & Pastries"
+    ]
+  },
+  { 
+    id: '4', 
+    name_en: 'Staples & Grocery', 
+    name_hi: 'किराना', 
+    slug: 'groceries', 
+    icon: Soup,
+    subCategories: [
+      "Flour & Atta",
+      "Rice & Grains",
+      "Pulses & Lentils",
+      "Cooking Oils",
+      "Spices & Masalas",
+      "Sugar & Salt",
+      "Dry Fruits & Nuts",
+      "Pickles & Papad"
+    ]
+  },
   { id: '5', name_en: 'Snacks & Beverages', name_hi: 'स्नैक्स और पेय', slug: 'snacks-beverages', icon: Sandwich },
   { id: '6', name_en: 'Personal Care', name_hi: 'व्यक्तिगत देखभाल', slug: 'personal-care', icon: Hand },
-  { id: '9', name_en: 'Others', name_hi: 'अन्य', slug: 'others', icon: Sparkles },
+  { 
+    id: '9', 
+    name_en: 'Non-Veg', 
+    name_hi: 'मांसाहारी', 
+    slug: 'non-veg', 
+    icon: Fish,
+    subCategories: [
+      "Eggs",
+      "Packaged Meat",
+      "Fresh Fish",
+      "Fresh Chicken",
+      "Fresh Mutton",
+      "Seafood",
+      "Frozen Meat"
+    ]
+  },
 ];
 
 export const products: Product[] = [

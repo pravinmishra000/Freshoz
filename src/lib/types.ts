@@ -6,6 +6,7 @@ export type Category = {
   name_hi: string;
   slug: string;
   icon: LucideIcon;
+  subCategories?: string[];
 };
 
 export type Product = {
