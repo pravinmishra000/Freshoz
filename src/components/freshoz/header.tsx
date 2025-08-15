@@ -17,7 +17,7 @@ export function Header() {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 text-foreground backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b bg-primary/95 text-primary-foreground backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex">
           <FreshozLogo />
@@ -42,7 +42,7 @@ export function Header() {
            <a href={`tel:${storePhoneNumber}`} className="hidden sm:inline-flex">
             <Button variant="ghost">
               <Phone className="mr-2 h-4 w-4" />
-              Call Us
+              {storePhoneNumber}
             </Button>
           </a>
           <a href={`https://wa.me/${storePhoneNumber}?text=${whatsappMessage}`} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex">
