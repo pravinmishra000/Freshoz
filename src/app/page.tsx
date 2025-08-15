@@ -1,3 +1,7 @@
+
+'use client';
+
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Header } from '@/components/freshoz/header';
@@ -9,8 +13,22 @@ import LocationGate from '@/components/freshoz/location-gate';
 import FreshozBuddy from '@/components/freshoz/freshoz-buddy';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import SplashScreen from '@/components/freshoz/splash-screen';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <SplashScreen />;
+  }
+
   const quickCommerceProducts = products.filter(p => p.delivery_mode === 'quick');
   const eCommerceProducts = products.filter(p => p.delivery_mode === 'ecom');
 
