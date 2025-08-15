@@ -140,10 +140,10 @@ export default function FreshozBuddy() {
       }}>
         <SheetTrigger asChild>
           <Button
-            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full border-2 border-primary bg-primary/20 text-primary shadow-lg hover:bg-primary/30"
+            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90"
             aria-label="Open AI Assistant"
           >
-            <Bot className="h-8 w-8" />
+            <Bot className="h-10 w-10" />
           </Button>
         </SheetTrigger>
         <SheetContent className="flex w-full flex-col sm:max-w-md">
