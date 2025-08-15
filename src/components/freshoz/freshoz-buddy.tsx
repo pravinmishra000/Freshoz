@@ -140,8 +140,7 @@ export default function FreshozBuddy() {
       }}>
         <SheetTrigger asChild>
           <Button
-            variant="outline"
-            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full border-2 border-primary bg-primary/10 text-primary shadow-lg hover:bg-primary/20 hover:text-primary"
+            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full border-2 border-primary bg-primary/20 text-primary shadow-lg hover:bg-primary/30"
             aria-label="Open AI Assistant"
           >
             <Bot className="h-8 w-8" />
