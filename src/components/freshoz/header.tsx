@@ -2,6 +2,7 @@
 'use client';
 
 import { Search, ShoppingCart, User, Phone, MessageSquare } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FreshozLogo } from './freshoz-logo';
@@ -54,15 +55,17 @@ export function Header() {
             <User className="h-5 w-5" />
             <span className="sr-only">Profile</span>
           </Button>
-          <Button variant="ghost" size="icon" className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            {totalItems > 0 && (
-              <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 justify-center rounded-full p-0">
-                {totalItems}
-              </Badge>
-            )}
-            <span className="sr-only">Cart</span>
-          </Button>
+          <Link href="/cart">
+            <Button variant="ghost" size="icon" className="relative">
+              <ShoppingCart className="h-5 w-5" />
+              {totalItems > 0 && (
+                <Badge variant="destructive" className="absolute -right-1 -top-1 h-4 w-4 justify-center rounded-full p-0">
+                  {totalItems}
+                </Badge>
+              )}
+              <span className="sr-only">Cart</span>
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

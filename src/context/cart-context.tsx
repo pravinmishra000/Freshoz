@@ -12,7 +12,7 @@ export interface CartItem extends Product {
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (productId: string) => void;
+  removeFromCart: (productId: string, removeAll?: boolean) => void;
   clearCart: () => void;
   getCartItem: (productId: string) => CartItem | undefined;
 }
@@ -54,10 +54,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const removeFromCart = (productId: string) => {
+  const removeFromCart = (productId: string, removeAll: boolean = false) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === productId);
-      if (existingItem && existingItem.quantity > 1) {
+      if (existingItem && existingItem.quantity > 1 && !removeAll) {
         return prevCart.map((item) =>
           item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
         );
