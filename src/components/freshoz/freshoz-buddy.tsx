@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { getCheaperAlternatives } from '@/ai/flows/freshoz-buddy';
 import { trackOrderStatus } from '@/ai/flows/freshoz-buddy-track-order';
 import { checkProductAvailability } from '@/ai/flows/freshoz-buddy-product-availability';
-import { FreshozLogo } from './freshoz-logo';
+import { manageCart } from '@/ai/flows/freshoz-buddy-manage-cart';
 
 type ChatMessage = {
   id: string;
@@ -19,7 +19,7 @@ type ChatMessage = {
   content: React.ReactNode;
 };
 
-type AIFlow = 'alternatives' | 'track' | 'availability';
+type AIFlow = 'alternatives' | 'track' | 'availability' | 'cart';
 
 export default function FreshozBuddy() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,12 +38,17 @@ export default function FreshozBuddy() {
     track: {
       prompt: 'Please enter your Order ID to track its status.',
       placeholder: 'e.g., "ORDER12345"',
-      action: (input: string) => trackOrderStatus({ orderId: input, userId: 'user123' }),
+      action: (input: any) => trackOrderStatus({ orderId: input.productName, userId: 'user123' }), // Re-using productName for simplicity
     },
     availability: {
       prompt: 'What product would you like to check the availability of?',
       placeholder: 'e.g., "Amul Gold Milk"',
       action: checkProductAvailability,
+    },
+    cart: {
+      prompt: 'You can add, remove, or check items in your cart. For example: "Add 2kg tomatoes"',
+      placeholder: 'e.g., "Add 2kg tomatoes"',
+      action: (input: any) => manageCart({ query: input.productName }),
     },
   };
 
@@ -82,10 +87,14 @@ export default function FreshozBuddy() {
 
     try {
       const flowAction = flowConfig[currentFlow].action;
+      // Using productName as a generic input field name for simplicity across flows
       const result = await flowAction({ productName: inputValue });
       
       let responseContent: React.ReactNode;
-      if ('alternatives' in result) {
+
+      if (currentFlow === 'cart' && 'action' in result) {
+        responseContent = result.message;
+      } else if ('alternatives' in result) {
          responseContent = (
             <div>
               <p>{result.reasoning}</p>
@@ -151,6 +160,7 @@ export default function FreshozBuddy() {
                 <Card className="bg-primary/5">
                   <CardContent className="p-4 space-y-3">
                     <p className="font-semibold text-center">How can I help you today?</p>
+                    <Button variant="outline" className="w-full justify-start" onClick={() => startFlow('cart')}>Manage my cart</Button>
                     <Button variant="outline" className="w-full justify-start" onClick={() => startFlow('alternatives')}>Find cheaper alternatives</Button>
                     <Button variant="outline" className="w-full justify-start" onClick={() => startFlow('track')}>Track my order</Button>
                     <Button variant="outline" className="w-full justify-start" onClick={() => startFlow('availability')}>Check product availability</Button>
