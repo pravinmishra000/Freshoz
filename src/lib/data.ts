@@ -53,7 +53,6 @@ export const categories: Category[] = [
     ]
   },
   { id: '5', name_en: 'Snacks & Beverages', name_hi: 'स्नैक्स और पेय', slug: 'snacks-beverages', icon: Sandwich },
-  { id: '6', name_en: 'Personal Care', name_hi: 'व्यक्तिगत देखभाल', slug: 'personal-care', icon: Hand },
   { 
     id: '9', 
     name_en: 'Non-Veg', 
