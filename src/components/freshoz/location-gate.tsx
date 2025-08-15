@@ -34,7 +34,7 @@ export default function LocationGate() {
       toast({
         variant: 'destructive',
         title: 'Service Unavailable',
-        description: "Sorry, we don't deliver to your PIN code yet.",
+        description: "Sorry, we are not available in your city right now, but we will be soon!",
       });
     }
   };
@@ -64,7 +64,7 @@ export default function LocationGate() {
         <Button type="submit" onClick={handleCheckPin} className="w-full">
           Continue
         </Button>
-        <p className="text-center text-sm text-muted-foreground">Currently serving: {SUPPORTED_PINS.join(', ')}</p>
+        <p className="text-center text-sm text-muted-foreground">Currently serving: {SUPPORTED_PINS.join(', ')} (Sultanganj)</p>
       </DialogContent>
     </Dialog>
   );

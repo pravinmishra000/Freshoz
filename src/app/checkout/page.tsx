@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,13 +15,27 @@ import Link from 'next/link';
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
+  const router = useRouter();
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handlePlaceOrder = () => {
-    // In a real app, this would trigger the payment and order creation process.
-    alert('Order placed successfully! (Simulation)');
+    const orderDetails = {
+      items: cart,
+      total: totalPrice,
+      orderId: `FRES-${Date.now()}`,
+      orderDate: new Date().toISOString(),
+    };
+
+    // In a real app, you'd save this to a database.
+    // For this prototype, we'll save it to localStorage.
+    const existingOrders = JSON.parse(localStorage.getItem('freshoz_orders') || '[]');
+    localStorage.setItem('freshoz_orders', JSON.stringify([...existingOrders, orderDetails]));
+    
+    // Pass order details to the confirmation page via localStorage
+    localStorage.setItem('freshoz_last_order', JSON.stringify(orderDetails));
+
     clearCart();
-    // Redirect to an order confirmation page, e.g., router.push('/order-success');
+    router.push('/order-confirmation');
   }
 
   if (cart.length === 0) {
@@ -77,15 +92,15 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                          <div className="space-y-2">
                             <Label htmlFor="city">City</Label>
-                            <Input id="city" placeholder="Bhagalpur" />
+                            <Input id="city" placeholder="Sultanganj" value="Sultanganj" readOnly/>
                         </div>
                          <div className="space-y-2">
                             <Label htmlFor="state">State</Label>
-                            <Input id="state" placeholder="Bihar" />
+                            <Input id="state" placeholder="Bihar" value="Bihar" readOnly/>
                         </div>
                          <div className="space-y-2">
                             <Label htmlFor="pincode">Pincode</Label>
-                            <Input id="pincode" placeholder="813213" />
+                            <Input id="pincode" placeholder="813213" value="813213" readOnly/>
                         </div>
                     </div>
                   </CardContent>
