@@ -6,10 +6,12 @@ import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ChevronLeft, Lock, MapPin, User, Phone, Home, ShoppingBag } from 'lucide-react';
+import { ChevronLeft, Home, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import Image from 'next/image';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
 export default function CheckoutPage() {
   const { cart } = useCart();
@@ -34,105 +36,117 @@ export default function CheckoutPage() {
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
-  const totalSavings = totalMRP - totalPrice;
+
+  const deliveryDates = [
+      { day: 'Tue', date: '5 Aug', id: 'd1' },
+      { day: 'Wed', date: '6 Aug', id: 'd2' },
+      { day: 'Thu', date: '7 Aug', id: 'd3' },
+  ]
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
        <header className="sticky top-0 z-40 w-full border-b bg-background shadow-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-            <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" onClick={() => router.back()}>
-                    <ChevronLeft />
-                </Button>
-                <div>
-                    <p className="text-xs text-muted-foreground">Step 2 of 3</p>
-                    <h1 className="text-xl font-bold">Checkout</h1>
-                </div>
-            </div>
-            <div className="flex items-center gap-1 text-sm font-semibold text-muted-foreground">
-                <Lock className="h-4 w-4"/>
-                <span>100% Secure</span>
-            </div>
+        <div className="container mx-auto flex h-16 items-center gap-4 px-4">
+            <Button variant="ghost" size="icon" onClick={() => router.back()}>
+                <ChevronLeft />
+            </Button>
+            <h1 className="text-xl font-bold">Order Summary</h1>
         </div>
       </header>
 
       <main className="flex-1 pb-24">
+         {/* Progress Stepper */}
+        <div className="bg-background py-4">
+            <div className="container mx-auto px-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex flex-col items-center text-center text-primary">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-primary bg-primary text-primary-foreground">
+                           <CheckCircle className="h-4 w-4" />
+                        </div>
+                        <p className="text-xs font-bold">Address</p>
+                    </div>
+                     <div className="flex-1 h-0.5 bg-primary mx-2"></div>
+                    <div className="flex flex-col items-center text-center text-primary">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-primary bg-primary text-primary-foreground">
+                            <span className="text-xs font-bold">2</span>
+                        </div>
+                        <p className="text-xs font-bold">Order Summary</p>
+                    </div>
+                     <div className="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+                     <div className="flex flex-col items-center text-center text-muted-foreground">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full border-2">
+                           <span className="text-xs font-bold">3</span>
+                        </div>
+                        <p className="text-xs">Payment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
             <div className="space-y-4">
                 <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">Delivery Address</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="p-4 space-y-2">
                          <div className="flex items-start justify-between gap-4">
                             <div className="flex items-start gap-4">
-                                <Home className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                                 <div>
-                                <p className="font-bold">Home</p>
-                                <p className="text-sm text-muted-foreground">123, Main Road, Near City Hall, Sultanganj, Bhagalpur, Bihar - 813213</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="font-bold">Pravin Mishra</p>
+                                        <span className="text-xs font-medium bg-gray-100 px-2 py-0.5 rounded">HOME</span>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">L-146, Ladali Bhawan, 2nd Floor,, Road N...</p>
+                                    <p className="text-sm text-muted-foreground">9097882555</p>
                                 </div>
                             </div>
                             <Button variant="outline" size="sm">Change</Button>
                         </div>
-                        <div className="flex items-center gap-4 text-sm">
-                            <User className="h-5 w-5 text-muted-foreground"/>
-                            <p className="font-semibold">John Doe</p>
-                        </div>
-                         <div className="flex items-center gap-4 text-sm">
-                            <Phone className="h-5 w-5 text-muted-foreground"/>
-                            <p className="font-semibold">+91 98765 43210</p>
-                        </div>
+                        <p className="text-xs text-muted-foreground">Check if the address is suitable for collecting grocery delivery</p>
                     </CardContent>
                 </Card>
 
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg flex items-center gap-2">
-                           <ShoppingBag /> Order Summary
-                        </CardTitle>
+                        <CardTitle className="text-lg">Grocery basket ({cart.length} items)</CardTitle>
                     </CardHeader>
                      <CardContent>
-                        <ul className="space-y-4">
-                            {cart.map(item => (
-                                <li key={item.id} className="flex items-center gap-4">
-                                    <div className="relative h-16 w-16 flex-shrink-0">
-                                        <Image src={item.image} alt={item.name_en} layout="fill" className="rounded-md object-contain" />
+                        <div className="flex space-x-4 overflow-x-auto pb-4">
+                           {cart.map(item => (
+                                <div key={item.id} className="flex-shrink-0 w-20 text-center">
+                                    <div className="relative h-20 w-20 bg-gray-100 rounded-md p-1">
+                                        <Image src={item.image} alt={item.name_en} layout="fill" className="object-contain" />
                                     </div>
-                                    <div className="flex-1">
-                                        <p className="font-semibold">{item.name_en}</p>
-                                        <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
-                                    </div>
-                                    <p className="font-bold">₹{(item.price * item.quantity).toFixed(2)}</p>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
+                        <div className="mt-2 flex items-baseline gap-2">
+                            <span className="text-2xl font-bold">₹{totalPrice.toFixed(0)}</span>
+                            <span className="text-muted-foreground line-through">₹{totalMRP.toFixed(0)}</span>
+                        </div>
                     </CardContent>
                 </Card>
-
-                <Card>
+                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Price Details</CardTitle>
+                        <CardTitle className="text-lg">Choose a Delivery slot</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                            <span>Price ({cart.length} items)</span>
-                            <span>₹{totalMRP.toFixed(2)}</span>
+                    <CardContent>
+                        <div className="flex gap-2">
+                            {deliveryDates.map((date, index) => (
+                                <button key={date.id} className={`flex-1 rounded-lg p-2 text-center border-2 ${index === 0 ? 'border-primary bg-primary/10' : 'border-gray-200'}`}>
+                                    <p className="font-bold">{date.day}</p>
+                                    <p className="text-sm">{date.date}</p>
+                                </button>
+                            ))}
                         </div>
-                        <div className="flex justify-between">
-                            <span>Discount</span>
-                            <span className="text-green-600">-₹{totalSavings.toFixed(2)}</span>
-                        </div>
-                         <div className="flex justify-between">
-                            <span>Delivery Charges</span>
-                            <span className="text-green-600">FREE</span>
-                        </div>
-                        <Separator className="my-2"/>
-                        <div className="flex justify-between font-bold text-base">
-                            <span>Total Amount</span>
-                            <span>₹{totalPrice.toFixed(2)}</span>
+                        <div className="mt-4">
+                            <RadioGroup defaultValue="slot1">
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="slot1" id="slot1" />
+                                    <Label htmlFor="slot1">8:10 AM to 8:10 PM</Label>
+                                </div>
+                            </RadioGroup>
                         </div>
                     </CardContent>
-                </Card>
+                 </Card>
             </div>
         </div>
       </main>
@@ -141,10 +155,10 @@ export default function CheckoutPage() {
             <div className="container mx-auto flex items-center justify-between">
                  <div>
                     <p className="text-xl font-bold">₹{totalPrice.toFixed(0)}</p>
-                    <p className="text-xs text-muted-foreground">Total Amount</p>
+                    <Link href="#" className="text-sm font-semibold text-primary">View price details</Link>
                 </div>
                 <Button asChild className="h-12 w-48 text-lg" size="lg">
-                    <Link href="/payment">Proceed to Payment</Link>
+                    <Link href="/payment">Continue</Link>
                 </Button>
             </div>
         </div>
