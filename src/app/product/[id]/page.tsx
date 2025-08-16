@@ -10,9 +10,10 @@ import { Footer } from '@/components/freshoz/footer';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, Star } from 'lucide-react';
 import { ProductCard } from '@/components/freshoz/product-card';
 import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -43,6 +44,14 @@ export default function ProductDetailPage() {
     .filter((p) => p.category_id === product.category_id && p.id !== product.id)
     .slice(0, 4);
 
+  const productDetails = [
+      { label: 'Brand', value: product.brand },
+      { label: 'Pack Size', value: product.pack_size },
+      { label: 'Is Veg', value: product.is_veg ? "Yes" : "No"},
+      { label: 'Shelf Life', value: '9 Months'},
+      { label: 'Country of Origin', value: 'India'},
+  ]
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
@@ -54,8 +63,8 @@ export default function ProductDetailPage() {
               <Image
                 src={product.image}
                 alt={product.name_en}
-                layout="fill"
-                objectFit="cover"
+                fill
+                className="object-cover"
                 data-ai-hint="product image"
               />
                {discountPercent > 0 && (
@@ -72,6 +81,15 @@ export default function ProductDetailPage() {
                 <h1 className="font-headline text-3xl font-bold lg:text-4xl">{product.name_en}</h1>
                 <p className="mt-1 text-lg text-muted-foreground">{product.pack_size}</p>
               </div>
+               {product.rating && product.rating_count && (
+                <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-white">
+                        <span>{product.rating.toFixed(1)}</span>
+                        <Star className="h-4 w-4 fill-current" />
+                    </div>
+                    <span>({product.rating_count.toLocaleString()} ratings)</span>
+                </div>
+              )}
               
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-bold text-primary">₹{product.price}</span>
@@ -109,6 +127,25 @@ export default function ProductDetailPage() {
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Product Details Section */}
+          <div className="mt-16">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Product Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                        {productDetails.map(detail => (
+                            <div key={detail.label} className="flex justify-between border-b pb-2">
+                                <p className="text-muted-foreground">{detail.label}</p>
+                                <p className="font-semibold">{detail.value}</p>
+                            </div>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
           </div>
           
           {/* Suggested Products */}
