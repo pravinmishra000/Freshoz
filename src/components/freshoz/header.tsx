@@ -1,67 +1,83 @@
 
 'use client';
 
-import { Search, ShoppingCart, User, Home, ChevronRight, Briefcase, Plane, Milk, Mic } from 'lucide-react';
+import { Search, ShoppingCart, User, Home, ChevronRight, Briefcase, Plane, Milk, Mic, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '../ui/badge';
 import { useCart } from '@/context/cart-context';
+import { FreshozLogo } from './freshoz-logo';
 
 export function Header() {
   const { cart } = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  const quickLinks = [
-    { name: 'Flipkart', icon: Briefcase, href: '#' },
-    { name: 'Loans', icon: User, href: '#' },
-    { name: 'Travel', icon: Plane, href: '#' },
-    { name: 'Grocery', icon: Milk, href: '/', active: true },
-  ];
+  const storePhoneNumber = '9097882555';
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-secondary">
-      {/* Quick Links Section */}
-      <div className="container mx-auto flex items-center justify-around px-4 py-2 sm:px-6 lg:px-8">
-        {quickLinks.map((link) => (
-          <Link href={link.href} key={link.name}>
-            <div
-              className={`flex flex-col items-center gap-1 rounded-lg p-2 text-center ${
-                link.active ? 'bg-primary text-primary-foreground' : 'bg-white'
-              }`}
-            >
-              <link.icon className={`h-6 w-6 ${link.active ? 'text-white' : 'text-blue-600'}`} />
-              <span className={`text-xs font-medium ${link.active ? 'text-white' : 'text-black'}`}>{link.name}</span>
-            </div>
-          </Link>
-        ))}
-      </div>
-      
-      {/* Address and Delivery Slot */}
-      <div className="container mx-auto my-2 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between rounded-lg bg-primary/20 p-2 text-sm">
-            <div className="flex items-center gap-2">
-                <Home className="h-5 w-5 text-primary" />
-                <span className="font-semibold">HOME L-146, Ladali Bh...</span>
-                <ChevronRight className="h-5 w-5" />
-            </div>
-            <div className="rounded-lg bg-primary p-2 text-primary-foreground text-center text-xs">
-                <div>5 Aug</div>
-                <div>8 AM - 8 PM</div>
-            </div>
+    <header className="sticky top-0 z-40 w-full border-b bg-background shadow-sm">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:block">
+            <FreshozLogo />
+          </div>
+          <div className="flex items-center gap-2 text-sm font-medium">
+             <MapPin className="h-5 w-5 text-primary" />
+             <div>
+                <p className="font-bold">Deliver to</p>
+                <p className="text-muted-foreground">Sultanganj, 813213</p>
+             </div>
+          </div>
+        </div>
+        
+        <div className="hidden lg:flex w-full max-w-md items-center">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search for products..."
+                className="w-full rounded-full border-2 border-primary/30 bg-secondary/50 pl-10 pr-4"
+              />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+           <Button variant="ghost" size="icon" className="hidden lg:inline-flex" asChild>
+             <a href={`tel:${storePhoneNumber}`}>
+              <Phone />
+              <span className="sr-only">Call us</span>
+             </a>
+          </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="#">
+              <User />
+              <span className="sr-only">Profile</span>
+            </Link>
+          </Button>
+          <div className="relative">
+            <Button variant="ghost" size="icon" asChild>
+              <Link href="/cart">
+                <ShoppingCart />
+                <span className="sr-only">Cart</span>
+              </Link>
+            </Button>
+            {totalItems > 0 && (
+              <Badge variant="destructive" className="absolute -right-2 -top-2 h-6 w-6 justify-center rounded-full p-1 text-xs">
+                {totalItems}
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* Search Bar */}
-      <div className="container mx-auto px-4 pb-2 sm:px-6 lg:px-8">
-        <div className="relative">
+       <div className="container mx-auto px-4 pb-3 lg:hidden">
+         <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search grocery products"
-              className="w-full rounded-md border-2 border-primary/30 bg-white pl-10 pr-10"
+              placeholder="Search for products..."
+              className="w-full rounded-full border-2 border-primary/30 bg-secondary/50 pl-10 pr-10"
             />
-            <Button size="icon" variant="ghost" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full text-muted-foreground hover:bg-gray-200">
+             <Button size="icon" variant="ghost" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full text-muted-foreground hover:bg-gray-200">
                 <Mic className="h-5 w-5" />
                 <span className="sr-only">Search by voice</span>
             </Button>

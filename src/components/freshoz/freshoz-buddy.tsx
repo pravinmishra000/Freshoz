@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bot, Loader2, SendHorizonal, Sparkles } from 'lucide-react';
+import { Bot, Loader2, SendHorizonal, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetFooter } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -134,23 +134,22 @@ export default function FreshozBuddy() {
 
   return (
     <>
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-24 right-6 z-40 h-16 w-16 rounded-full bg-primary/20 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/30 md:bottom-8 md:right-8"
+          aria-label="Open AI Assistant"
+        >
+          <Bot className="h-8 w-8" />
+        </Button>
       <Sheet open={isOpen} onOpenChange={(open) => {
           setIsOpen(open);
           if (!open) handleReset();
       }}>
-        <SheetTrigger asChild>
-          <Button
-            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90"
-            aria-label="Open AI Assistant"
-          >
-            <Bot className="h-10 w-10" />
-          </Button>
-        </SheetTrigger>
         <SheetContent className="flex w-full flex-col sm:max-w-md">
           <SheetHeader className="pr-10">
             <SheetTitle>
               <div className="flex items-center gap-2">
-                <Sparkles className="h-6 w-6 text-accent"/>
+                <Sparkles className="h-6 w-6 text-yellow-400"/>
                 <span className="font-headline">Freshoz Buddy</span>
               </div>
             </SheetTitle>
@@ -170,7 +169,7 @@ export default function FreshozBuddy() {
               )}
               {messages.map((message) => (
                 <div key={message.id} className={`flex items-end gap-2 ${message.role === 'user' ? 'justify-end' : ''}`}>
-                  {message.role === 'assistant' && <Avatar className="h-8 w-8"><AvatarFallback><Bot size={20} /></AvatarFallback></Avatar>}
+                  {message.role === 'assistant' && <Avatar className="h-8 w-8 bg-primary/20"><AvatarFallback><Bot size={20} className="text-primary" /></AvatarFallback></Avatar>}
                   <div className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                     {message.content}
                   </div>
@@ -190,6 +189,9 @@ export default function FreshozBuddy() {
                 />
                 <Button type="submit" size="icon" disabled={isLoading}>
                   <SendHorizonal className="h-4 w-4" />
+                </Button>
+                 <Button type="button" size="icon" variant="ghost" onClick={handleReset}>
+                  <X className="h-4 w-4" />
                 </Button>
               </form>
             </SheetFooter>
