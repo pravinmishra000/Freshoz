@@ -23,7 +23,7 @@ export function Header() {
           <FreshozLogo />
         </div>
 
-        <div className="flex-1 items-center justify-center px-4">
+        <div className="hidden flex-1 items-center justify-center px-4 md:flex">
           <div className="w-full max-w-2xl mx-auto">
             <form>
               <div className="relative">
