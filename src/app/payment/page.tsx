@@ -107,11 +107,11 @@ export default function PaymentPage() {
                 {paymentOptions.map(option => (
                 <AccordionItem value={option.id} key={option.id}>
                     <AccordionTrigger className="p-4 font-bold text-base hover:no-underline">
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 flex-1">
                             {option.icon}
                             <span>{option.label}</span>
                         </div>
-                         {option.action && <Button variant="link" className="font-bold">{option.action}</Button>}
+                         {option.action && <div className="text-primary underline-offset-4 hover:underline font-bold text-sm">{option.action}</div>}
                          {option.status && <span className="text-sm text-muted-foreground font-medium">{option.status}</span>}
                     </AccordionTrigger>
                     <AccordionContent className="p-4 pt-0">
