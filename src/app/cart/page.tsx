@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useCart();
-  const [appliedCoupon, setAppliedCoupon] = useState<null | 'FLAT50' | 'FLAT100'>(null);
+  const [appliedCoupon, setAppliedCoupon] = useState<null | 'FLAT50' | 'FLAT150'>(null);
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
@@ -28,13 +28,13 @@ export default function CartPage() {
   let couponDiscount = 0;
   if (appliedCoupon === 'FLAT50') {
     couponDiscount = 50;
-  } else if (appliedCoupon === 'FLAT100') {
-    couponDiscount = 100;
+  } else if (appliedCoupon === 'FLAT150') {
+    couponDiscount = 150;
   }
   
   const totalAmount = totalPrice + deliveryFee + platformFee - couponDiscount;
 
-  const handleApplyCoupon = (coupon: 'FLAT50' | 'FLAT100') => {
+  const handleApplyCoupon = (coupon: 'FLAT50' | 'FLAT150') => {
     setAppliedCoupon(coupon);
   };
 
@@ -146,7 +146,7 @@ export default function CartPage() {
                               <div className="flex items-center gap-2">
                                   <Ticket className="h-6 w-6 text-green-600" />
                                   <div>
-                                      <p className="font-bold text-green-800">Flat ₹100 Off</p>
+                                      <p className="font-bold text-green-800">Flat ₹150 Off</p>
                                       <p className="text-xs text-green-700">On orders above ₹2500</p>
                                   </div>
                               </div>
@@ -154,10 +154,10 @@ export default function CartPage() {
                                 variant="outline" 
                                 size="sm" 
                                 className="bg-white border-green-600 text-green-600 hover:bg-green-100"
-                                onClick={() => handleApplyCoupon('FLAT100')}
-                                disabled={appliedCoupon === 'FLAT100'}
+                                onClick={() => handleApplyCoupon('FLAT150')}
+                                disabled={appliedCoupon === 'FLAT150'}
                               >
-                                {appliedCoupon === 'FLAT100' ? 'Applied' : 'Apply'}
+                                {appliedCoupon === 'FLAT150' ? 'Applied' : 'Apply'}
                               </Button>
                           </CardContent>
                       </Card>
