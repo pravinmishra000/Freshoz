@@ -88,51 +88,51 @@ export default function CartPage() {
                 )}
             </div>
 
-            {/* Auto-applied coupons */}
-            <div className="m-2 space-y-2">
-                {totalPrice > 1000 && (
-                    <Card className="bg-green-50 border-green-200">
-                        <CardContent className="p-3 flex items-center justify-between">
-                             <div className="flex items-center gap-2">
-                                <Ticket className="h-6 w-6 text-green-600" />
-                                <div>
-                                    <p className="font-bold text-green-800">Flat ₹50 Off</p>
-                                    <p className="text-xs text-green-700">On orders above ₹1000</p>
+            {/* Auto-applied coupons & Apply Coupon */}
+            <div className="bg-white py-4">
+                <div className="m-2 space-y-2">
+                    {totalPrice > 1000 && (
+                        <Card className="bg-green-50 border-green-200">
+                            <CardContent className="p-3 flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Ticket className="h-6 w-6 text-green-600" />
+                                    <div>
+                                        <p className="font-bold text-green-800">Flat ₹50 Off</p>
+                                        <p className="text-xs text-green-700">On orders above ₹1000</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <Button variant="outline" size="sm" className="bg-white border-green-600 text-green-600 hover:bg-green-100">Apply</Button>
-                        </CardContent>
-                    </Card>
-                )}
-                {totalPrice > 2500 && (
-                     <Card className="bg-green-50 border-green-200">
-                        <CardContent className="p-3 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <Ticket className="h-6 w-6 text-green-600" />
-                                <div>
-                                    <p className="font-bold text-green-800">Flat ₹100 Off</p>
-                                    <p className="text-xs text-green-700">On orders above ₹2500</p>
+                                <Button variant="outline" size="sm" className="bg-white border-green-600 text-green-600 hover:bg-green-100">Apply</Button>
+                            </CardContent>
+                        </Card>
+                    )}
+                    {totalPrice > 2500 && (
+                        <Card className="bg-green-50 border-green-200">
+                            <CardContent className="p-3 flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Ticket className="h-6 w-6 text-green-600" />
+                                    <div>
+                                        <p className="font-bold text-green-800">Flat ₹100 Off</p>
+                                        <p className="text-xs text-green-700">On orders above ₹2500</p>
+                                    </div>
                                 </div>
-                            </div>
-                           <Button variant="outline" size="sm" className="bg-white border-green-600 text-green-600 hover:bg-green-100">Apply</Button>
-                        </CardContent>
-                    </Card>
-                )}
-            </div>
-
-            {/* Apply Coupon */}
-             <Card className="m-2">
-              <CardContent className="p-4 space-y-2">
-                 <div className="flex items-center gap-2">
-                    <Input placeholder="Enter coupon code (e.g. GROCERY200)" />
-                    <Button variant="outline">Apply</Button>
+                                <Button variant="outline" size="sm" className="bg-white border-green-600 text-green-600 hover:bg-green-100">Apply</Button>
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
-                 <p className="text-xs text-muted-foreground">
-                    Use GROCERY200 for ₹200 off on purchases up to ₹5000.
-                 </p>
-              </CardContent>
-            </Card>
 
+                <Card className="m-2">
+                    <CardContent className="p-4 space-y-2">
+                        <div className="flex items-center gap-2">
+                            <Input placeholder="Enter coupon code (e.g. GROCERY200)" />
+                            <Button variant="outline">Apply</Button>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            Use GROCERY200 for ₹200 off on purchases up to ₹5000.
+                        </p>
+                    </CardContent>
+                </Card>
+            </div>
             
             {/* Price Details */}
             <Card className="m-2">
