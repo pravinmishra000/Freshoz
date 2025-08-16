@@ -46,6 +46,8 @@ export default function ProductDetailPage() {
     .filter((p) => p.category_id === product.category_id && p.id !== product.id)
     .slice(0, 4);
 
+  const boughtTogetherProducts = products.filter(p => ['p5', 'p17', 'p20'].includes(p.id));
+
   const productDetails = [
       { label: 'Brand', value: product.brand },
       { label: 'Pack Size', value: product.pack_size },
@@ -262,6 +264,36 @@ export default function ProductDetailPage() {
             </Card>
           </div>
           
+          {/* Bought Together */}
+          <div className="mt-16">
+            <Separator/>
+            <h2 className="my-8 font-headline text-3xl font-bold">Bought Together</h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {boughtTogetherProducts.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+          
+          {/* Sponsored Section */}
+          <div className="mt-16">
+             <Separator/>
+            <h2 className="my-8 font-headline text-3xl font-bold">Sponsored</h2>
+            <div className="relative aspect-[2/1] w-full overflow-hidden rounded-lg">
+                <Image 
+                    src="https://placehold.co/1200x600"
+                    alt="Sponsored Product"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="advertisement banner"
+                />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-6 flex flex-col justify-end">
+                    <h3 className="text-white text-2xl font-bold">Choose only top class</h3>
+                    <Button variant="secondary" className="mt-4 w-fit">Shop now</Button>
+                </div>
+            </div>
+          </div>
+
           {/* Suggested Products */}
           {suggestedProducts.length > 0 && (
             <div className="mt-16">
@@ -281,5 +313,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-
-    
