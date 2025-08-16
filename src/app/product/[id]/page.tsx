@@ -10,10 +10,12 @@ import { Footer } from '@/components/freshoz/footer';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Minus, Star, MapPin, CalendarDays } from 'lucide-react';
+import { Plus, Minus, Star, MapPin, CalendarDays, TrendingUp, Tag, ChevronRight } from 'lucide-react';
 import { ProductCard } from '@/components/freshoz/product-card';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -50,6 +52,11 @@ export default function ProductDetailPage() {
       { label: 'Is Veg', value: product.is_veg ? "Yes" : "No"},
       { label: 'Shelf Life', value: '9 Months'},
       { label: 'Country of Origin', value: 'India'},
+  ]
+  
+  const variants = [
+      { id: 'v1', size: '1 kg', price: product.price, mrp: product.mrp, discount: discountPercent },
+      { id: 'v2', size: '2 kg', price: product.price * 2 * 0.9, mrp: product.mrp * 2, discount: Math.round(((product.mrp * 2 - (product.price * 2 * 0.9)) / (product.mrp * 2)) * 100) },
   ]
 
   return (
@@ -130,6 +137,81 @@ export default function ProductDetailPage() {
               </div>
             </div>
           </div>
+          
+          <Separator className="my-8" />
+          
+          <div className="space-y-6">
+            <div className="flex items-center gap-4 text-sm">
+                <CalendarDays className="h-5 w-5 text-muted-foreground"/>
+                <div>
+                    <p className="font-semibold">Expiry Date 27 Mar 2026</p>
+                    <p className="text-muted-foreground">Manufactured date 01 Jul 2025</p>
+                </div>
+            </div>
+            <div className="flex items-center gap-4 text-sm font-semibold text-green-700">
+                <TrendingUp className="h-5 w-5"/>
+                <p>3,000+ people ordered this in the last 15 days</p>
+            </div>
+          </div>
+          
+          <Separator className="my-8" />
+
+          {/* Select Variant */}
+          <div>
+            <h2 className="mb-4 font-headline text-xl font-bold">Select Variant</h2>
+            <RadioGroup defaultValue={variants[0].id} className="space-y-4">
+              {variants.map(variant => (
+                <Label key={variant.id} htmlFor={variant.id} className="block cursor-pointer rounded-lg border-2 border-transparent has-[input:checked]:border-primary p-4 transition-all">
+                   <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <RadioGroupItem value={variant.id} id={variant.id} />
+                       <div>
+                          {variant.discount > 0 && <Badge variant="destructive" className="mb-1">{variant.discount}% OFF</Badge>}
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-xl font-bold">₹{Math.round(variant.price)}</span>
+                            <span className="text-muted-foreground line-through">₹{variant.mrp}</span>
+                          </div>
+                        </div>
+                    </div>
+                     <div className="text-right">
+                        <p className="font-bold text-lg">{variant.size}</p>
+                        <p className="text-sm text-muted-foreground">@ ₹{Math.round(variant.price / parseInt(variant.size))} /kg</p>
+                    </div>
+                  </div>
+                </Label>
+              ))}
+            </RadioGroup>
+          </div>
+          
+          <Separator className="my-8" />
+
+          {/* Offers */}
+          <div>
+            <h2 className="mb-4 font-headline text-xl font-bold">Offers</h2>
+            <div className="space-y-4">
+                <div className="flex items-start justify-between gap-4 rounded-lg border border-dashed border-green-500 bg-green-50 p-4">
+                    <div className="flex items-start gap-4">
+                        <Tag className="h-6 w-6 text-green-600 flex-shrink-0 mt-1"/>
+                        <div>
+                            <h3 className="font-semibold text-green-800">Special Price</h3>
+                            <p className="text-sm text-green-700">Get extra 7% off on 50 item(s) (price inclusive of cashback/coupon)</p>
+                        </div>
+                    </div>
+                    <Button variant="link" className="text-green-600">T&C</Button>
+                </div>
+                 <div className="flex items-start justify-between gap-4 rounded-lg border border-dashed border-green-500 bg-green-50 p-4">
+                    <div className="flex items-start gap-4">
+                        <Tag className="h-6 w-6 text-green-600 flex-shrink-0 mt-1"/>
+                        <div>
+                            <h3 className="font-semibold text-green-800">Buy More, Save More</h3>
+                            <p className="text-sm text-green-700">Buy worth ₹1399 save ₹150 (Minimum 2)</p>
+                        </div>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-green-600" />
+                </div>
+            </div>
+          </div>
+
 
           {/* Product Details Section */}
           <div className="mt-16">
