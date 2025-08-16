@@ -18,7 +18,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-primary/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container mx-auto flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto flex h-20 items-center justify-between gap-2 px-4 sm:px-6 lg:px-8 md:gap-4">
         <div className="flex-shrink-0">
           <FreshozLogo />
         </div>
@@ -27,11 +27,11 @@ export function Header() {
           <div className="w-full max-w-2xl mx-auto">
             <form>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground" />
+                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-green-800" />
                 <Input
                   type="search"
                   placeholder="Search for groceries..."
-                  className="w-full rounded-full border-2 border-primary-foreground/50 bg-primary/80 pl-10 pr-10 text-primary-foreground placeholder:text-primary-foreground/70"
+                  className="w-full rounded-full border-2 border-primary-foreground/50 bg-primary/80 pl-10 pr-10 text-green-800 placeholder:text-primary-foreground/70"
                 />
                 <Button size="icon" variant="ghost" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full text-primary-foreground hover:bg-primary">
                     <Mic className="h-5 w-5" />
@@ -44,7 +44,7 @@ export function Header() {
 
         <div className="flex items-center gap-1">
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative text-primary-foreground hover:text-white">
+            <Button variant="ghost" size="icon" className="relative text-green-800 hover:text-white">
               <ShoppingCart className="h-6 w-6" />
               {totalItems > 0 && (
                 <Badge variant="destructive" className="absolute -right-1 -top-1 h-5 w-5 justify-center rounded-full p-0 text-xs">
@@ -54,7 +54,7 @@ export function Header() {
               <span className="sr-only">Cart</span>
             </Button>
           </Link>
-          <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-white">
+          <Button variant="ghost" size="icon" className="text-green-800 hover:text-white">
             <User className="h-6 w-6" />
             <span className="sr-only">Profile</span>
           </Button>
