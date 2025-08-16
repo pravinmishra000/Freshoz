@@ -7,11 +7,12 @@ import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/freshoz/header';
 import { Footer } from '@/components/freshoz/footer';
-import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info } from 'lucide-react';
+import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useCart();
@@ -34,6 +35,36 @@ export default function CartPage() {
 
       <main className="flex-1 pb-40">
         <div className="container mx-auto px-0 py-2 sm:px-4">
+
+            {/* Offer Banners */}
+             <div className="space-y-2 p-2">
+                <div className="flex items-center gap-2 rounded-lg bg-green-50 p-3 text-sm text-green-700">
+                    <PercentSquare className="h-5 w-5" />
+                    <span>Get 10% off with HDFC Bank Credit Cards</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
+                    <Sparkles className="h-5 w-5" />
+                    <span>Shop for Rs. 500 more to get free delivery</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
+                    <ShieldCheck className="h-5 w-5" />
+                    <span>Total savings of Rs. {totalSavings.toFixed(0)} on this order</span>
+                </div>
+            </div>
+
+            {/* Apply Coupon */}
+             <Card className="m-2">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Tag className="h-5 w-5 text-primary" />
+                        <span className="font-semibold">Flat Rs.50 off with a coupon</span>
+                    </div>
+                    <Button variant="outline">Apply</Button>
+                </div>
+                 <Link href="#" className="ml-7 mt-1 block text-sm font-semibold text-primary">View all offers <ChevronRight className="inline-block h-4 w-4"/></Link>
+              </CardContent>
+            </Card>
 
             {/* Cart Items */}
             <div className="bg-white">
