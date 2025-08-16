@@ -162,6 +162,12 @@ export default function CartPage() {
             <div className="my-4 mx-2 rounded-lg bg-green-50 p-3 text-center text-sm font-semibold text-green-700">
                 You will save ₹{totalSavings.toFixed(0)} on this order
             </div>
+
+            <div className="mx-2 my-4">
+                 <Button asChild className="w-full h-12 text-lg" size="lg">
+                    <Link href="/checkout">Continue</Link>
+                </Button>
+            </div>
         </div>
       </main>
 
