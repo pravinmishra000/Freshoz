@@ -17,6 +17,7 @@ interface Order {
     total: number;
     orderId: string;
     orderDate: string;
+    status?: 'Pending' | 'Shipped' | 'Delivered';
 }
 
 export default function OrdersPage() {
@@ -25,9 +26,25 @@ export default function OrdersPage() {
     useEffect(() => {
         const savedOrders = localStorage.getItem('freshoz_orders');
         if (savedOrders) {
-            setOrders(JSON.parse(savedOrders).sort((a: Order, b: Order) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()));
+            const parsedOrders: Order[] = JSON.parse(savedOrders);
+            // Add a default status if not present
+            const ordersWithStatus = parsedOrders.map(o => ({...o, status: o.status || 'Pending'}));
+            setOrders(ordersWithStatus.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()));
         }
     }, []);
+
+    const getStatusBadgeColor = (status: Order['status']) => {
+        switch (status) {
+            case 'Pending':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'Shipped':
+                return 'bg-blue-100 text-blue-800';
+            case 'Delivered':
+                return 'bg-green-100 text-green-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    }
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
@@ -56,18 +73,27 @@ export default function OrdersPage() {
                                         </div>
                                         <div className="text-right">
                                             <p className="font-bold text-lg">₹{order.total.toFixed(2)}</p>
-                                            <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Processing</span>
+                                            <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusBadgeColor(order.status)}`}>{order.status}</span>
                                         </div>
                                     </CardHeader>
                                     <CardContent>
                                         <ul className="space-y-1 text-sm text-muted-foreground">
-                                             {order.items.map(item => (
+                                             {order.items.slice(0, 3).map(item => (
                                                 <li key={item.id}>
                                                     {item.name_en} x {item.quantity}
                                                 </li>
                                              ))}
+                                            {order.items.length > 3 && <li>...and {order.items.length - 3} more items</li>}
                                         </ul>
                                     </CardContent>
+                                    <CardFooter className="flex gap-2 justify-end">
+                                        <Button variant="outline" size="sm" asChild>
+                                            <Link href="#">Order Details</Link>
+                                        </Button>
+                                        <Button size="sm" asChild>
+                                            <Link href="#">Track Order</Link>
+                                        </Button>
+                                    </CardFooter>
                                 </Card>
                             ))}
                         </div>

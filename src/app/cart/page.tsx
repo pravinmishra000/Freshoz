@@ -35,37 +35,7 @@ export default function CartPage() {
 
       <main className="flex-1 pb-40">
         <div className="container mx-auto px-0 py-2 sm:px-4">
-
-            {/* Offer Banners */}
-             <div className="space-y-2 p-2">
-                <div className="flex items-center gap-2 rounded-lg bg-green-50 p-3 text-sm text-green-700">
-                    <PercentSquare className="h-5 w-5" />
-                    <span>Get 10% off with HDFC Bank Credit Cards</span>
-                </div>
-                <div className="flex items-center gap-2 rounded-lg bg-yellow-50 p-3 text-sm text-yellow-700">
-                    <Sparkles className="h-5 w-5" />
-                    <span>Shop for Rs. 500 more to get free delivery</span>
-                </div>
-                <div className="flex items-center gap-2 rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
-                    <ShieldCheck className="h-5 w-5" />
-                    <span>Total savings of Rs. {totalSavings.toFixed(0)} on this order</span>
-                </div>
-            </div>
-
-            {/* Apply Coupon */}
-             <Card className="m-2">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Tag className="h-5 w-5 text-primary" />
-                        <span className="font-semibold">Flat Rs.50 off with a coupon</span>
-                    </div>
-                    <Button variant="outline">Apply</Button>
-                </div>
-                 <Link href="#" className="ml-7 mt-1 block text-sm font-semibold text-primary">View all offers <ChevronRight className="inline-block h-4 w-4"/></Link>
-              </CardContent>
-            </Card>
-
+            
             {/* Cart Items */}
             <div className="bg-white">
                 {cart.length === 0 ? (
@@ -118,16 +88,22 @@ export default function CartPage() {
                 )}
             </div>
 
-            {/* Open Box Delivery */}
-            <Alert className="mx-2 my-4 bg-yellow-50 border-yellow-200">
-                <AlertTitle className="font-bold flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-500 h-5 w-5"><path d="M22 10.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12.5"/><path d="m22 10.5-8.5 5-8.5-5"/><path d="M22 10.5V15l-3.5 2-3.5-2v-4.5"/></svg>
-                    Rest assured with Open Box Delivery
-                </AlertTitle>
-                <AlertDescription className="text-xs text-muted-foreground pl-7">
-                The Wishmaster will open the package at your doorstep, kindly check and return for damaged or incorrect item, and report any missing item at the doorstep only.
-                </AlertDescription>
-            </Alert>
+            {/* Apply Coupon */}
+             <Card className="m-2">
+              <CardContent className="p-4 space-y-2">
+                 <div className="flex items-center gap-2">
+                    <Input placeholder="Enter coupon code (SAVE50, GROCERY200)" />
+                    <Button variant="outline">Apply</Button>
+                </div>
+                 <p className="text-xs text-muted-foreground">
+                    Use SAVE50 for flat ₹50 off on orders above ₹1000.
+                 </p>
+                 <p className="text-xs text-muted-foreground">
+                    Use GROCERY200 for ₹200 off on purchases up to ₹5000.
+                 </p>
+              </CardContent>
+            </Card>
+
             
             {/* Price Details */}
             <Card className="m-2">
@@ -136,20 +112,24 @@ export default function CartPage() {
                 </CardHeader>
                 <CardContent className="space-y-4 text-sm">
                     <div className="flex justify-between">
-                        <span className="flex items-center gap-1">Price ({cart.length} items) <Info className="h-3 w-3 text-muted-foreground"/></span>
+                        <span className="flex items-center gap-1">Subtotal</span>
                         <span>₹{totalMRP.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                         <span className="flex items-center gap-1">Product Discount <Info className="h-3 w-3 text-muted-foreground"/></span>
+                         <span className="flex items-center gap-1">Discount</span>
                         <span className="text-green-600">-₹{totalSavings.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="flex items-center gap-1">Delivery Fee <Info className="h-3 w-3 text-muted-foreground"/></span>
+                        <span className="flex items-center gap-1">Delivery Fee</span>
                         <span>{deliveryFee > 0 ? `₹${deliveryFee.toFixed(2)}` : <span className="text-green-600">FREE</span>}</span>
                     </div>
                      <div className="flex justify-between">
-                        <span className="flex items-center gap-1">Platform Fee <Info className="h-3 w-3 text-muted-foreground"/></span>
+                        <span className="flex items-center gap-1">Platform Fee</span>
                         <span>₹{platformFee.toFixed(2)}</span>
+                    </div>
+                     <div className="flex justify-between">
+                        <span className="flex items-center gap-1">Coupon Discount</span>
+                        <span className="text-green-600">-₹0.00</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-bold text-base">
@@ -159,29 +139,20 @@ export default function CartPage() {
                 </CardContent>
             </Card>
 
-            <div className="my-4 mx-2 rounded-lg bg-green-50 p-3 text-center text-sm font-semibold text-green-700">
-                You will save ₹{totalSavings.toFixed(0)} on this order
-            </div>
 
-            <div className="mx-2 my-4">
+            <div className="mx-2 my-4 flex gap-2">
+                 <Button variant="outline" className="w-full h-12 text-lg" size="lg">
+                    Update Cart
+                </Button>
                  <Button asChild className="w-full h-12 text-lg" size="lg">
-                    <Link href="/checkout">Continue</Link>
+                    <Link href="/checkout">Proceed to Checkout</Link>
                 </Button>
             </div>
         </div>
       </main>
 
        {cart.length > 0 && (
-         <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-background/95 shadow-lg backdrop-blur-sm">
-            <div className="container mx-auto flex h-20 items-center justify-between px-4">
-                <div>
-                    <p className="text-xl font-bold">₹{totalAmount.toFixed(0)}</p>
-                    <Link href="#" className="text-sm font-semibold text-primary">View price details</Link>
-                </div>
-                <Button asChild className="h-12 w-48 text-lg" size="lg">
-                    <Link href="/checkout">Continue</Link>
-                </Button>
-            </div>
+         <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-background/95 shadow-lg backdrop-blur-sm md:hidden">
             <BottomNav />
         </div>
        )}

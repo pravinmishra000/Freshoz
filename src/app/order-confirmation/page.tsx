@@ -53,6 +53,8 @@ export default function OrderConfirmationPage() {
                             <p className="text-muted-foreground">
                                 Your order <span className="font-semibold text-primary">{order.orderId}</span> has been placed.
                             </p>
+                            <p className="text-sm text-muted-foreground">Estimated delivery: 2-3 business days</p>
+                            <p className="text-sm text-muted-foreground">Payment Status: <span className="font-semibold text-green-600">Paid (COD)</span></p>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
