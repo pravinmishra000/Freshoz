@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/context/cart-context';
@@ -16,13 +17,26 @@ import { Input } from '@/components/ui/input';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useCart();
+  const [appliedCoupon, setAppliedCoupon] = useState<null | 'FLAT50' | 'FLAT100'>(null);
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
   const totalSavings = totalMRP - totalPrice;
   const deliveryFee = 0;
   const platformFee = 9;
-  const totalAmount = totalPrice + deliveryFee + platformFee;
+
+  let couponDiscount = 0;
+  if (appliedCoupon === 'FLAT50') {
+    couponDiscount = 50;
+  } else if (appliedCoupon === 'FLAT100') {
+    couponDiscount = 100;
+  }
+  
+  const totalAmount = totalPrice + deliveryFee + platformFee - couponDiscount;
+
+  const handleApplyCoupon = (coupon: 'FLAT50' | 'FLAT100') => {
+    setAppliedCoupon(coupon);
+  };
 
 
   return (
@@ -114,7 +128,15 @@ export default function CartPage() {
                                       <p className="text-xs text-green-700">On orders above ₹1000</p>
                                   </div>
                               </div>
-                              <Button variant="outline" size="sm" className="bg-white border-green-600 text-green-600 hover:bg-green-100">Apply</Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="bg-white border-green-600 text-green-600 hover:bg-green-100"
+                                onClick={() => handleApplyCoupon('FLAT50')}
+                                disabled={appliedCoupon === 'FLAT50'}
+                              >
+                                {appliedCoupon === 'FLAT50' ? 'Applied' : 'Apply'}
+                              </Button>
                           </CardContent>
                       </Card>
                   )}
@@ -128,7 +150,15 @@ export default function CartPage() {
                                       <p className="text-xs text-green-700">On orders above ₹2500</p>
                                   </div>
                               </div>
-                              <Button variant="outline" size="sm" className="bg-white border-green-600 text-green-600 hover:bg-green-100">Apply</Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="bg-white border-green-600 text-green-600 hover:bg-green-100"
+                                onClick={() => handleApplyCoupon('FLAT100')}
+                                disabled={appliedCoupon === 'FLAT100'}
+                              >
+                                {appliedCoupon === 'FLAT100' ? 'Applied' : 'Apply'}
+                              </Button>
                           </CardContent>
                       </Card>
                   )}
@@ -159,7 +189,7 @@ export default function CartPage() {
                     </div>
                      <div className="flex justify-between">
                         <span className="flex items-center gap-1">Coupon Discount</span>
-                        <span className="text-green-600">-₹0.00</span>
+                        <span className="text-green-600">-₹{couponDiscount.toFixed(2)}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-bold text-base">
