@@ -6,7 +6,7 @@ import Link from 'next/link';
 import type { Product } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, Star } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { Badge } from '../ui/badge';
 
@@ -36,20 +36,35 @@ export function ProductCard({ product }: ProductCardProps) {
                 data-ai-hint="product image"
               />
             </div>
-            {discountPercent > 0 && (
-                <Badge className="absolute left-1 top-1 bg-destructive text-destructive-foreground">
-                  {discountPercent}% OFF
-                </Badge>
-              )}
         </CardContent>
         <div className="flex-1 bg-white p-3 pt-0">
           <p className="mb-1 text-xs font-medium text-gray-500">{product.brand}</p>
           <p className="h-10 text-sm font-semibold leading-tight">{product.name_en}</p>
           <p className="mt-1 text-sm text-gray-500">{product.pack_size}</p>
+
+          {discountPercent > 0 && (
+             <p className="text-sm font-bold text-green-600">Special price</p>
+          )}
+
           <div className="mt-2 flex items-baseline gap-2">
             <p className="text-lg font-bold">₹{product.price}</p>
             {product.mrp > product.price && <p className="text-sm text-muted-foreground line-through">₹{product.mrp}</p>}
+             {discountPercent > 0 && (
+                <Badge className="bg-green-100 text-green-800">
+                  {discountPercent}% OFF
+                </Badge>
+              )}
           </div>
+           {product.rating && product.rating_count && (
+            <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-white">
+                <span>{product.rating.toFixed(1)}</span>
+                <Star className="h-3 w-3 fill-current" />
+              </div>
+              <span>({product.rating_count.toLocaleString()})</span>
+            </div>
+          )}
+
         </div>
       </Link>
       <div className="p-3 pt-0">

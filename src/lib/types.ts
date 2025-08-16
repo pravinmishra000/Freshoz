@@ -25,4 +25,6 @@ export type Product = {
   unit: string;
   pack_size: string;
   tags: string[];
+  rating?: number;
+  rating_count?: number;
 };

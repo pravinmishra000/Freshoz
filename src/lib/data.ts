@@ -88,6 +88,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['vegetable', 'fresh'],
+    rating: 4.5,
+    rating_count: 150,
   },
   {
     id: 'p2',
@@ -105,6 +107,8 @@ export const products: Product[] = [
     unit: 'bunch',
     pack_size: '250g',
     tags: ['vegetable', 'organic'],
+    rating: 4.8,
+    rating_count: 80,
   },
   {
     id: 'p3',
@@ -122,6 +126,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['fruit', 'fresh'],
+    rating: 4.6,
+    rating_count: 210,
   },
   {
     id: 'p4',
@@ -139,6 +145,8 @@ export const products: Product[] = [
     unit: 'packet',
     pack_size: '500ml',
     tags: ['dairy', 'milk'],
+    rating: 4.7,
+    rating_count: 1200,
   },
   {
     id: 'p5',
@@ -156,6 +164,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['grocery', 'staple'],
+    rating: 4.9,
+    rating_count: 5000,
   },
   {
     id: 'p6',
@@ -173,6 +183,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '5 kg',
     tags: ['grocery', 'flour'],
+    rating: 4.8,
+    rating_count: 3500,
   },
   {
     id: 'p7',
@@ -190,6 +202,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '52g',
     tags: ['snacks', 'chips'],
+    rating: 4.3,
+    rating_count: 800,
   },
   {
     id: 'p8',
@@ -207,6 +221,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['meat', 'chicken'],
+    rating: 4.6,
+    rating_count: 95,
   },
   {
     id: 'p9',
@@ -223,6 +239,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['grocery', 'rice'],
+    rating: 4.7,
+    rating_count: 1200,
   },
   {
     id: 'p10',
@@ -239,6 +257,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '5 kg',
     tags: ['grocery', 'rice'],
+    rating: 4.7,
+    rating_count: 1200,
   },
   {
     id: 'p11',
@@ -255,6 +275,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['grocery', 'flour'],
+    rating: 4.8,
+    rating_count: 3500,
   },
   {
     id: 'p12',
@@ -271,6 +293,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '10 kg',
     tags: ['grocery', 'flour'],
+    rating: 4.8,
+    rating_count: 3500,
   },
   {
     id: 'p13',
@@ -287,6 +311,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['grocery', 'pulses'],
+    rating: 4.6,
+    rating_count: 850,
   },
   {
     id: 'p14',
@@ -303,6 +329,8 @@ export const products: Product[] = [
     unit: 'L',
     pack_size: '1 L',
     tags: ['grocery', 'oil'],
+    rating: 4.5,
+    rating_count: 900,
   },
   {
     id: 'p15',
@@ -319,6 +347,8 @@ export const products: Product[] = [
     unit: 'L',
     pack_size: '5 L',
     tags: ['grocery', 'oil'],
+    rating: 4.5,
+    rating_count: 900,
   },
   {
     id: 'p16',
@@ -335,6 +365,8 @@ export const products: Product[] = [
     unit: 'L',
     pack_size: '1 L',
     tags: ['grocery', 'ghee'],
+    rating: 4.9,
+    rating_count: 2500,
   },
   {
     id: 'p17',
@@ -351,6 +383,8 @@ export const products: Product[] = [
     unit: 'g',
     pack_size: '100 g',
     tags: ['grocery', 'spices'],
+    rating: 4.6,
+    rating_count: 1300,
   },
   {
     id: 'p18',
@@ -367,6 +401,8 @@ export const products: Product[] = [
     unit: 'g',
     pack_size: '200 g',
     tags: ['grocery', 'dry fruits'],
+    rating: 4.8,
+    rating_count: 1800,
   },
   {
     id: 'p19',
@@ -383,6 +419,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['grocery', 'staples'],
+    rating: 4.9,
+    rating_count: 5000,
   },
   {
     id: 'p20',
@@ -399,6 +437,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['grocery', 'staples'],
+    rating: 4.4,
+    rating_count: 2200,
   },
   {
     id: 'p21',
@@ -415,6 +455,8 @@ export const products: Product[] = [
     unit: 'g',
     pack_size: '500 g',
     tags: ['grocery', 'staples'],
+    rating: 4.5,
+    rating_count: 700,
   },
   // Dairy Products
   {
@@ -432,6 +474,8 @@ export const products: Product[] = [
     unit: 'packet',
     pack_size: '500 ml',
     tags: ['dairy', 'milk'],
+    rating: 4.7,
+    rating_count: 1200,
   },
   {
     id: 'p23',
@@ -448,6 +492,8 @@ export const products: Product[] = [
     unit: 'packet',
     pack_size: '1 L',
     tags: ['dairy', 'milk'],
+    rating: 4.7,
+    rating_count: 1200,
   },
   {
     id: 'p24',
@@ -464,6 +510,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '200 g',
     tags: ['dairy', 'paneer'],
+    rating: 4.6,
+    rating_count: 1100,
   },
   {
     id: 'p25',
@@ -480,6 +528,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '100 g',
     tags: ['dairy', 'butter'],
+    rating: 4.8,
+    rating_count: 3000,
   },
   {
     id: 'p26',
@@ -496,6 +546,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '200 g',
     tags: ['dairy', 'cheese'],
+    rating: 4.5,
+    rating_count: 1500,
   },
   // Bakery
   {
@@ -513,6 +565,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '400 g',
     tags: ['bakery', 'bread'],
+    rating: 4.4,
+    rating_count: 600,
   },
   {
     id: 'p28',
@@ -529,6 +583,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '450 g',
     tags: ['bakery', 'bread'],
+    rating: 4.5,
+    rating_count: 500,
   },
   // Snacks
   {
@@ -546,6 +602,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '70 g',
     tags: ['snacks', 'biscuits'],
+    rating: 4.9,
+    rating_count: 10000,
   },
   {
     id: 'p30',
@@ -562,6 +620,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '70 g',
     tags: ['snacks', 'noodles'],
+    rating: 4.7,
+    rating_count: 4000,
   },
   {
     id: 'p31',
@@ -578,6 +638,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '4-pack',
     tags: ['snacks', 'noodles'],
+    rating: 4.7,
+    rating_count: 4000,
   },
   // Tea/Coffee
   {
@@ -595,6 +657,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '250 g',
     tags: ['beverages', 'tea'],
+    rating: 4.6,
+    rating_count: 1900,
   },
   {
     id: 'p33',
@@ -611,6 +675,8 @@ export const products: Product[] = [
     unit: 'jar',
     pack_size: '50 g',
     tags: ['beverages', 'coffee'],
+    rating: 4.8,
+    rating_count: 2300,
   },
   // Beverages
   {
@@ -628,6 +694,8 @@ export const products: Product[] = [
     unit: 'bottle',
     pack_size: '250 ml',
     tags: ['beverages', 'carbonated'],
+    rating: 4.5,
+    rating_count: 1400,
   },
   {
     id: 'p35',
@@ -644,6 +712,8 @@ export const products: Product[] = [
     unit: 'bottle',
     pack_size: '750 ml',
     tags: ['beverages', 'carbonated'],
+    rating: 4.5,
+    rating_count: 1400,
   },
   {
     id: 'p36',
@@ -660,6 +730,8 @@ export const products: Product[] = [
     unit: 'bottle',
     pack_size: '2.25 L',
     tags: ['beverages', 'carbonated'],
+    rating: 4.5,
+    rating_count: 1400,
   },
   {
     id: 'p37',
@@ -676,6 +748,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '1 L',
     tags: ['beverages', 'juice'],
+    rating: 4.6,
+    rating_count: 1600,
   },
   {
     id: 'p38',
@@ -692,6 +766,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '1 L',
     tags: ['beverages', 'juice'],
+    rating: 4.7,
+    rating_count: 1700,
   },
   {
     id: 'p39',
@@ -708,6 +784,8 @@ export const products: Product[] = [
     unit: 'bottle',
     pack_size: '600 ml',
     tags: ['beverages', 'mango drink'],
+    rating: 4.8,
+    rating_count: 2500,
   },
   {
     id: 'p40',
@@ -724,6 +802,8 @@ export const products: Product[] = [
     unit: 'can',
     pack_size: '250 ml',
     tags: ['beverages', 'energy drink'],
+    rating: 4.9,
+    rating_count: 3000,
   },
   {
     id: 'p41',
@@ -740,6 +820,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '6 pcs',
     tags: ['non-veg', 'eggs'],
+    rating: 4.5,
+    rating_count: 400,
   },
   {
     id: 'p42',
@@ -756,6 +838,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '6 pcs',
     tags: ['non-veg', 'eggs'],
+    rating: 4.6,
+    rating_count: 300,
   },
   {
     id: 'p43',
@@ -772,6 +856,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['non-veg', 'fish'],
+    rating: 4.4,
+    rating_count: 150,
   },
   {
     id: 'p44',
@@ -788,6 +874,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['non-veg', 'fish'],
+    rating: 4.5,
+    rating_count: 120,
   },
   {
     id: 'p45',
@@ -804,6 +892,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['non-veg', 'chicken'],
+    rating: 4.6,
+    rating_count: 250,
   },
   {
     id: 'p46',
@@ -820,6 +910,8 @@ export const products: Product[] = [
     unit: 'g',
     pack_size: '500 g',
     tags: ['non-veg', 'chicken'],
+    rating: 4.7,
+    rating_count: 180,
   },
   {
     id: 'p47',
@@ -836,6 +928,8 @@ export const products: Product[] = [
     unit: 'kg',
     pack_size: '1 kg',
     tags: ['non-veg', 'mutton'],
+    rating: 4.8,
+    rating_count: 200,
   },
   {
     id: 'p48',
@@ -852,6 +946,8 @@ export const products: Product[] = [
     unit: 'g',
     pack_size: '500 g',
     tags: ['non-veg', 'mutton'],
+    rating: 4.9,
+    rating_count: 150,
   },
   {
     id: 'p49',
@@ -868,6 +964,8 @@ export const products: Product[] = [
     unit: 'packet',
     pack_size: '500ml',
     tags: ['dairy', 'milk'],
+    rating: 4.7,
+    rating_count: 1200,
   },
   {
     id: 'p50',
@@ -884,6 +982,8 @@ export const products: Product[] = [
     unit: 'packet',
     pack_size: '500ml',
     tags: ['dairy', 'milk'],
+    rating: 4.6,
+    rating_count: 1100,
   },
   {
     id: 'p51',
@@ -900,6 +1000,8 @@ export const products: Product[] = [
     unit: 'packet',
     pack_size: '500ml',
     tags: ['dairy', 'milk'],
+    rating: 4.8,
+    rating_count: 1500,
   },
   {
     id: 'p52',
@@ -916,6 +1018,8 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '400g',
     tags: ['bakery', 'bread'],
+    rating: 4.5,
+    rating_count: 500,
   },
   {
     id: 'p53',
@@ -932,5 +1036,7 @@ export const products: Product[] = [
     unit: 'pack',
     pack_size: '200g',
     tags: ['dairy', 'paneer'],
+    rating: 4.6,
+    rating_count: 1100,
   }
 ];
