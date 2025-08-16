@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
     .filter((p) => p.category_id === product.category_id && p.id !== product.id)
     .slice(0, 4);
 
-  const boughtTogetherProducts = products.filter(p => ['p5', 'p17', 'p20'].includes(p.id));
+  const boughtTogetherProducts = products.filter(p => ['p5', 'p17', 'p20', 'p29', 'p30']);
 
   const productDetails = [
       { label: 'Brand', value: product.brand },
@@ -268,10 +268,12 @@ export default function ProductDetailPage() {
           <div className="mt-16">
             <Separator/>
             <h2 className="my-8 font-headline text-3xl font-bold">Bought Together</h2>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {boughtTogetherProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
+             <div className="flex space-x-4 overflow-x-auto pb-4">
+                {boughtTogetherProducts.map((p) => (
+                    <div key={p.id} className="w-40 flex-shrink-0">
+                        <ProductCard product={p} view="suggestion" />
+                    </div>
+                ))}
             </div>
           </div>
           
@@ -299,7 +301,7 @@ export default function ProductDetailPage() {
             <div className="mt-16">
                 <Separator />
                 <h2 className="my-8 font-headline text-3xl font-bold">Similar Products</h2>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {suggestedProducts.map((p) => (
                         <ProductCard key={p.id} product={p}/>
                     ))}

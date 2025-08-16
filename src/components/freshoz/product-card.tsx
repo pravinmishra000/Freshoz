@@ -9,18 +9,46 @@ import { Button } from '@/components/ui/button';
 import { Plus, Minus, Star } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { Badge } from '../ui/badge';
+import { cn } from '@/lib/utils';
+
 
 interface ProductCardProps {
   product: Product;
+  view?: 'default' | 'suggestion';
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, view = 'default' }: ProductCardProps) {
   const { addToCart, removeFromCart, getCartItem } = useCart();
   const cartItem = getCartItem(product.id);
 
   const discountPercent = product.mrp > product.price 
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;
+
+  if (view === 'suggestion') {
+      return (
+         <Card className="group relative flex h-full flex-col overflow-hidden rounded-lg border-2 hover:border-primary/50 hover:shadow-md transition-all duration-300">
+          <Link href={`/product/${product.id}`} className="flex flex-1 flex-col p-2">
+            <div className="relative mx-auto h-24 w-24">
+                <Image
+                    src={product.image}
+                    alt={product.name_en}
+                    width={96}
+                    height={96}
+                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    data-ai-hint="product image"
+                />
+            </div>
+             <p className="mt-2 h-8 text-xs font-semibold leading-tight text-center">{product.name_en}</p>
+          </Link>
+           <div className="p-2 pt-0">
+             <Button className="w-full h-8" size="sm" onClick={() => addToCart(product)}>
+                <Plus className="h-4 w-4" /> Add
+            </Button>
+           </div>
+        </Card>
+      )
+  }
 
   return (
     <Card className="group relative flex h-full flex-col overflow-hidden rounded-lg border-2 hover:border-primary/50 hover:shadow-md transition-all duration-300">
