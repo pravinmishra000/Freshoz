@@ -10,7 +10,7 @@ import { Footer } from '@/components/freshoz/footer';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Minus, Star } from 'lucide-react';
+import { Plus, Minus, Star, MapPin, CalendarDays } from 'lucide-react';
 import { ProductCard } from '@/components/freshoz/product-card';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,7 +68,7 @@ export default function ProductDetailPage() {
                 data-ai-hint="product image"
               />
                {discountPercent > 0 && (
-                <Badge className="absolute right-3 top-3 bg-accent text-accent-foreground text-base">
+                <Badge className="absolute right-3 top-3 bg-destructive text-destructive-foreground text-base">
                   {discountPercent}% OFF
                 </Badge>
               )}
@@ -97,6 +97,8 @@ export default function ProductDetailPage() {
                   <span className="text-xl text-muted-foreground line-through">₹{product.mrp}</span>
                 )}
               </div>
+                
+              {discountPercent > 0 && <p className="font-bold text-green-600">Special price</p>}
 
               {product.description && (
                 <p className="text-muted-foreground">{product.description}</p>
@@ -147,12 +149,42 @@ export default function ProductDetailPage() {
                 </CardContent>
             </Card>
           </div>
+
+          {/* Delivery Details Section */}
+          <div className="mt-8">
+            <Card>
+              <CardContent className="space-y-4 p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                     <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                     <div>
+                       <p className="font-semibold">Deliver to: Sultanganj - 813213</p>
+                       <p className="text-sm text-muted-foreground">123, Main Road, Near City Hall...</p>
+                     </div>
+                  </div>
+                  <Button variant="outline" size="sm">Change</Button>
+                </div>
+                 <Separator />
+                <div className="flex items-start gap-4">
+                    <CalendarDays className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
+                    <div>
+                        <p className="font-semibold">Delivery in 2 Days, Tuesday</p>
+                        <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground space-y-1">
+                            <li>Schedule Your Delivery</li>
+                            <li>Cash on Delivery available</li>
+                            <li>Easy Doorstep Return</li>
+                        </ul>
+                    </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           
           {/* Suggested Products */}
           {suggestedProducts.length > 0 && (
             <div className="mt-16">
                 <Separator />
-                <h2 className="my-8 font-headline text-3xl font-bold">You might also like</h2>
+                <h2 className="my-8 font-headline text-3xl font-bold">Similar Products</h2>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {suggestedProducts.map((p) => (
                         <ProductCard key={p.id} product={p}/>
@@ -167,3 +199,5 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+
+    
