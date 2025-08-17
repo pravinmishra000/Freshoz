@@ -14,7 +14,7 @@ import { Footer } from '@/components/freshoz/footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/cart-context';
-import { Search, ChevronRight, User, Wallet, Mic, CheckCircle, X } from 'lucide-react';
+import { Search, ChevronRight, User, Wallet, Mic, CheckCircle, X, Phone, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from '@/components/ui/card';
@@ -68,7 +68,13 @@ export default function Home() {
                 <FreshozLogo />
                 <p className="text-sm font-medium">HOME - Pravin Mishra ▼</p>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                  <a href="tel:9097882555">
+                    <Button variant="ghost" size="icon"><Phone /></Button>
+                  </a>
+                   <a href="https://wa.me/9097882555" target="_blank" rel="noopener noreferrer">
+                    <Button variant="ghost" size="icon"><MessageSquare /></Button>
+                  </a>
                   <Button asChild variant="ghost" size="icon"><Link href="/wallet"><Wallet /></Link></Button>
                   <Button asChild variant="ghost" size="icon"><Link href="/profile"><User /></Link></Button>
               </div>

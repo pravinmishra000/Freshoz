@@ -21,7 +21,8 @@ import {
   Info,
   LogOut,
   Edit,
-  Wallet
+  Wallet,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -79,7 +80,8 @@ export default function ProfilePage() {
           title: "Help & Support",
           icon: HelpCircle,
           items: [
-              { label: "Contact Us" },
+              { label: "Contact Us", href: "tel:9097882555", icon: Phone },
+              { label: "Chat on WhatsApp", href: "https://wa.me/9097882555", icon: MessageSquare },
               { label: "FAQs" },
               { label: "Report an Issue" },
           ]
@@ -132,9 +134,12 @@ export default function ProfilePage() {
                         {section.items.map((item, index) => (
                              <React.Fragment key={index}>
                                 <div className="flex items-center justify-between py-2">
+                                  <div className="flex items-center gap-2">
+                                    {item.icon && <item.icon className="h-5 w-5 text-muted-foreground" />}
                                     <span className="font-medium">{item.label}</span>
+                                  </div>
                                     {item.href ? (
-                                        <Link href={item.href}><ChevronRight className="h-5 w-5 text-muted-foreground" /></Link>
+                                        <Link href={item.href} target={item.href.startsWith('http') ? '_blank' : '_self'}><ChevronRight className="h-5 w-5 text-muted-foreground" /></Link>
                                     ) : item.value ? (
                                         <span className="text-muted-foreground">{item.value}</span>
                                     ) : item.action ? (
