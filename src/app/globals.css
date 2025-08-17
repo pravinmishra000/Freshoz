@@ -43,20 +43,20 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 222 84% 5%;
-    --foreground: 210 40% 98%;
-    --card: 222 84% 5%;
+    --background: 222 84% 4.9%; /* #121212 */
+    --foreground: 210 40% 98%; /* #E0E0E0 */
+    --card: 222 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 84% 5%;
+    --popover: 222 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 142 71% 45%;
+    --primary: 142 71% 45%; /* #388E3C */
     --primary-foreground: 355 100% 97%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 60 93% 61%; /* #FFEB3B */
+    --accent-foreground: 240 5.9% 10%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 17%;
@@ -86,3 +86,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+    
