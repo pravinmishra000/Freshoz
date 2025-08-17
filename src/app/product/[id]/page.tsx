@@ -19,7 +19,7 @@ import { Label } from '@/components/ui/label';
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const { id } = params;
+  const id = params?.id;
   const { addToCart, removeFromCart, getCartItem } = useCart();
 
   const product = products.find((p) => p.id === id);

@@ -10,7 +10,7 @@ import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 export default function CategoryPage() {
   const params = useParams();
-  const { slug } = params;
+  const slug = params?.slug;
 
   const currentCategory = categories.find((c) => c.slug === slug);
 
