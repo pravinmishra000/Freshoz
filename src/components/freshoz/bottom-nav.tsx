@@ -71,7 +71,7 @@ export function BottomNav() {
               <span>Cart</span>
             </Link>
             <Link
-              href="#"
+              href="/profile"
                className={cn(
                   'inline-flex flex-col items-center justify-center gap-1 text-center text-xs font-medium',
                   pathname === '/profile' ? 'text-primary' : 'text-muted-foreground'
