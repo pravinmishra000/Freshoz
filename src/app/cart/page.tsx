@@ -8,7 +8,7 @@ import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/freshoz/header';
 import { Footer } from '@/components/freshoz/footer';
-import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck, Ticket, CheckCircle, X, MessageSquare, Heart, Bike } from 'lucide-react';
+import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck, Ticket, CheckCircle, X, MessageSquare, Heart, Bike, BellOff, PhoneOff, UserSquare, DoorOpen } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,6 +24,8 @@ export default function CartPage() {
   const [appliedCoupon, setAppliedCoupon] = useState<null | 'FLAT50' | 'FLAT150'>(null);
   const [isDeliveryBannerVisible, setIsDeliveryBannerVisible] = useState(true);
   const [tipAmount, setTipAmount] = useState(0);
+  const [selectedInstruction, setSelectedInstruction] = useState<string | null>('Don\'t ring the bell');
+
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
@@ -47,7 +49,13 @@ export default function CartPage() {
   const handleTipSelect = (amount: number) => {
     setTipAmount(prev => prev === amount ? 0 : amount);
   }
-
+  
+  const deliveryInstructions = [
+      { id: 'bell', icon: BellOff, text: "Don't ring the bell" },
+      { id: 'call', icon: PhoneOff, text: "Avoid calling" },
+      { id: 'guard', icon: UserSquare, text: "Leave with guard" },
+      { id: 'door', icon: DoorOpen, text: "Leave at door" },
+  ]
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
@@ -178,14 +186,35 @@ export default function CartPage() {
             {/* Delivery Instructions */}
              <Card className="m-2">
                 <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2"><MessageSquare className="h-5 w-5 text-primary"/> Delivery Instructions</CardTitle>
+                    <CardTitle className="text-base font-bold">Delivery instructions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Textarea placeholder="e.g., Avoid ringing the bell, leave at the door..." />
+                   <div className="flex gap-2 overflow-x-auto pb-2">
+                       {deliveryInstructions.map((instruction) => (
+                           <button 
+                             key={instruction.id} 
+                             onClick={() => setSelectedInstruction(instruction.text)}
+                             className={cn(
+                                 "relative flex-shrink-0 w-32 h-20 p-2 border rounded-lg flex flex-col items-center justify-center text-center gap-1 transition-all",
+                                 selectedInstruction === instruction.text 
+                                     ? "border-green-600 bg-green-50/50" 
+                                     : "border-gray-300 bg-white"
+                             )}
+                           >
+                               <instruction.icon className="h-6 w-6 text-gray-700" />
+                               <span className="text-xs font-medium">{instruction.text}</span>
+                               {selectedInstruction === instruction.text && (
+                                   <div className="absolute top-1 right-1 h-4 w-4 bg-green-600 text-white rounded-full flex items-center justify-center">
+                                       <CheckCircle className="h-3 w-3" />
+                                   </div>
+                               )}
+                           </button>
+                       ))}
+                   </div>
                     <div className="flex items-center space-x-2 mt-4">
-                        <Checkbox id="no-bell" />
-                        <label htmlFor="no-bell" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            Don't ring the bell
+                        <Checkbox id="save-instructions" />
+                        <label htmlFor="save-instructions" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            Save for all orders at this address
                         </label>
                     </div>
                 </CardContent>
@@ -193,26 +222,33 @@ export default function CartPage() {
 
             {/* Tip your delivery partner */}
              <Card className="m-2">
-                <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2"><Heart className="h-5 w-5 text-primary"/> Tip your delivery partner</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4">Thank your delivery partner for their hard work. 100% of the tip will go to them.</p>
-                    <div className="flex flex-wrap gap-2">
-                        {[20, 30, 50].map(tip => (
+                <CardContent className="p-4">
+                    <div className="flex justify-between items-center">
+                        <div>
+                             <h3 className="font-bold">Tip your delivery partner</h3>
+                             <p className="text-sm text-muted-foreground">Your kindness means a lot! 100% of your tip will go directly to them.</p>
+                        </div>
+                        <Image src="https://placehold.co/100x70.png" width={100} height={70} alt="Delivery partner" data-ai-hint="delivery scooter" />
+                    </div>
+                     <div className="flex flex-wrap gap-2 mt-4">
+                        {[
+                            { amount: 20, emoji: '😊' },
+                            { amount: 30, emoji: '😄' },
+                            { amount: 50, emoji: '🥰' }
+                        ].map(tip => (
                             <Button 
-                                key={tip} 
-                                variant={tipAmount === tip ? "default" : "outline"} 
-                                onClick={() => handleTipSelect(tip)}
-                                className={cn("rounded-full", tipAmount === tip && "bg-green-600 hover:bg-green-700")}
+                                key={tip.amount} 
+                                variant={tipAmount === tip.amount ? "default" : "outline"} 
+                                onClick={() => handleTipSelect(tip.amount)}
+                                className={cn("rounded-full", tipAmount === tip.amount && "bg-green-600 hover:bg-green-700")}
                             >
-                                ₹{tip}
+                                {tip.emoji} ₹{tip.amount}
                             </Button>
                         ))}
                         <Input 
                             type="number"
                             placeholder="Custom" 
-                            className="w-24"
+                            className="w-28"
                             onChange={(e) => setTipAmount(parseInt(e.target.value) || 0)}
                         />
                     </div>
@@ -309,4 +345,3 @@ export default function CartPage() {
        )}
     </div>
   );
-}
