@@ -103,7 +103,7 @@ export default function Home() {
                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {lastOrderItems.map(item => (
                         <Card key={item.id} className="p-2 flex items-center gap-2">
-                            <Image src={item.image} alt={item.name_en} width={40} height={40} className="rounded-md object-contain" />
+                            <Image src={item.image} alt={item.name_en} width={40} height={40} className="rounded-md object-contain" data-ai-hint="product image" />
                             <p className="text-xs font-medium leading-tight flex-1">{item.name_en}</p>
                         </Card>
                     ))}
@@ -116,7 +116,7 @@ export default function Home() {
                 {mainCategories.map(category => (
                   <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg">
                     <category.icon className="h-8 w-8 mb-1" />
-                    <span className="text-xs text-center">{category.name_en}</span>
+                    <span className="text-[11px] text-center leading-tight">{category.name_en}</span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -154,5 +154,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
