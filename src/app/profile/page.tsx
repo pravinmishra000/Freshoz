@@ -20,7 +20,8 @@ import {
   Globe,
   Info,
   LogOut,
-  Edit
+  Edit,
+  Wallet
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,6 +41,14 @@ export default function ProfilePage() {
           icon: Package,
           items: [
               { label: "View All Orders", href: "/orders" },
+          ]
+      },
+       {
+          title: "My Wallet",
+          icon: Wallet,
+          items: [
+              { label: "Current Balance", value: "₹500.00" },
+              { label: "View Wallet", href: "/wallet" }
           ]
       },
       {

@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Repeat, ShoppingCart, User } from 'lucide-react';
+import { Home, LayoutGrid, Repeat, ShoppingCart, User, Wallet } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import CategoryPopup from './category-popup';
@@ -45,16 +45,16 @@ export function BottomNav() {
             <LayoutGrid className="h-6 w-6" />
             <span>Categories</span>
           </button>
-          <Link
-            href="/orders"
-            className={cn(
-              'inline-flex flex-col items-center justify-center gap-1 text-center text-xs font-medium',
-              pathname === '/orders' ? 'text-primary' : 'text-muted-foreground'
-            )}
-          >
-            <Repeat className="h-6 w-6" />
-            <span>Orders</span>
-          </Link>
+           <Link
+              href="/wallet"
+               className={cn(
+                  'inline-flex flex-col items-center justify-center gap-1 text-center text-xs font-medium',
+                  pathname === '/wallet' ? 'text-primary' : 'text-muted-foreground'
+                )}
+            >
+              <Wallet className="h-6 w-6" />
+              <span>Wallet</span>
+            </Link>
            <Link
               href="/cart"
                className={cn(
