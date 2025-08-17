@@ -15,7 +15,7 @@ export default function TermsPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ChevronLeft />
           </Button>
-          <h1 className="text-xl font-bold">Terms & Conditions</h1>
+          <h1 className="text-xl font-bold">Terms of Service</h1>
         </div>
       </header>
       <main className="flex-1">

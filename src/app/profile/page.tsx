@@ -100,7 +100,7 @@ export default function ProfilePage() {
 
   const legalItems = [
     { label: "About Us", href: "/about" },
-    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Terms of Service", href: "/terms" },
     { label: "Privacy Policy", href: "/privacy" },
   ];
 
@@ -167,7 +167,7 @@ export default function ProfilePage() {
                 <CardHeader>
                      <CardTitle className="flex items-center gap-2 text-lg">
                         <Info className="h-5 w-5 text-primary" />
-                        Legal & Info
+                        Legal &amp; Info
                     </CardTitle>
                 </CardHeader>
                  <CardContent className="space-y-2 p-4 pt-0">

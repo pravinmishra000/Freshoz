@@ -1,4 +1,6 @@
+
 import { FreshozLogo } from './freshoz-logo';
+import Link from 'next/link';
 
 export function Footer() {
   const storePhoneNumber = '9097882555';
@@ -11,10 +13,10 @@ export function Footer() {
             <FreshozLogo />
           </div>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary">About Us</a>
+            <Link href="/about" className="hover:text-primary">About Us</Link>
             <a href={`tel:${storePhoneNumber}`} className="hover:text-primary">Contact: {storePhoneNumber}</a>
-            <a href="#" className="hover:text-primary">Terms of Service</a>
-            <a href="#" className="hover:text-primary">Privacy Policy</a>
+            <Link href="/terms" className="hover:text-primary">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-primary">Privacy Policy</Link>
           </div>
         </div>
         <div className="mt-8 text-center text-sm text-muted-foreground">
