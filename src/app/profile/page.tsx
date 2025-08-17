@@ -1,7 +1,7 @@
 
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import {
   User,
   ChevronRight,
@@ -22,7 +22,8 @@ import {
   LogOut,
   Edit,
   Wallet,
-  MessageSquare
+  MessageSquare,
+  FileQuestion
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,7 +83,7 @@ export default function ProfilePage() {
           items: [
               { label: "Contact Us", href: "tel:9097882555", icon: Phone },
               { label: "Chat on WhatsApp", href: "https://wa.me/9097882555", icon: MessageSquare },
-              { label: "FAQs" },
+              { label: "FAQs", href: "/faq", icon: FileQuestion },
               { label: "Report an Issue" },
           ]
       },
@@ -145,7 +146,7 @@ export default function ProfilePage() {
                                     <span className="font-medium">{item.label}</span>
                                   </div>
                                     {item.href ? (
-                                        <Link href={item.href} target={item.href.startsWith('http') ? '_blank' : '_self'}><ChevronRight className="h-5 w-5 text-muted-foreground" /></Link>
+                                        <Link href={item.href} target={item.href.startsWith('http') || item.href.startsWith('tel:') ? '_blank' : '_self'}><ChevronRight className="h-5 w-5 text-muted-foreground" /></Link>
                                     ) : item.value ? (
                                         <span className="text-muted-foreground">{item.value}</span>
                                     ) : item.action ? (
