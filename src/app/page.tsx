@@ -68,8 +68,8 @@ export default function Home() {
                 <p className="text-sm font-medium">HOME - Pravin Mishra ▼</p>
               </div>
               <div className="flex items-center gap-4">
-                  <Button variant="ghost" size="icon"><Wallet /></Button>
-                  <Button variant="ghost" size="icon"><User /></Button>
+                  <Button asChild variant="ghost" size="icon"><Link href="/profile"><Wallet /></Link></Button>
+                  <Button asChild variant="ghost" size="icon"><Link href="/profile"><User /></Link></Button>
               </div>
            </div>
            <div className="relative w-full">
