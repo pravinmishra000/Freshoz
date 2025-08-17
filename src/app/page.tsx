@@ -37,6 +37,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-secondary/40">
       <Header />
       <main className="flex-1 bg-white pb-20">
+        <LocationGate />
         <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
           
           <section className="mb-8">
@@ -87,7 +88,6 @@ export default function Home() {
       </main>
       <Footer />
       <BottomNav />
-      <LocationGate />
       <FreshozBuddy />
     </div>
   );
