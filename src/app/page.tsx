@@ -24,6 +24,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const { cart } = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const [isDeliveryBannerVisible, setIsDeliveryBannerVisible] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -158,13 +159,15 @@ export default function Home() {
       {cart.length > 0 && (
          <div className="fixed bottom-16 left-0 z-50 w-full px-4 pb-2 md:bottom-4">
             <div className="mx-auto max-w-md">
-                 <div className="mb-2 flex items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
-                    <div className="flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5 text-blue-600"/>
-                        <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
+                {isDeliveryBannerVisible && (
+                    <div className="mb-2 flex items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
+                        <div className="flex items-center gap-2">
+                            <CheckCircle className="h-5 w-5 text-blue-600"/>
+                            <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
+                        </div>
+                        <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
                     </div>
-                    <button><X className="h-5 w-5"/></button>
-                </div>
+                )}
                  <Link href="/cart">
                     <div className="flex h-16 items-center justify-between rounded-lg bg-primary p-4 text-primary-foreground shadow-lg">
                         <div className="flex items-center gap-2">
