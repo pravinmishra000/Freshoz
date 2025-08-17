@@ -8,7 +8,7 @@ import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/freshoz/header';
 import { Footer } from '@/components/freshoz/footer';
-import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck, Ticket } from 'lucide-react';
+import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck, Ticket, CheckCircle, X } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useCart();
   const [appliedCoupon, setAppliedCoupon] = useState<null | 'FLAT50' | 'FLAT150'>(null);
+  const [isDeliveryBannerVisible, setIsDeliveryBannerVisible] = useState(true);
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
@@ -212,8 +213,21 @@ export default function CartPage() {
       </main>
 
        {cart.length > 0 && (
-         <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-background/95 shadow-lg backdrop-blur-sm md:hidden">
-            <BottomNav />
+         <div className="fixed bottom-0 left-0 z-50 w-full md:hidden">
+             {isDeliveryBannerVisible && (
+                <div className="px-4 pb-2">
+                    <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
+                        <div className="flex items-center gap-2">
+                            <CheckCircle className="h-5 w-5 text-blue-600"/>
+                            <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
+                        </div>
+                        <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                    </div>
+                </div>
+            )}
+            <div className="border-t bg-background/95 shadow-lg backdrop-blur-sm">
+                <BottomNav />
+            </div>
         </div>
        )}
     </div>
