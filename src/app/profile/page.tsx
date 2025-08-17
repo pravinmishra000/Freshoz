@@ -98,6 +98,12 @@ export default function ProfilePage() {
       }
   ];
 
+  const legalItems = [
+    { label: "About Us", href: "/about" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
       <header className="bg-background">
@@ -165,11 +171,17 @@ export default function ProfilePage() {
                     </CardTitle>
                 </CardHeader>
                  <CardContent className="space-y-2 p-4 pt-0">
-                    <div className="flex items-center justify-between py-2"><span className="font-medium">Terms & Conditions</span><ChevronRight className="h-5 w-5 text-muted-foreground" /></div>
-                    <Separator />
-                    <div className="flex items-center justify-between py-2"><span className="font-medium">Privacy Policy</span><ChevronRight className="h-5 w-5 text-muted-foreground" /></div>
-                    <Separator />
-                    <div className="flex items-center justify-between py-2"><span className="font-medium">About Freshoz</span><ChevronRight className="h-5 w-5 text-muted-foreground" /></div>
+                    {legalItems.map((item, index) => (
+                         <React.Fragment key={index}>
+                            <Link href={item.href} className="block">
+                                <div className="flex items-center justify-between py-2">
+                                    <span className="font-medium">{item.label}</span>
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                                </div>
+                            </Link>
+                            {index < legalItems.length - 1 && <Separator />}
+                        </React.Fragment>
+                    ))}
                  </CardContent>
             </Card>
 
