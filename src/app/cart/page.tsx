@@ -31,7 +31,7 @@ export default function CartPage() {
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
   const totalSavings = totalMRP - totalPrice;
   const deliveryFee = 0;
-  const platformFee = 9;
+  const platformFee = cart.length > 0 ? 9 : 0;
 
   let couponDiscount = 0;
   if (appliedCoupon === 'FLAT50') {
@@ -77,13 +77,19 @@ export default function CartPage() {
                     {cart.map((item) => (
                     <li key={item.id} className="flex gap-4 p-4">
                         <div className="relative h-20 w-20 flex-shrink-0">
-                            <Image
-                                src={item.image}
-                                alt={item.name_en}
-                                fill
-                                className="rounded-md object-contain"
-                                data-ai-hint="product image"
-                            />
+                            {item.image ? (
+                                <Image
+                                    src={item.image}
+                                    alt={item.name_en}
+                                    fill
+                                    className="rounded-md object-contain"
+                                    data-ai-hint="product image"
+                                />
+                            ) : (
+                                <div className="flex h-full w-full items-center justify-center rounded-md bg-muted">
+                                    <MessageSquare className="h-8 w-8 text-muted-foreground" />
+                                </div>
+                            )}
                         </div>
                         <div className="flex-1">
                         <p className="font-semibold">{item.name_en}</p>
@@ -120,6 +126,8 @@ export default function CartPage() {
                 )}
             </div>
             
+          {cart.length > 0 && (
+            <>
             <div className="bg-white py-4">
               {/* Apply Coupon */}
               <Card className="m-2">
@@ -322,6 +330,8 @@ export default function CartPage() {
                     <Link href="/checkout">Proceed to Checkout</Link>
                 </Button>
             </div>
+            </>
+          )}
         </div>
       </main>
 
@@ -345,3 +355,5 @@ export default function CartPage() {
        )}
     </div>
   );
+
+    
