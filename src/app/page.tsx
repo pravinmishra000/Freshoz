@@ -60,31 +60,36 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-orange-400 to-background text-foreground">
-       <header className="sticky top-0 z-40 w-full bg-background/80 shadow-sm backdrop-blur-sm">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+       <header className="sticky top-0 z-40 w-full bg-orange-400 text-white shadow-sm">
          <div className="container mx-auto flex h-auto flex-col gap-2 px-4 py-3">
            <div className="flex items-center justify-between">
               <div className="flex flex-col">
-                <FreshozLogo />
-                <p className="text-sm font-medium">HOME - Pravin Mishra ▼</p>
+                 <a href="/" className="flex items-center gap-2">
+                  <div className="flex-shrink-0">
+                    <h1 className="font-headline text-2xl font-bold text-white">FRESHOZ</h1>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-green-100">Fresh & Fast</p>
+                  </div>
+                </a>
               </div>
               <div className="flex items-center gap-2">
                   <a href="tel:9097882555">
-                    <Button variant="ghost" size="icon"><Phone /></Button>
+                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><Phone /></Button>
                   </a>
                    <a href="https://wa.me/9097882555" target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="icon"><MessageSquare /></Button>
+                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><MessageSquare /></Button>
                   </a>
-                  <Button asChild variant="ghost" size="icon"><Link href="/wallet"><Wallet /></Link></Button>
-                  <Button asChild variant="ghost" size="icon"><Link href="/profile"><User /></Link></Button>
+                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20"><Link href="/wallet"><Wallet /></Link></Button>
+                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20"><Link href="/profile"><User /></Link></Button>
               </div>
            </div>
+            <p className="text-sm font-medium text-white">HOME - Pravin Mishra ▼</p>
            <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search for atta, dal, milk..."
-              className="w-full rounded-lg border-2 border-primary/30 bg-secondary/50 pl-10 pr-10"
+              className="w-full rounded-lg border-2 border-primary/30 bg-background text-foreground pl-10 pr-10"
             />
             <Mic className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           </div>
@@ -202,3 +207,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
