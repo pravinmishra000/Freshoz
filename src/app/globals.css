@@ -83,6 +83,6 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-gradient-to-b from-orange-400 to-background text-foreground;
+    @apply bg-background text-foreground;
   }
 }

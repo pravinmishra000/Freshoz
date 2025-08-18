@@ -60,7 +60,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-gradient-to-b from-orange-400 to-background text-foreground">
        <header className="sticky top-0 z-40 w-full bg-background/80 shadow-sm backdrop-blur-sm">
          <div className="container mx-auto flex h-auto flex-col gap-2 px-4 py-3">
            <div className="flex items-center justify-between">

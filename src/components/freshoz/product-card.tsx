@@ -39,8 +39,8 @@ export function ProductCard({ product, view = 'default' }: ProductCardProps) {
       );
     }
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100">
-        <ShoppingCart className="h-16 w-16 text-slate-400" />
+      <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
+        <ShoppingCart className="h-20 w-20 text-slate-400" />
         <span className="mt-2 text-xs text-slate-500">Image coming soon</span>
       </div>
     );
