@@ -14,7 +14,7 @@ import { Footer } from '@/components/freshoz/footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/cart-context';
-import { Search, ChevronRight, User, Wallet, Mic, CheckCircle, X, Phone, MessageSquare } from 'lucide-react';
+import { Search, ChevronRight, User, Wallet, Mic, CheckCircle, X, Phone, MessageSquare, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from '@/components/ui/card';
@@ -108,7 +108,14 @@ export default function Home() {
                          <Card key={index} className="w-40 flex-shrink-0 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all">
                             <CardContent className="p-2">
                                 <div className="relative aspect-square w-full">
-                                    <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
+                                    {item.image && !item.image.includes('placehold.co') ? (
+                                        <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
+                                     ) : (
+                                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
+                                            <ShoppingCart className="h-20 w-20 text-slate-400" />
+                                            <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
+                                        </div>
+                                     )}
                                 </div>
                                 <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
                             </CardContent>
