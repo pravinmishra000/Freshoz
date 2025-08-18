@@ -96,7 +96,7 @@ export default function Home() {
          </div>
       </header>
 
-      <main className="flex-1 pb-40">
+      <main className="flex-1 pb-40 bg-background">
         <LocationGate />
         
         <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
@@ -207,5 +207,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
