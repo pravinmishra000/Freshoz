@@ -60,8 +60,8 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
-       <header className="sticky top-0 z-40 w-full bg-orange-400 text-white shadow-sm">
+    <div className="flex min-h-screen flex-col bg-gradient-to-b from-orange-400 to-background text-foreground">
+       <header className="sticky top-0 z-40 w-full border-b border-white/20 text-white shadow-sm">
          <div className="container mx-auto flex h-auto flex-col gap-2 px-4 py-3">
            <div className="flex items-center justify-between">
               <div className="flex flex-col">
@@ -96,7 +96,7 @@ export default function Home() {
          </div>
       </header>
 
-      <main className="flex-1 pb-40 bg-background">
+      <main className="flex-1 pb-40">
         <LocationGate />
         
         <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
@@ -139,7 +139,7 @@ export default function Home() {
             <Tabs defaultValue={mainCategories[0].id} className="w-full">
               <TabsList className="grid w-full grid-cols-4 h-auto bg-transparent p-0 gap-2">
                 {mainCategories.map(category => (
-                  <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg">
+                  <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg bg-white/70 backdrop-blur-sm">
                     <category.icon className="h-8 w-8 mb-1" />
                     <span className="text-[11px] text-center leading-tight">{category.name_en}</span>
                   </TabsTrigger>
@@ -157,7 +157,7 @@ export default function Home() {
                            <ProductCard key={product.id} product={product} />
                        ))}
                     </div>
-                     <Button variant="outline" className="w-full mt-6">
+                     <Button variant="outline" className="w-full mt-6 bg-white/70 backdrop-blur-sm">
                         View All in {category.name_en} <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                 </TabsContent>
