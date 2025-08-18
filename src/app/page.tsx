@@ -64,11 +64,11 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-orange-400 to-background text-foreground">
-       <header className="sticky top-0 z-40 w-full border-b border-white/20 text-white shadow-sm">
+       <header className="w-full text-white">
          <div className="container mx-auto flex h-auto flex-col gap-2 px-4 py-3">
            <div className="flex items-center justify-between">
               <div className="flex flex-col">
-                 <a href="/" className="flex items-center gap-2">
+                <a href="/" className="flex items-center gap-2">
                   <div className="flex-shrink-0">
                     <h1 className="font-headline text-2xl font-bold text-green-600 drop-shadow-[0_0_4px_rgba(255,255,255,0.7)]">FRESHOZ</h1>
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fresh & Fast</p>
@@ -76,28 +76,30 @@ export default function Home() {
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                  <a href="tel:9097882555">
+                  <a href="tel:9097882555" aria-label="Call support">
                     <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><Phone /></Button>
                   </a>
-                   <a href="https://wa.me/9097882555" target="_blank" rel="noopener noreferrer">
+                   <a href="https://wa.me/9097882555" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
                     <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><MessageSquare /></Button>
                   </a>
-                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20"><Link href="/wallet"><Wallet /></Link></Button>
-                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20"><Link href="/profile"><User /></Link></Button>
+                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open wallet"><Link href="/wallet"><Wallet /></Link></Button>
+                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open profile"><Link href="/profile"><User /></Link></Button>
               </div>
            </div>
             <p className="text-sm font-medium text-white">HOME - Pravin Mishra ▼</p>
-           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search for atta, dal, milk..."
-              className="w-full rounded-lg border-2 border-primary/30 bg-background text-foreground pl-10 pr-10"
-            />
-            <Mic className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-          </div>
          </div>
       </header>
+       <div className="sticky top-0 z-40 w-full bg-orange-400/80 p-4 pt-0 backdrop-blur-sm">
+         <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search for atta, dal, milk..."
+            className="w-full rounded-lg border-2 border-primary/30 bg-background text-foreground pl-10 pr-10"
+          />
+          <Mic className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+        </div>
+      </div>
 
       <main className="flex-1 pb-40">
         <LocationGate />
@@ -200,7 +202,7 @@ export default function Home() {
                     )
                 )}
                  <Link href="/cart">
-                    <div className="flex h-16 items-center justify-between rounded-lg bg-primary p-4 text-primary-foreground shadow-lg">
+                    <div className="flex h-16 items-center justify-between rounded-full bg-primary p-4 text-primary-foreground shadow-lg">
                         <div className="flex items-center gap-2">
                              <div className="relative flex">
                                 {cart.slice(0, 2).map((item, index) => (
@@ -227,3 +229,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
