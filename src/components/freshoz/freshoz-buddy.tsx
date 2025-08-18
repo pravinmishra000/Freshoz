@@ -35,21 +35,25 @@ export default function FreshozBuddy() {
       prompt: 'What product are you looking for cheaper alternatives for?',
       placeholder: 'e.g., "Aashirvaad Atta"',
       action: getCheaperAlternatives,
+      inputKey: 'productName',
     },
     track: {
       prompt: 'Please enter your Order ID to track its status.',
       placeholder: 'e.g., "ORDER12345"',
-      action: (input: any) => trackOrderStatus({ orderId: input.productName, userId: 'user123' }), // Re-using productName for simplicity
+      action: (input: any) => trackOrderStatus({ orderId: input.productName, userId: 'user123' }),
+      inputKey: 'productName',
     },
     availability: {
       prompt: 'What product would you like to check the availability of?',
       placeholder: 'e.g., "Amul Gold Milk"',
       action: checkProductAvailability,
+      inputKey: 'productName',
     },
     cart: {
       prompt: 'You can add, remove, or check items in your cart. For example: "Add 2kg tomatoes"',
       placeholder: 'e.g., "Add 2kg tomatoes"',
-      action: (input: any) => manageCart({ query: input.productName }),
+      action: manageCart,
+      inputKey: 'query',
     },
   };
 
@@ -84,12 +88,16 @@ export default function FreshozBuddy() {
 
     setMessages((prev) => [...prev, userMessage, loadingMessage]);
     setIsLoading(true);
-    setInputValue('');
+    
 
     try {
-      const flowAction = flowConfig[currentFlow].action;
-      // Using productName as a generic input field name for simplicity across flows
-      const result = await flowAction({ productName: inputValue });
+      const flowDetails = flowConfig[currentFlow];
+      const flowAction = flowDetails.action;
+      const inputKey = flowDetails.inputKey;
+      
+      const actionInput = { [inputKey]: inputValue };
+      setInputValue('');
+      const result = await flowAction(actionInput as any);
       
       let responseContent: React.ReactNode;
 
@@ -138,7 +146,7 @@ export default function FreshozBuddy() {
     <>
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-40 right-6 z-50 h-16 w-16 rounded-full bg-primary/20 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/30 md:bottom-8 md:right-8"
+          className="fixed bottom-24 right-6 z-50 h-16 w-16 rounded-full bg-primary/20 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/30 md:bottom-8 md:right-8"
           aria-label="Open AI Assistant"
         >
           <Sparkles className="h-8 w-8" />
