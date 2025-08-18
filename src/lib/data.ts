@@ -52,7 +52,7 @@ export const categories: Category[] = [
       "Pickles & Papad"
     ]
   },
-  { id: '5', name_en: 'Snacks & Beverages', name_hi: 'स्नैक्स और पेय', slug: 'snacks-beverages', icon: Sandwich },
+  { id: '5', name_en: 'Snacks & Beverages', name_hi: 'स्नैक्स और पेय', slug: 'snacks-beverages', icon: Cookie },
   { 
     id: '9', 
     name_en: 'Non-Veg', 
@@ -215,7 +215,7 @@ export const products: Product[] = [
     mrp: 280,
     price: 258,
     stock_qty: 30,
-    image: 'https://placehold.co/400x400.png',
+    image: '',
     delivery_mode: 'quick',
     is_veg: false,
     unit: 'kg',
@@ -233,7 +233,7 @@ export const products: Product[] = [
     mrp: 110,
     price: 101,
     stock_qty: 50,
-    image: 'https://placehold.co/400x400.png',
+    image: '',
     delivery_mode: 'quick',
     is_veg: true,
     unit: 'kg',

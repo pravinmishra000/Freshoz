@@ -6,7 +6,7 @@ import Link from 'next/link';
 import type { Product } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Minus, Star } from 'lucide-react';
+import { Plus, Minus, Star, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { Badge } from '../ui/badge';
 import { cn } from '@/lib/utils';
@@ -25,19 +25,33 @@ export function ProductCard({ product, view = 'default' }: ProductCardProps) {
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;
 
+  const ProductImage = () => {
+    if (product.image) {
+      return (
+        <Image
+          src={product.image}
+          alt={product.name_en}
+          width={view === 'suggestion' ? 96 : 128}
+          height={view === 'suggestion' ? 96 : 128}
+          className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+          data-ai-hint="product image"
+        />
+      );
+    }
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100">
+        <ShoppingCart className="h-16 w-16 text-slate-400" />
+        <span className="mt-2 text-xs text-slate-500">Image coming soon</span>
+      </div>
+    );
+  };
+
   if (view === 'suggestion') {
       return (
          <Card className="group relative flex h-full flex-col overflow-hidden rounded-lg border-2 hover:border-primary/50 hover:shadow-md transition-all duration-300">
           <Link href={`/product/${product.id}`} className="flex flex-1 flex-col p-2">
             <div className="relative mx-auto h-24 w-24">
-                <Image
-                    src={product.image}
-                    alt={product.name_en}
-                    width={96}
-                    height={96}
-                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                    data-ai-hint="product image"
-                />
+                <ProductImage />
             </div>
              <p className="mt-2 h-8 text-xs font-semibold leading-tight text-center">{product.name_en}</p>
           </Link>
@@ -55,14 +69,7 @@ export function ProductCard({ product, view = 'default' }: ProductCardProps) {
       <Link href={`/product/${product.id}`} className="flex flex-1 flex-col">
         <CardContent className="relative flex-1 p-2">
             <div className="relative mx-auto h-32 w-32">
-              <Image
-                src={product.image}
-                alt={product.name_en}
-                width={128}
-                height={128}
-                className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                data-ai-hint="product image"
-              />
+              <ProductImage />
             </div>
         </CardContent>
         <div className="flex-1 bg-white p-3 pt-0">
