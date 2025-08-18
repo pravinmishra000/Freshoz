@@ -32,8 +32,10 @@ export default function CartPage() {
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
   const totalSavings = totalMRP - totalPrice;
-  const deliveryFee = 0;
+  const freeDeliveryThreshold = 199;
+  const deliveryFee = totalPrice > 0 && totalPrice < freeDeliveryThreshold ? 29 : 0;
   const platformFee = cart.length > 0 ? 9 : 0;
+  const amountNeededForFreeDelivery = freeDeliveryThreshold - totalPrice;
 
   let couponDiscount = 0;
   if (appliedCoupon === 'FLAT50') {
@@ -374,13 +376,23 @@ export default function CartPage() {
        <div className="fixed bottom-0 left-0 z-50 w-full md:hidden">
            {cart.length > 0 && isDeliveryBannerVisible && (
               <div className="px-4 pb-2">
-                  <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
-                      <div className="flex items-center gap-2">
-                          <CheckCircle className="h-5 w-5 text-blue-600"/>
-                          <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
-                      </div>
-                      <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
-                  </div>
+                 {totalPrice >= freeDeliveryThreshold ? (
+                    <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
+                        <div className="flex items-center gap-2">
+                            <CheckCircle className="h-5 w-5 text-blue-600"/>
+                            <p><span className="font-bold">Yay! You got FREE Delivery.</span> No coupon needed</p>
+                        </div>
+                        <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                    </div>
+                 ) : (
+                    <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-amber-100 p-2 text-sm text-amber-800 shadow-lg">
+                        <div className="flex items-center gap-2">
+                            <Bike className="h-5 w-5 text-amber-600"/>
+                            <p>Add <span className="font-bold">₹{amountNeededForFreeDelivery.toFixed(2)}</span> to get free delivery</p>
+                        </div>
+                        <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                    </div>
+                 )}
               </div>
           )}
           <div className="border-t bg-background/95 shadow-lg backdrop-blur-sm">
@@ -389,5 +401,3 @@ export default function CartPage() {
       </div>
     </div>
   );
-
-    

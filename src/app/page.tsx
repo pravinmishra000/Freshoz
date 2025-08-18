@@ -14,7 +14,7 @@ import { Footer } from '@/components/freshoz/footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/cart-context';
-import { Search, ChevronRight, User, Wallet, Mic, CheckCircle, X, Phone, MessageSquare, ShoppingCart } from 'lucide-react';
+import { Search, ChevronRight, User, Wallet, Mic, CheckCircle, X, Phone, MessageSquare, ShoppingCart, Bike } from 'lucide-react';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from '@/components/ui/card';
@@ -24,6 +24,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const { cart } = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const freeDeliveryThreshold = 199;
+  const amountNeededForFreeDelivery = freeDeliveryThreshold - totalPrice;
   const [isDeliveryBannerVisible, setIsDeliveryBannerVisible] = useState(true);
 
   useEffect(() => {
@@ -178,13 +181,23 @@ export default function Home() {
          <div className="fixed bottom-16 left-0 z-50 w-full px-4 pb-2 md:bottom-4">
             <div className="mx-auto max-w-md">
                 {isDeliveryBannerVisible && (
-                    <div className="mb-2 flex items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
-                        <div className="flex items-center gap-2">
-                            <CheckCircle className="h-5 w-5 text-blue-600"/>
-                            <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
+                    totalPrice >= freeDeliveryThreshold ? (
+                        <div className="mb-2 flex items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="h-5 w-5 text-blue-600"/>
+                                <p><span className="font-bold">Yay! You got FREE Delivery.</span> No coupon needed</p>
+                            </div>
+                            <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
                         </div>
-                        <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
-                    </div>
+                    ) : (
+                         <div className="mb-2 flex items-center justify-between rounded-lg bg-amber-100 p-2 text-sm text-amber-800 shadow-lg">
+                            <div className="flex items-center gap-2">
+                                <Bike className="h-5 w-5 text-amber-600"/>
+                                <p>Add <span className="font-bold">₹{amountNeededForFreeDelivery.toFixed(2)}</span> to get free delivery</p>
+                            </div>
+                            <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                        </div>
+                    )
                 )}
                  <Link href="/cart">
                     <div className="flex h-16 items-center justify-between rounded-lg bg-primary p-4 text-primary-foreground shadow-lg">
@@ -214,7 +227,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
