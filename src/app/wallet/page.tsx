@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
+import Link from 'next/link';
 
 export default function WalletPage() {
     const router = useRouter();
@@ -36,8 +37,10 @@ export default function WalletPage() {
                     <Button variant="ghost" size="icon" onClick={() => router.back()}>
                         <ChevronLeft />
                     </Button>
-                     <Button variant="ghost" size="icon">
-                        <Settings />
+                     <Button asChild variant="ghost" size="icon">
+                        <Link href="/wallet/settings">
+                            <Settings />
+                        </Link>
                     </Button>
                 </div>
             </header>
