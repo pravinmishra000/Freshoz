@@ -13,14 +13,9 @@ import { cn } from '@/lib/utils';
 
 export default function WalletPage() {
     const router = useRouter();
-    const walletBalance = 500.00;
+    const walletBalance = 0.00;
 
-    const transactions = [
-        { type: 'credit', amount: 50.00, description: 'Cashback from coupon SAVE50', date: '2024-07-28', color: 'text-yellow-500' },
-        { type: 'debit', amount: 199.00, description: 'Order #1234 Payment', date: '2024-07-27', color: 'text-red-500' },
-        { type: 'credit', amount: 200.00, description: 'Refund for Order #1230', date: '2024-07-26', color: 'text-green-500' },
-        { type: 'debit', amount: 350.00, description: 'Order #1225 Payment', date: '2024-07-25', color: 'text-red-500' },
-    ];
+    const transactions: any[] = [];
     
     return (
         <div className="flex min-h-screen flex-col bg-muted/20">
@@ -51,24 +46,31 @@ export default function WalletPage() {
                                 <CardTitle className="text-lg">Transactions History</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="space-y-4">
-                                    {transactions.map((tx, index) => (
-                                        <div key={index} className="flex items-center justify-between">
-                                            <div className="flex items-center gap-4">
-                                                <div className={cn("flex h-8 w-8 items-center justify-center rounded-full", tx.type === 'credit' ? 'bg-green-100' : 'bg-red-100')}>
-                                                    {tx.type === 'credit' ? <ArrowUp className="h-5 w-5 text-green-600" /> : <ArrowDown className="h-5 w-5 text-red-600" />}
+                                {transactions.length > 0 ? (
+                                    <div className="space-y-4">
+                                        {transactions.map((tx, index) => (
+                                            <div key={index} className="flex items-center justify-between">
+                                                <div className="flex items-center gap-4">
+                                                    <div className={cn("flex h-8 w-8 items-center justify-center rounded-full", tx.type === 'credit' ? 'bg-green-100' : 'bg-red-100')}>
+                                                        {tx.type === 'credit' ? <ArrowUp className="h-5 w-5 text-green-600" /> : <ArrowDown className="h-5 w-5 text-red-600" />}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-semibold">{tx.description}</p>
+                                                        <p className="text-sm text-muted-foreground">{tx.date}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="font-semibold">{tx.description}</p>
-                                                    <p className="text-sm text-muted-foreground">{tx.date}</p>
-                                                </div>
+                                                <p className={cn("font-bold", tx.color)}>
+                                                    {tx.type === 'credit' ? '+' : '-'}₹{tx.amount.toFixed(2)}
+                                                </p>
                                             </div>
-                                            <p className={cn("font-bold", tx.color)}>
-                                                {tx.type === 'credit' ? '+' : '-'}₹{tx.amount.toFixed(2)}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-center text-muted-foreground py-8">
+                                        <Wallet className="mx-auto h-12 w-12 opacity-50" />
+                                        <p className="mt-4">No transactions yet.</p>
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
 
