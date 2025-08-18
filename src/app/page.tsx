@@ -32,6 +32,7 @@ export default function Home() {
   const [isDeliveryBannerVisible, setIsDeliveryBannerVisible] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const { toast } = useToast();
@@ -43,6 +44,21 @@ export default function Home() {
     }, 2500);
     return () => clearTimeout(timer);
   }, []);
+  
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+        setFilteredProducts([]);
+        return;
+    }
+
+    const lowercasedQuery = searchQuery.toLowerCase();
+    const results = products.filter(product =>
+        product.name_en.toLowerCase().includes(lowercasedQuery) ||
+        product.brand.toLowerCase().includes(lowercasedQuery) ||
+        product.tags.some(tag => tag.toLowerCase().includes(lowercasedQuery))
+    );
+    setFilteredProducts(results);
+}, [searchQuery]);
 
   const handleMicClick = () => {
     if (!('webkitSpeechRecognition' in window)) {
@@ -170,82 +186,101 @@ export default function Home() {
 
       <main className="flex-1 pb-40">
         <LocationGate />
-        
-        <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-            
-             <section className="mb-8">
-                <div className="relative w-full overflow-hidden">
-                    <div className="flex animate-marquee motion-reduce:animate-none">
-                        {featuredItems.map((item, index) => (
-                             <Card key={index} className="w-40 flex-shrink-0 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all mx-2">
-                                <CardContent className="p-2">
-                                    <div className="relative aspect-square w-full">
-                                        {item.image && !item.image.includes('placehold.co') ? (
-                                            <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
-                                         ) : (
-                                            <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
-                                                <ShoppingCart className="h-20 w-20 text-slate-400" />
-                                                <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
-                                            </div>
-                                         )}
-                                    </div>
-                                    <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
-            {/* Frequently Bought */}
-            <section className="mb-8">
-                <h2 className="font-bold text-xl mb-4">Frequently bought</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                   {frequentlyBought.map((item, index) => (
-                        <Link key={index} href={item.href}>
-                            <Card className="p-2 h-full">
-                               <div className="flex justify-between items-center mb-2">
-                                   {item.images.map(imgId => {
-                                       const product = products.find(p => p.id === imgId);
-                                       return product ? <Image key={product.id} src={product.image || 'https://placehold.co/40x40.png'} alt={product.name_en} width={40} height={40} className="object-contain" data-ai-hint="product image"/> : null;
-                                   })}
-                                   <div className="text-xs bg-muted p-1 rounded-md">+1 more</div>
-                               </div>
-                               <p className="font-semibold text-sm">{item.name}</p>
-                            </Card>
-                        </Link>
-                   ))}
-                </div>
-            </section>
-
-            <Tabs defaultValue={mainCategories.length > 0 ? mainCategories[0].id : ''} className="w-full">
-              <TabsList className="grid w-full grid-cols-4 h-auto bg-transparent p-0 gap-2">
-                {mainCategories.map(category => (
-                  <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg bg-white/70 backdrop-blur-sm">
-                    <category.icon className="h-8 w-8 mb-1" />
-                    <span className="text-[11px] text-center leading-tight">{category.name_en}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              
-              <div className="my-4 p-3 rounded-lg bg-green-50 border border-green-200 text-center">
-                  <p className="font-semibold text-sm text-green-800">Free Delivery above ₹199</p>
-              </div>
-
-              {mainCategories.map(category => (
-                <TabsContent key={category.id} value={category.id}>
+        {searchQuery.trim() !== '' ? (
+            <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-background">
+                <h2 className="font-bold text-xl mb-4">Search Results for "{searchQuery}"</h2>
+                {filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                       {getProductsForCategory(category.id).map(product => (
-                           <ProductCard key={product.id} product={product} />
-                       ))}
+                    {filteredProducts.map(product => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
                     </div>
-                     <Button variant="outline" className="w-full mt-6 bg-white/70 backdrop-blur-sm">
-                        View All in {category.name_en} <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
-                </TabsContent>
-              ))}
-            </Tabs>
-        </div>
+                ) : (
+                    <div className="text-center py-10">
+                        <p className="text-muted-foreground">No products found matching your search.</p>
+                    </div>
+                )}
+            </div>
+        ) : (
+            <>
+                <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
+                    
+                    <section className="mb-8">
+                        <div className="relative w-full overflow-hidden">
+                            <div className="flex animate-marquee motion-reduce:animate-none">
+                                {featuredItems.map((item, index) => (
+                                    <Card key={index} className="w-40 flex-shrink-0 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all mx-2">
+                                        <CardContent className="p-2">
+                                            <div className="relative aspect-square w-full">
+                                                {item.image && !item.image.includes('placehold.co') ? (
+                                                    <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
+                                                ) : (
+                                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
+                                                        <ShoppingCart className="h-20 w-20 text-slate-400" />
+                                                        <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Frequently Bought */}
+                    <section className="mb-8">
+                        <h2 className="font-bold text-xl mb-4">Frequently bought</h2>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {frequentlyBought.map((item, index) => (
+                                <Link key={index} href={item.href}>
+                                    <Card className="p-2 h-full">
+                                    <div className="flex justify-between items-center mb-2">
+                                        {item.images.map(imgId => {
+                                            const product = products.find(p => p.id === imgId);
+                                            return product ? <Image key={product.id} src={product.image || 'https://placehold.co/40x40.png'} alt={product.name_en} width={40} height={40} className="object-contain" data-ai-hint="product image"/> : null;
+                                        })}
+                                        <div className="text-xs bg-muted p-1 rounded-md">+1 more</div>
+                                    </div>
+                                    <p className="font-semibold text-sm">{item.name}</p>
+                                    </Card>
+                                </Link>
+                        ))}
+                        </div>
+                    </section>
+
+                    <Tabs defaultValue={mainCategories.length > 0 ? mainCategories[0].id : ''} className="w-full">
+                    <TabsList className="grid w-full grid-cols-4 h-auto bg-transparent p-0 gap-2">
+                        {mainCategories.map(category => (
+                        <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg bg-white/70 backdrop-blur-sm">
+                            <category.icon className="h-8 w-8 mb-1" />
+                            <span className="text-[11px] text-center leading-tight">{category.name_en}</span>
+                        </TabsTrigger>
+                        ))}
+                    </TabsList>
+                    
+                    <div className="my-4 p-3 rounded-lg bg-green-50 border border-green-200 text-center">
+                        <p className="font-semibold text-sm text-green-800">Free Delivery above ₹199</p>
+                    </div>
+
+                    {mainCategories.map(category => (
+                        <TabsContent key={category.id} value={category.id}>
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                            {getProductsForCategory(category.id).map(product => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                            </div>
+                            <Button variant="outline" className="w-full mt-6 bg-white/70 backdrop-blur-sm">
+                                View All in {category.name_en} <ChevronRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </TabsContent>
+                    ))}
+                    </Tabs>
+                </div>
+            </>
+        )}
       </main>
 
       {cart.length > 0 && (
@@ -298,5 +333,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
