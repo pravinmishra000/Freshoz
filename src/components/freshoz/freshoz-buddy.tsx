@@ -154,12 +154,13 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
 
   const getBottomPosition = () => {
     if (cart.length > 0) {
-      // Approx height of cart button (3rem) + nav (4rem) + delivery banner (3rem) + spacings
-      return isDeliveryBannerVisible ? 'bottom-[10.5rem]' : 'bottom-[7.5rem]';
+      // Approx height of cart button (3rem/48px) + nav (4rem/64px) + delivery banner (3rem/48px) + spacings
+      return isDeliveryBannerVisible ? 'bottom-[13rem]' : 'bottom-[10rem]'; // ~160px and ~208px
     }
-    // If cart is empty, position above the bottom nav bar (4rem)
-    return 'bottom-20';
+    // If cart is empty, position above the bottom nav bar (4rem/64px)
+    return 'bottom-20'; // 5rem/80px
   }
+
 
   return (
     <>
@@ -167,7 +168,7 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
           variant="outline"
           onClick={() => setIsOpen(true)}
           className={cn(
-              "fixed right-6 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-primary/20 md:right-8",
+              "fixed right-4 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-primary/20 md:right-8",
               getBottomPosition()
           )}
           aria-label="Open AI Assistant"
