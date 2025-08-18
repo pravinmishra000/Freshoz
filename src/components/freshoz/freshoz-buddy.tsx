@@ -52,7 +52,7 @@ export default function FreshozBuddy() {
     cart: {
       prompt: 'You can add, remove, or check items in your cart. For example: "Add 2kg tomatoes"',
       placeholder: 'e.g., "Add 2kg tomatoes"',
-      action: manageCart,
+      action: (input: {query: string}) => manageCart({ query: input.query }),
       inputKey: 'query',
     },
   };
@@ -145,11 +145,12 @@ export default function FreshozBuddy() {
   return (
     <>
         <Button
+          variant="outline"
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-24 right-6 z-50 h-16 w-16 rounded-full bg-primary/20 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/30 md:bottom-8 md:right-8"
+          className="fixed bottom-40 right-6 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/20 md:bottom-8 md:right-8"
           aria-label="Open AI Assistant"
         >
-          <Sparkles className="h-8 w-8" />
+          <Sparkles className="h-7 w-7" />
         </Button>
       <Sheet open={isOpen} onOpenChange={(open) => {
           setIsOpen(open);
