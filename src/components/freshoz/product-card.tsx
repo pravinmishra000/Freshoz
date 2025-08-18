@@ -26,7 +26,7 @@ export function ProductCard({ product, view = 'default' }: ProductCardProps) {
     : 0;
 
   const ProductImage = () => {
-    if (product.image) {
+    if (product.image && !product.image.includes('placehold.co')) {
       return (
         <Image
           src={product.image}
@@ -41,7 +41,7 @@ export function ProductCard({ product, view = 'default' }: ProductCardProps) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
         <ShoppingCart className="h-20 w-20 text-slate-400" />
-        <span className="mt-2 text-xs text-slate-500">Image coming soon</span>
+        <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
       </div>
     );
   };
