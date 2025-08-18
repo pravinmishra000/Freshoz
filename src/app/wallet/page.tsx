@@ -2,100 +2,82 @@
 'use client';
 
 import * as React from 'react';
-import { Wallet, ChevronLeft, ArrowDown, ArrowUp } from 'lucide-react';
+import { Wallet, ChevronLeft, ArrowDown, ArrowUp, Settings, Smartphone, ShieldCheck, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
-import { cn } from '@/lib/utils';
 
 export default function WalletPage() {
     const router = useRouter();
-    const walletBalance = 0.00;
 
-    const transactions: any[] = [];
+    const features = [
+        {
+            icon: Smartphone,
+            title: "Single tap payments",
+            description: "Enjoy seamless payments without the wait for OTPs",
+        },
+        {
+            icon: ShieldCheck,
+            title: "Zero failures",
+            description: "Zero payment failures ensure you never miss an order",
+        },
+        {
+            icon: RefreshCw,
+            title: "Real-time refunds",
+            description: "No need to wait for refunds. Freshoz Money refunds are instant!",
+        }
+    ]
     
     return (
-        <div className="flex min-h-screen flex-col bg-muted/20">
-            <header className="sticky top-0 z-40 w-full border-b bg-background shadow-sm">
-                <div className="container mx-auto flex h-16 items-center gap-4 px-4">
+        <div className="flex min-h-screen flex-col bg-gradient-to-b from-yellow-300/80 to-yellow-50 text-slate-800">
+            <header className="sticky top-0 z-40 w-full bg-transparent text-slate-800">
+                <div className="container mx-auto flex h-16 items-center justify-between px-4">
                     <Button variant="ghost" size="icon" onClick={() => router.back()}>
                         <ChevronLeft />
                     </Button>
-                    <h1 className="text-xl font-bold">My Freshoz Wallet</h1>
+                     <Button variant="ghost" size="icon">
+                        <Settings />
+                    </Button>
                 </div>
             </header>
 
-            <main className="flex-1 pb-24">
-                <div className="container mx-auto px-4 py-6 sm:px-6">
-                    <div className="space-y-6">
-                        {/* Wallet Balance Card */}
-                        <Card className="bg-primary text-primary-foreground">
-                            <CardContent className="p-6 flex flex-col items-center justify-center text-center">
-                                <p className="text-sm uppercase tracking-wider">Current Balance</p>
-                                <p className="text-4xl font-bold">₹{walletBalance.toFixed(2)}</p>
-                                <Button variant="secondary" className="mt-4" disabled>Add Money</Button>
-                            </CardContent>
-                        </Card>
-
-                        {/* Transactions History */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">Transactions History</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                {transactions.length > 0 ? (
-                                    <div className="space-y-4">
-                                        {transactions.map((tx, index) => (
-                                            <div key={index} className="flex items-center justify-between">
-                                                <div className="flex items-center gap-4">
-                                                    <div className={cn("flex h-8 w-8 items-center justify-center rounded-full", tx.type === 'credit' ? 'bg-green-100' : 'bg-red-100')}>
-                                                        {tx.type === 'credit' ? <ArrowUp className="h-5 w-5 text-green-600" /> : <ArrowDown className="h-5 w-5 text-red-600" />}
-                                                    </div>
-                                                    <div>
-                                                        <p className="font-semibold">{tx.description}</p>
-                                                        <p className="text-sm text-muted-foreground">{tx.date}</p>
-                                                    </div>
-                                                </div>
-                                                <p className={cn("font-bold", tx.color)}>
-                                                    {tx.type === 'credit' ? '+' : '-'}₹{tx.amount.toFixed(2)}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="text-center text-muted-foreground py-8">
-                                        <Wallet className="mx-auto h-12 w-12 opacity-50" />
-                                        <p className="mt-4">No transactions yet.</p>
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-
-                        {/* Info Section */}
-                        <Card>
-                            <CardContent className="p-6 text-sm text-muted-foreground space-y-2">
-                                <p>Wallet can be used for Freshoz orders along with UPI or COD.</p>
-                                <p>Cashback and refunds are automatically added to your wallet.</p>
-                            </CardContent>
-                        </Card>
-
-                        {/* CTA Buttons */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                             <Button variant="outline" asChild>
-                                <Link href="/coupons">View Coupons</Link>
-                            </Button>
-                             <Button variant="outline" disabled>
-                                Withdraw to UPI
-                            </Button>
-                        </div>
+            <main className="flex-1 flex flex-col px-4 text-center">
+                <div className="flex-1 flex flex-col items-center justify-center">
+                    <div className="relative mb-4">
+                        <Wallet className="h-24 w-24 text-green-600 drop-shadow-lg" />
                     </div>
+                    <p className="font-bold text-green-700">Freshoz</p>
+                    <h1 className="text-5xl font-extrabold tracking-tight">MONEY</h1>
                 </div>
-            </main>
 
-            <BottomNav />
+                <div className="space-y-4 mb-6">
+                   {features.map((feature, index) => (
+                     <Card key={index} className="text-left bg-white/70 backdrop-blur-sm border-none shadow-sm">
+                        <CardContent className="p-4 flex items-center gap-4">
+                            <div className="p-2 bg-yellow-100 rounded-lg">
+                                <feature.icon className="h-8 w-8 text-yellow-600" />
+                            </div>
+                            <div>
+                                <h3 className="font-bold">{feature.title}</h3>
+                                <p className="text-sm text-muted-foreground">{feature.description}</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                   ))}
+                </div>
+                
+                 <div className="py-4">
+                    <Button className="w-full h-14 bg-green-600 hover:bg-green-700 text-lg rounded-xl shadow-lg">
+                        Add Money
+                    </Button>
+                </div>
+
+                 <p className="text-center text-muted-foreground/50 pb-8">
+                    Enjoy seamless one tap payments
+                </p>
+
+            </main>
         </div>
     );
 }
