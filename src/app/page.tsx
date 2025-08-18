@@ -211,11 +211,11 @@ export default function Home() {
                     )
                 )}
                  <Link href="/cart">
-                    <div className="flex h-16 items-center justify-between rounded-full bg-primary p-2 text-primary-foreground shadow-lg">
+                    <div className="flex h-12 items-center justify-between rounded-full bg-primary p-1 text-primary-foreground shadow-lg">
                         <div className="flex items-center gap-2">
                              <div className="relative flex">
                                 {cart.filter(item => item.image).slice(0, 2).map((item, index) => (
-                                    <div key={item.id} className="relative h-12 w-12 rounded-full border-2 border-primary-foreground" style={{ zIndex: 2 - index, marginLeft: index > 0 ? '-20px' : 0 }}>
+                                    <div key={item.id} className="relative h-10 w-10 rounded-full border-2 border-primary-foreground" style={{ zIndex: 2 - index, marginLeft: index > 0 ? '-16px' : 0 }}>
                                         <Image src={item.image} alt={item.name_en} fill className="object-contain rounded-full bg-white p-1" data-ai-hint="product image"/>
                                     </div>
                                 ))}

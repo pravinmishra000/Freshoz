@@ -77,13 +77,22 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim() || !currentFlow) return;
+    if (!inputValue.trim()) return;
 
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: inputValue,
-    };
+    let userMessage: ChatMessage;
+    let actionInput: any;
+
+    if (currentFlow) {
+        userMessage = { id: Date.now().toString(), role: 'user', content: inputValue };
+        const inputKey = flowConfig[currentFlow].inputKey;
+        actionInput = { [inputKey]: inputValue };
+    } else {
+        // Handle general queries when no flow is selected
+        userMessage = { id: Date.now().toString(), role: 'user', content: inputValue };
+        actionInput = { query: inputValue }; 
+        setCurrentFlow('cart'); // Default to cart flow for general queries
+    }
+    
     const loadingMessage: ChatMessage = {
       id: (Date.now() + 1).toString(),
       role: 'assistant',
@@ -92,20 +101,17 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
 
     setMessages((prev) => [...prev, userMessage, loadingMessage]);
     setIsLoading(true);
-    
+    setInputValue('');
 
     try {
-      const flowDetails = flowConfig[currentFlow];
+      const flowDetails = flowConfig[currentFlow || 'cart'];
       const flowAction = flowDetails.action;
-      const inputKey = flowDetails.inputKey;
       
-      const actionInput = { [inputKey]: inputValue };
-      setInputValue('');
       const result = await flowAction(actionInput as any);
       
       let responseContent: React.ReactNode;
 
-      if (currentFlow === 'cart' && 'action' in result) {
+      if ('action' in result && typeof result.action === 'string') { // Cart flow
         responseContent = result.message;
       } else if ('alternatives' in result) {
          responseContent = (
@@ -148,11 +154,10 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
 
   const getBottomPosition = () => {
     if (cart.length > 0) {
-        // If delivery banner is visible, position above it.
-        // Approx height of cart button (4rem) + delivery banner (3rem) + some spacing
-        return isDeliveryBannerVisible ? 'bottom-40' : 'bottom-28';
+      // Approx height of cart button (3rem) + nav (4rem) + delivery banner (3rem) + spacings
+      return isDeliveryBannerVisible ? 'bottom-[10.5rem]' : 'bottom-[7.5rem]';
     }
-    // If cart is empty, position above the bottom nav bar
+    // If cart is empty, position above the bottom nav bar (4rem)
     return 'bottom-20';
   }
 
