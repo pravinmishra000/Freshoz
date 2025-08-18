@@ -138,7 +138,7 @@ export default function FreshozBuddy() {
     <>
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-24 right-6 z-40 h-16 w-16 rounded-full bg-primary/20 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/30 md:bottom-8 md:right-8"
+          className="fixed bottom-40 right-6 z-50 h-16 w-16 rounded-full bg-primary/20 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/30 md:bottom-8 md:right-8"
           aria-label="Open AI Assistant"
         >
           <Sparkles className="h-8 w-8" />
