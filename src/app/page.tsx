@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { products, categories } from '@/lib/data';
 import type { Product } from '@/lib/types';
@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from '@/components/ui/card';
 import { FreshozLogo } from '@/components/freshoz/freshoz-logo';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -30,12 +31,67 @@ export default function Home() {
   const amountNeededForFreeDelivery = freeDeliveryThreshold - totalPrice;
   const [isDeliveryBannerVisible, setIsDeliveryBannerVisible] = useState(true);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const { toast } = useToast();
+
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2500);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleMicClick = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+        toast({
+            variant: 'destructive',
+            title: 'Browser not supported',
+            description: 'Voice search is not supported on your browser.',
+        });
+        return;
+    }
+
+    if (isRecording) {
+        recognitionRef.current?.stop();
+        setIsRecording(false);
+        return;
+    }
+
+    const recognition = new (window as any).webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-IN';
+
+    recognition.onstart = () => {
+        setIsRecording(true);
+        toast({ title: 'Listening...', description: 'Speak into your microphone.' });
+    };
+
+    recognition.onend = () => {
+        setIsRecording(false);
+    };
+
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+        setIsRecording(false);
+        toast({
+            variant: 'destructive',
+            title: 'Voice search error',
+            description: event.error,
+        });
+    };
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+        const transcript = event.results[0][0].transcript;
+        setSearchQuery(transcript);
+    };
+    
+    recognition.start();
+    recognitionRef.current = recognition;
+  };
+
 
   if (loading) {
     return <SplashScreen />;
@@ -102,9 +158,13 @@ export default function Home() {
           <Input
             type="search"
             placeholder="Search for atta, dal, milk..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-lg border-2 border-primary/30 bg-background text-foreground pl-10 pr-10"
           />
-          <Mic className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          <button onClick={handleMicClick} className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" aria-label="Search with voice">
+            <Mic className={cn("h-5 w-5", isRecording ? "text-destructive animate-pulse" : "text-muted-foreground")} />
+          </button>
         </div>
       </div>
 
@@ -234,7 +294,9 @@ export default function Home() {
 
       <Footer />
       <BottomNav />
-      <FreshozBuddy isDeliveryBannerVisible={isDeliveryBannerVisible && cart.length > 0} />
+      <FreshozBuddy isDeliveryBannerVisible={isDeliveryBannerVisible && cart.length > 0 && totalPrice < freeDeliveryThreshold} />
     </div>
   );
 }
+
+    
