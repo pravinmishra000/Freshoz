@@ -234,9 +234,7 @@ export default function Home() {
 
       <Footer />
       <BottomNav />
-      <FreshozBuddy />
+      <FreshozBuddy isDeliveryBannerVisible={isDeliveryBannerVisible && cart.length > 0} />
     </div>
   );
 }
-
-    

@@ -13,6 +13,9 @@ import { getCheaperAlternatives } from '@/ai/flows/freshoz-buddy';
 import { trackOrderStatus } from '@/ai/flows/freshoz-buddy-track-order';
 import { checkProductAvailability } from '@/ai/flows/freshoz-buddy-product-availability';
 import { manageCart } from '@/ai/flows/freshoz-buddy-manage-cart';
+import { useCart } from '@/context/cart-context';
+import { cn } from '@/lib/utils';
+
 
 type ChatMessage = {
   id: string;
@@ -22,13 +25,14 @@ type ChatMessage = {
 
 type AIFlow = 'alternatives' | 'track' | 'availability' | 'cart';
 
-export default function FreshozBuddy() {
+export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBannerVisible?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentFlow, setCurrentFlow] = useState<AIFlow | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showInitial, setShowInitial] = useState(true);
+  const { cart } = useCart();
 
   const flowConfig = {
     alternatives: {
@@ -142,12 +146,25 @@ export default function FreshozBuddy() {
   
   const supportPhoneNumber = '9097882555';
 
+  const getBottomPosition = () => {
+    if (cart.length > 0) {
+        // If delivery banner is visible, position above it.
+        // Approx height of cart button (4rem) + delivery banner (3rem) + some spacing
+        return isDeliveryBannerVisible ? 'bottom-40' : 'bottom-28';
+    }
+    // If cart is empty, position above the bottom nav bar
+    return 'bottom-20';
+  }
+
   return (
     <>
         <Button
           variant="outline"
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-40 right-6 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm hover:bg-primary/20 md:bottom-8 md:right-8"
+          className={cn(
+              "fixed right-6 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-primary/20 md:right-8",
+              getBottomPosition()
+          )}
           aria-label="Open AI Assistant"
         >
           <Sparkles className="h-7 w-7" />
@@ -185,7 +202,7 @@ export default function FreshozBuddy() {
                   <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    placeholder={flowConfig[currentFlow].placeholder}
+                    placeholder={currentFlow ? flowConfig[currentFlow].placeholder : ''}
                     disabled={isLoading}
                     autoFocus
                   />
