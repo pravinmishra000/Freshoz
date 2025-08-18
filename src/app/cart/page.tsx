@@ -8,7 +8,7 @@ import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/freshoz/header';
 import { Footer } from '@/components/freshoz/footer';
-import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck, Ticket, CheckCircle, X, MessageSquare, Heart, Bike, BellOff, PhoneOff, UserSquare, DoorOpen } from 'lucide-react';
+import { Minus, Plus, ChevronRight, PercentSquare, Sparkles, Tag, Info, ShieldCheck, Ticket, CheckCircle, X, MessageSquare, Heart, Bike, BellOff, PhoneOff, UserSquare, DoorOpen, ShoppingCart } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,6 +18,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { products } from '@/lib/data';
+import { ProductCard } from '@/components/freshoz/product-card';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useCart();
@@ -41,6 +43,9 @@ export default function CartPage() {
   }
   
   const totalAmount = totalPrice + deliveryFee + platformFee - couponDiscount + tipAmount;
+  
+  const recentlyViewedProducts = products.slice(0, 5);
+  const sponsoredProducts = products.slice(5, 10);
 
   const handleApplyCoupon = (coupon: 'FLAT50' | 'FLAT150') => {
     setAppliedCoupon(coupon);
@@ -71,7 +76,38 @@ export default function CartPage() {
             {/* Cart Items */}
             <div className="bg-white">
                 {cart.length === 0 ? (
-                <div className="p-8 text-center text-muted-foreground">Your cart is empty.</div>
+                <div className="py-8 text-center">
+                    <div className="relative mx-auto h-48 w-48">
+                         <ShoppingCart className="h-full w-full text-gray-300" />
+                    </div>
+                    <h2 className="mt-4 text-2xl font-bold">Your cart is empty</h2>
+                    <p className="mt-2 text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
+                     <Button asChild className="mt-6">
+                        <Link href="/">Shop Now</Link>
+                    </Button>
+
+                     <div className="mt-12 text-left">
+                        <h3 className="px-4 text-xl font-bold mb-4">Recently Viewed</h3>
+                         <div className="flex space-x-4 overflow-x-auto px-4 pb-4">
+                            {recentlyViewedProducts.map((product) => (
+                                <div key={product.id} className="w-40 flex-shrink-0">
+                                    <ProductCard product={product} view="suggestion" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="mt-8 text-left">
+                         <h3 className="px-4 text-xl font-bold mb-4">Sponsored Ads</h3>
+                        <div className="flex space-x-4 overflow-x-auto px-4 pb-4">
+                           {sponsoredProducts.map((product) => (
+                                <div key={product.id} className="w-40 flex-shrink-0">
+                                    <ProductCard product={product} view="suggestion" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
                 ) : (
                 <ul className="divide-y">
                     {cart.map((item) => (
@@ -335,24 +371,22 @@ export default function CartPage() {
         </div>
       </main>
 
-       {cart.length > 0 && (
-         <div className="fixed bottom-0 left-0 z-50 w-full md:hidden">
-             {isDeliveryBannerVisible && (
-                <div className="px-4 pb-2">
-                    <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
-                        <div className="flex items-center gap-2">
-                            <CheckCircle className="h-5 w-5 text-blue-600"/>
-                            <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
-                        </div>
-                        <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
-                    </div>
-                </div>
-            )}
-            <div className="border-t bg-background/95 shadow-lg backdrop-blur-sm">
-                <BottomNav />
-            </div>
-        </div>
-       )}
+       <div className="fixed bottom-0 left-0 z-50 w-full md:hidden">
+           {cart.length > 0 && isDeliveryBannerVisible && (
+              <div className="px-4 pb-2">
+                  <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
+                      <div className="flex items-center gap-2">
+                          <CheckCircle className="h-5 w-5 text-blue-600"/>
+                          <p><span className="font-bold">Yay! You got FREE Delivery</span> No coupon needed</p>
+                      </div>
+                      <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                  </div>
+              </div>
+          )}
+          <div className="border-t bg-background/95 shadow-lg backdrop-blur-sm">
+              <BottomNav />
+          </div>
+      </div>
     </div>
   );
 
