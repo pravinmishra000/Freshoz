@@ -206,9 +206,11 @@ export default function Home() {
                         <div className="flex items-center gap-2">
                              <div className="relative flex">
                                 {cart.slice(0, 2).map((item, index) => (
+                                    item.image && (
                                     <div key={item.id} className="relative h-10 w-10 rounded-full border-2 border-primary-foreground" style={{ zIndex: 2 - index, marginLeft: index > 0 ? '-16px' : 0 }}>
                                         <Image src={item.image} alt={item.name_en} fill className="object-contain rounded-full bg-white p-1" data-ai-hint="product image"/>
                                     </div>
+                                    )
                                 ))}
                             </div>
                             <div className="flex flex-col">
