@@ -32,7 +32,7 @@ export default function TrackOrderPage() {
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "", // Ensure you have this in your .env.local
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function TrackOrderPage() {
 
 
   if (loadError) {
-    return <div>Error loading maps. Please ensure your API key is correct.</div>;
+    return <div>Error loading maps. Please ensure you have enabled the Maps JavaScript API and your API key is correctly configured in your Google Cloud project.</div>;
   }
 
   if (!isLoaded) {
