@@ -17,7 +17,7 @@ interface Order {
     total: number;
     orderId: string;
     orderDate: string;
-    status?: 'Pending' | 'Shipped' | 'Delivered';
+    status?: 'Pending' | 'Shipped' | 'Delivered' | 'Out for Delivery';
 }
 
 export default function OrdersPage() {
@@ -37,6 +37,8 @@ export default function OrdersPage() {
         switch (status) {
             case 'Pending':
                 return 'bg-yellow-100 text-yellow-800';
+            case 'Out for Delivery':
+                return 'bg-blue-100 text-blue-800';
             case 'Shipped':
                 return 'bg-blue-100 text-blue-800';
             case 'Delivered':
@@ -91,7 +93,7 @@ export default function OrdersPage() {
                                             <Link href="#">Order Details</Link>
                                         </Button>
                                         <Button size="sm" asChild>
-                                            <Link href="#">Track Order</Link>
+                                            <Link href={`/track-order/${order.orderId}`}>Track Order</Link>
                                         </Button>
                                     </CardFooter>
                                 </Card>
