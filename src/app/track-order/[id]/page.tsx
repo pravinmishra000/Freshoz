@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { GoogleMap, useJsApiLoader, Marker, Polyline } from '@react-google-maps/api';
+import Image from 'next/image';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { firebaseApp } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
@@ -30,11 +30,6 @@ export default function TrackOrderPage() {
   const [eta, setEta] = useState('15 mins');
   const [orderStatus, setOrderStatus] = useState<'Order Confirmed' | 'Out for Delivery' | 'Delivered'>('Out for Delivery');
 
-  const { isLoaded, loadError } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-  });
-
   useEffect(() => {
     if (!orderId) return;
 
@@ -57,16 +52,6 @@ export default function TrackOrderPage() {
     return () => unsubscribe();
   }, [orderId]);
 
-  const mapCenter = useMemo(() => {
-    return deliveryBoyLocation || userLocation;
-  }, [deliveryBoyLocation]);
-  
-  const path = useMemo(() => {
-      if (deliveryBoyLocation) {
-          return [userLocation, deliveryBoyLocation];
-      }
-      return [];
-  }, [deliveryBoyLocation]);
 
   const deliveryBoy = {
     name: 'Raju Kumar',
@@ -81,45 +66,24 @@ export default function TrackOrderPage() {
 
   const currentStatusIndex = statusSteps.findIndex(s => s.name === orderStatus);
 
-
-  if (loadError) {
-    return <div>Error loading maps. Please ensure you have enabled the Maps JavaScript API and your API key is correctly configured in your Google Cloud project.</div>;
-  }
-
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="flex h-screen flex-col">
        <Header />
-      <main className="relative flex-1">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={mapCenter}
-          zoom={14}
-          options={{
-            disableDefaultUI: true,
-            zoomControl: true,
-          }}
-        >
-          <Marker position={userLocation} label={{ text: 'You', color: 'white' }} />
-          {deliveryBoyLocation && (
-             <Marker 
-                position={deliveryBoyLocation} 
-                icon={{
-                    path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                    scale: 7,
-                    fillColor: "#4285F4",
-                    fillOpacity: 1,
-                    strokeWeight: 2,
-                    strokeColor: "#ffffff",
-                    rotation: 0, // In a real app, calculate bearing between points
-                }}
-             />
-          )}
-          {path.length > 0 && <Polyline path={path} options={{ strokeColor: '#4285F4' }} />}
-        </GoogleMap>
+      <main className="relative flex-1 bg-gray-200">
+        <div style={containerStyle} className="relative">
+          <Image
+            src="https://placehold.co/800x600.png"
+            alt="Map placeholder"
+            layout="fill"
+            objectFit="cover"
+            data-ai-hint="map location"
+          />
+           <div className="absolute inset-0 flex items-center justify-center">
+                <p className="rounded-md bg-background/80 p-4 font-semibold text-foreground">
+                    Live map will be enabled soon.
+                </p>
+            </div>
+        </div>
       </main>
       
       <footer className="fixed bottom-0 left-0 right-0 z-10 w-full bg-background p-4 rounded-t-2xl shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
