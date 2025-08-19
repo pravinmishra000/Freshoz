@@ -6,13 +6,13 @@ import { getDatabase } from "firebase/database";
 // TODO: Add your own Firebase configuration from the Firebase console
 // https://firebase.google.com/docs/web/setup#available-libraries
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  databaseURL: "YOUR_DATABASE_URL", // Make sure to add this for Realtime Database
+  "projectId": "freshoz-fresh-fast",
+  "appId": "1:18872354603:web:9351162d83be472ac6e76e",
+  "storageBucket": "freshoz-fresh-fast.appspot.com",
+  "apiKey": "AIzaSyC5r4rbKvuPEYTaUDkaTyDyBgjYVxZwmdY",
+  "authDomain": "freshoz-fresh-fast.firebaseapp.com",
+  "messagingSenderId": "18872354603",
+  "databaseURL": "https://freshoz-fresh-fast.firebaseio.com",
 };
 
 // Initialize Firebase
