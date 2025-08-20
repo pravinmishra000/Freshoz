@@ -16,10 +16,15 @@ export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
   const router = useRouter();
 
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const freeDeliveryThreshold = 199;
+  const deliveryFee = subtotal > 0 && subtotal < freeDeliveryThreshold ? 29 : 0;
+  const finalTotal = subtotal + deliveryFee;
+
   const handlePlaceOrder = () => {
     const orderDetails = {
       items: cart,
-      total: totalPrice,
+      total: finalTotal,
       orderId: `FRES-${Date.now()}`,
       orderDate: new Date().toISOString(),
     };
@@ -48,8 +53,6 @@ export default function CheckoutPage() {
         </div>
     )
   }
-
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
@@ -145,7 +148,7 @@ export default function CheckoutPage() {
                         <Separator />
                         <div className="flex justify-between">
                             <span>Subtotal</span>
-                            <span>₹{totalPrice.toFixed(2)}</span>
+                            <span>₹{subtotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Coupon</span>
@@ -153,12 +156,12 @@ export default function CheckoutPage() {
                         </div>
                         <div className="flex justify-between">
                             <span>Delivery</span>
-                            <span className="text-green-600">FREE</span>
+                            <span>{deliveryFee > 0 ? `₹${deliveryFee.toFixed(2)}` : <span className="text-green-600">FREE</span>}</span>
                         </div>
                         <Separator />
                         <div className="flex justify-between font-bold text-lg">
                             <span>Final Total</span>
-                            <span>₹{totalPrice.toFixed(2)}</span>
+                            <span>₹{finalTotal.toFixed(2)}</span>
                         </div>
                     </CardContent>
                 </Card>
