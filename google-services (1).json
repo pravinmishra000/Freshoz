@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "18872354603",
+    "project_id": "freshoz-fresh-fast",
+    "storage_bucket": "freshoz-fresh-fast.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18872354603:android:e4058d131e2833efc6e76e",
+        "android_client_info": {
+          "package_name": "in.Freshoz.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr5HPQl5rMKi0d74blxYuBcDUfoyUF7fk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
