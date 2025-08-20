@@ -12,7 +12,6 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import type { CartItem } from '@/context/cart-context';
 import Link from 'next/link';
 import FreshozBuddy from '@/components/freshoz/freshoz-buddy';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
@@ -39,28 +38,6 @@ export default function TrackOrderPage() {
 
 
   const deliveryPartnerPhoneNumber = '9097882555';
-
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
-  });
-
-  const containerStyle = {
-    width: '100%',
-    height: '300px',
-    borderRadius: '0.5rem',
-  };
-
-  const center = {
-    lat: 25.2473,
-    lng: 86.7828
-  };
-  
-  const mapOptions = {
-      disableDefaultUI: true,
-      zoomControl: true,
-  }
-
 
   useEffect(() => {
     if (orderId) {
@@ -149,18 +126,16 @@ export default function TrackOrderPage() {
 
       <main className="flex-1 space-y-4 p-2 pb-40">
         
-        {isLoaded ? (
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
-                zoom={15}
-                options={mapOptions}
-            >
-                <Marker position={center} />
-            </GoogleMap>
-        ) : (
-            <Skeleton className="h-[300px] w-full rounded-lg" />
-        )}
+        <div className="relative h-[300px] w-full">
+            <Image 
+                src="https://placehold.co/600x400.png"
+                alt="Delivery map placeholder"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+                data-ai-hint="map delivery"
+            />
+        </div>
         
         <Card>
             <CardContent className="p-4">
@@ -328,3 +303,5 @@ export default function TrackOrderPage() {
     </div>
   );
 }
+
+    
