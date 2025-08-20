@@ -82,7 +82,7 @@ export const products: Product[] = [
     mrp: 40,
     price: 37,
     stock_qty: 100,
-    image: '',
+    image: 'https://images.pexels.com/photos/209401/pexels-photo-209401.jpeg',
     delivery_mode: 'quick',
     is_veg: true,
     unit: 'kg',
@@ -1040,3 +1040,5 @@ export const products: Product[] = [
     rating_count: 1100,
   }
 ];
+
+    
