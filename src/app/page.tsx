@@ -121,16 +121,16 @@ export default function Home() {
       { name: 'Snacks & Munchies', images: ['p7', 'p29'], href: '/category/snacks-beverages' },
   ]
   const featuredItems = [
-      { title: 'Newly Launched', subtitle: 'For You', image: 'https://placehold.co/200x200.png', hint: 'new product' },
-      { title: 'Ganesh Chaturthi Specials', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'festival sweets' },
-      { title: 'Derma Store', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'skincare products' },
-      { title: 'Monsoon Essentials', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'umbrella raincoat' },
-      // Duplicate for looping effect
-      { title: 'Newly Launched', subtitle: 'For You', image: 'https://placehold.co/200x200.png', hint: 'new product' },
-      { title: 'Ganesh Chaturthi Specials', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'festival sweets' },
-      { title: 'Derma Store', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'skincare products' },
-      { title: 'Monsoon Essentials', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'umbrella raincoat' },
+      { title: 'Fresh Picks', subtitle: 'For You', image: 'https://placehold.co/200x200.png', hint: 'new product', href: '#' },
+      { title: 'Daily Needs', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'festival sweets', href: '#' },
+      { title: 'Smart Savers', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'skincare products', href: '#' },
+      { title: 'Healthy Choices', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'umbrella raincoat', href: '#' },
+      { title: 'Must Haves', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'new product', href: '#' },
+      { title: 'Hot Deals', subtitle: 'Featured', image: 'https://placehold.co/200x200.png', hint: 'festival sweets', href: '#' },
   ]
+  
+  const duplicatedFeaturedItems = [...featuredItems, ...featuredItems];
+
 
   const getProductsForCategory = (categoryId: string) => {
     return products.filter(p => p.category_id === categoryId).slice(0, 6);
@@ -206,25 +206,27 @@ export default function Home() {
             <>
                 <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
                     
-                    <section className="mb-8">
+                     <section className="mb-8">
                         <div className="relative w-full overflow-hidden">
-                            <div className="flex animate-marquee motion-reduce:animate-none">
-                                {featuredItems.map((item, index) => (
-                                    <Card key={index} className="w-40 flex-shrink-0 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all mx-2">
-                                        <CardContent className="p-2">
-                                            <div className="relative aspect-square w-full">
-                                                {item.image && !item.image.includes('placehold.co') ? (
-                                                    <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
-                                                ) : (
-                                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
-                                                        <ShoppingCart className="h-20 w-20 text-slate-400" />
-                                                        <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
-                                        </CardContent>
-                                    </Card>
+                            <div className="flex animate-marquee motion-reduce:animate-none hover:[animation-play-state:paused]">
+                                {duplicatedFeaturedItems.map((item, index) => (
+                                    <Link href={item.href} key={index} className="flex-shrink-0 mx-2">
+                                        <Card className="w-40 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all">
+                                            <CardContent className="p-2">
+                                                <div className="relative aspect-square w-full">
+                                                    {item.image && !item.image.includes('placehold.co') ? (
+                                                        <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
+                                                    ) : (
+                                                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
+                                                            <ShoppingCart className="h-20 w-20 text-slate-400" />
+                                                            <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
