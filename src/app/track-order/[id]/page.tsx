@@ -8,10 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Phone, ChevronRight, MapPin, MessageSquare, ShoppingBasket, Copy, Star, ShieldCheck, PhoneCall, Package, Info, Check } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import type { CartItem } from '@/context/cart-context';
 import Link from 'next/link';
 import FreshozBuddy from '@/components/freshoz/freshoz-buddy';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 interface Order {
     items: CartItem[];
@@ -30,12 +33,34 @@ export default function TrackOrderPage() {
   
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [etaMinutes, setEtaMinutes] = useState(2); 
+  const [etaMinutes, setEtaMinutes] = useState(25); 
   const [currentStatusIndex, setCurrentStatusIndex] = useState(1); 
   const [isBuddyOpen, setIsBuddyOpen] = useState(false);
 
 
   const deliveryPartnerPhoneNumber = '9097882555';
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
+  });
+
+  const containerStyle = {
+    width: '100%',
+    height: '300px',
+    borderRadius: '0.5rem',
+  };
+
+  const center = {
+    lat: 25.2473,
+    lng: 86.7828
+  };
+  
+  const mapOptions = {
+      disableDefaultUI: true,
+      zoomControl: true,
+  }
+
 
   useEffect(() => {
     if (orderId) {
@@ -50,23 +75,22 @@ export default function TrackOrderPage() {
   }, [orderId]);
 
   useEffect(() => {
+    if (currentStatusIndex === 2) return;
+
     const timer = setInterval(() => {
-      setEtaMinutes(prev => (prev > 0 ? prev - 1 : 0));
-    }, 60000); 
+      setEtaMinutes(prev => (prev > 1 ? prev - 1 : 1));
+    }, 60000);
 
-    const statusTimer = setTimeout(() => {
-        if(etaMinutes <= 0) {
-            setCurrentStatusIndex(2); 
-            clearInterval(timer);
-        }
-    }, etaMinutes * 60000 + 1000);
-
+    const deliveryTimer = setTimeout(() => {
+        setCurrentStatusIndex(2);
+        clearInterval(timer);
+    }, etaMinutes * 60000);
 
     return () => {
-        clearInterval(timer)
-        clearTimeout(statusTimer);
+        clearInterval(timer);
+        clearTimeout(deliveryTimer);
     };
-  }, [etaMinutes]);
+  }, [etaMinutes, currentStatusIndex]);
 
   const getEtaMessage = () => {
     if (currentStatusIndex === 2) {
@@ -124,6 +148,19 @@ export default function TrackOrderPage() {
       </header>
 
       <main className="flex-1 space-y-4 p-2 pb-40">
+        
+        {isLoaded ? (
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={center}
+                zoom={15}
+                options={mapOptions}
+            >
+                <Marker position={center} />
+            </GoogleMap>
+        ) : (
+            <Skeleton className="h-[300px] w-full rounded-lg" />
+        )}
         
         <Card>
             <CardContent className="p-4">
