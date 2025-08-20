@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   User,
   ChevronRight,
@@ -23,7 +23,9 @@ import {
   Edit,
   Wallet,
   MessageSquare,
-  FileQuestion
+  FileQuestion,
+  Save,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,10 +34,44 @@ import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import Link from 'next/link';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function ProfilePage() {
-  const userName = "Pravin Mishra";
-  const userPhone = "9097882555";
+  const [isEditing, setIsEditing] = useState(false);
+  const { toast } = useToast();
+
+  const [profile, setProfile] = useState({
+      name: "Pravin Mishra",
+      phone: "9097882555",
+      email: "pravin@example.com"
+  });
+
+  const [editedProfile, setEditedProfile] = useState(profile);
+
+  const handleEdit = () => {
+    setEditedProfile(profile);
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const handleSave = () => {
+    setProfile(editedProfile);
+    setIsEditing(false);
+    toast({
+        title: "Profile Updated",
+        description: "Your profile information has been saved successfully.",
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setEditedProfile(prev => ({ ...prev, [name]: value }));
+  }
   
   const menuItems = [
       {
@@ -111,16 +147,36 @@ export default function ProfilePage() {
         <div className="container mx-auto px-4 py-6">
             <div className="flex items-center gap-4">
                 <Avatar className="h-20 w-20 border-2 border-primary">
-                    <AvatarImage src="https://placehold.co/100x100.png" alt={userName} data-ai-hint="user avatar" />
-                    <AvatarFallback>{userName.charAt(0)}</AvatarFallback>
+                    <AvatarImage src="https://placehold.co/100x100.png" alt={profile.name} data-ai-hint="user avatar" />
+                    <AvatarFallback>{profile.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div>
-                    <h1 className="text-2xl font-bold">{userName}</h1>
-                    <p className="text-muted-foreground">{userPhone}</p>
+                <div className="flex-1">
+                    {isEditing ? (
+                        <div className="space-y-2">
+                             <Input name="name" value={editedProfile.name} onChange={handleChange} className="text-2xl font-bold h-10 p-2" />
+                             <Input name="phone" value={editedProfile.phone} onChange={handleChange} className="text-muted-foreground" />
+                        </div>
+                    ) : (
+                        <div>
+                            <h1 className="text-2xl font-bold">{profile.name}</h1>
+                            <p className="text-muted-foreground">{profile.phone}</p>
+                        </div>
+                    )}
                 </div>
-                 <Button variant="outline" size="icon" className="ml-auto">
-                    <Edit className="h-5 w-5" />
-                </Button>
+                 {isEditing ? (
+                     <div className="flex gap-2">
+                        <Button variant="default" size="icon" onClick={handleSave}>
+                            <Save className="h-5 w-5" />
+                        </Button>
+                         <Button variant="ghost" size="icon" onClick={handleCancel}>
+                            <X className="h-5 w-5" />
+                        </Button>
+                     </div>
+                 ) : (
+                    <Button variant="outline" size="icon" className="ml-auto" onClick={handleEdit}>
+                        <Edit className="h-5 w-5" />
+                    </Button>
+                 )}
             </div>
         </div>
       </header>
