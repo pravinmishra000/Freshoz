@@ -16,7 +16,22 @@ export default function TrackOrderPage() {
   const params = useParams();
   const orderId = params?.id as string;
   
-  const [eta, setEta] = useState('2 minutes');
+  const [etaMinutes, setEtaMinutes] = useState(2);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setEtaMinutes(prev => (prev > 0 ? prev - 1 : 0));
+    }, 60000); // Update every minute
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const getEtaMessage = () => {
+    if (etaMinutes <= 0) {
+      return 'Arriving now';
+    }
+    return `in ${etaMinutes} ${etaMinutes === 1 ? 'minute' : 'minutes'}`;
+  };
   
   // Dummy data, replace with actual order data
   const order = {
@@ -36,7 +51,7 @@ export default function TrackOrderPage() {
             </Button>
             <div className="flex-1 text-center">
                 <p className="text-sm text-muted-foreground">Order is on the way</p>
-                <h1 className="text-2xl font-bold">Arriving in <span className="text-primary">{eta}</span></h1>
+                <h1 className="text-2xl font-bold">Arriving <span className="text-primary">{getEtaMessage()}</span></h1>
             </div>
              <div className="w-6"></div>
           </div>
@@ -44,10 +59,7 @@ export default function TrackOrderPage() {
       </header>
 
       <main className="flex-1 space-y-4 p-2 pb-24">
-        <Alert variant="destructive" className="border-orange-200 bg-orange-50 text-orange-600">
-            <AlertTitle className="font-bold text-orange-800">Your order is running late</AlertTitle>
-        </Alert>
-
+        
         <Card>
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
