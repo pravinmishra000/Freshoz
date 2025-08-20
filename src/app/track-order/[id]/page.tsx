@@ -10,6 +10,7 @@ import { Phone, ChevronRight, MapPin, MessageSquare, ShoppingBasket, Copy, Star,
 import { useParams, useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { CartItem } from '@/context/cart-context';
+import Link from 'next/link';
 
 interface Order {
     items: CartItem[];
@@ -28,7 +29,7 @@ export default function TrackOrderPage() {
   
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [etaMinutes, setEtaMinutes] = useState(15); // Start with a more realistic ETA
+  const [etaMinutes, setEtaMinutes] = useState(2); // Start with a more realistic ETA
   const [currentStatusIndex, setCurrentStatusIndex] = useState(1); // 'Out for Delivery'
 
   const deliveryPartnerPhoneNumber = '9097882555';
@@ -48,15 +49,16 @@ export default function TrackOrderPage() {
   useEffect(() => {
     // Simulate ETA countdown
     const timer = setInterval(() => {
-      setEtaMinutes(prev => (prev > 1 ? prev - 1 : 0));
+      setEtaMinutes(prev => (prev > 0 ? prev - 1 : 0));
     }, 60000); // Update every minute
 
     // Simulate order progress
     const statusTimer = setTimeout(() => {
         if(etaMinutes <= 0) {
             setCurrentStatusIndex(2); // 'Delivered'
+            clearInterval(timer);
         }
-    }, etaMinutes * 60000);
+    }, etaMinutes * 60000 + 1000);
 
 
     return () => {
@@ -69,7 +71,7 @@ export default function TrackOrderPage() {
     if (currentStatusIndex === 2) {
         return 'Delivered';
     }
-    if (etaMinutes <= 0) {
+    if (etaMinutes <= 1) {
       return 'Arriving now';
     }
     return `in ${etaMinutes} min`;
@@ -81,6 +83,10 @@ export default function TrackOrderPage() {
       rating: 4.8,
       safetyStatus: 'Vaccinated & Safe'
   }
+
+  const subtotal = order ? order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) : 0;
+  const freeDeliveryThreshold = 199;
+  const deliveryFee = subtotal > 0 && subtotal < freeDeliveryThreshold ? 29 : 0;
 
   if (loading) {
       return <div className="flex items-center justify-center min-h-screen">Loading...</div>
@@ -108,7 +114,7 @@ export default function TrackOrderPage() {
               <ChevronRight className="h-5 w-5 rotate-180" />
             </Button>
             <div className="flex-1 text-center">
-                <p className="text-sm text-muted-foreground">{currentStatusIndex === 2 ? "Order has been" : "Order is on the way"}</p>
+                <p className="text-sm text-muted-foreground">{currentStatusIndex === 2 ? "Order has been" : "Arriving"}</p>
                 <h1 className="text-2xl font-bold"> <span className="text-primary">{getEtaMessage()}</span></h1>
             </div>
              <div className="w-10"></div>
@@ -228,8 +234,8 @@ export default function TrackOrderPage() {
                     <span className="font-bold">₹{order.total.toFixed(2)}</span>
                 </CardTitle>
                  <div className="flex items-center gap-2 pt-1">
-                    <p className="text-sm text-muted-foreground">Order ID: {order.id}</p>
-                    <Copy className="h-4 w-4 text-muted-foreground cursor-pointer" onClick={() => navigator.clipboard.writeText(order.id)}/>
+                    <p className="text-sm text-muted-foreground">Order ID: {order.orderId}</p>
+                    <Copy className="h-4 w-4 text-muted-foreground cursor-pointer" onClick={() => navigator.clipboard.writeText(order.orderId)}/>
                 </div>
             </CardHeader>
             <CardContent>
@@ -250,11 +256,11 @@ export default function TrackOrderPage() {
                 <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                         <p>Total Item Price</p>
-                        <p>₹{order.total.toFixed(2)}</p>
+                        <p>₹{subtotal.toFixed(2)}</p>
                     </div>
                      <div className="flex justify-between">
                         <p>Delivery Fee</p>
-                        <p className="text-green-600">FREE</p>
+                        <p>{deliveryFee > 0 ? `₹${deliveryFee.toFixed(2)}` : <span className="text-green-600">FREE</span>}</p>
                     </div>
                     <div className="flex justify-between font-bold">
                         <p>To Pay</p>
@@ -274,10 +280,12 @@ export default function TrackOrderPage() {
 
        {/* Bottom Floating Bar */}
        <div className="fixed bottom-0 left-0 z-50 w-full p-2 bg-background/80 backdrop-blur-sm border-t md:hidden">
-          <Button className="w-full h-12 text-lg">
-                View My Orders
+          <Button asChild className="w-full h-12 text-lg">
+                <Link href="/orders">View My Orders</Link>
             </Button>
       </div>
     </div>
   );
 }
+
+    
