@@ -95,10 +95,10 @@ export default function ProfilePage() {
   
   const getInitials = (name: string) => {
     const parts = name.split(' ');
-    if (parts.length > 1) {
+    if (parts.length > 1 && parts[0] && parts[parts.length - 1]) {
         return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
     }
-    return name.charAt(0).toUpperCase();
+    return name ? name.charAt(0).toUpperCase() : '';
   }
 
   const menuItems = [
@@ -185,11 +185,14 @@ export default function ProfilePage() {
                         </AvatarFallback>
                     </Avatar>
                      {isEditing && (
-                        <button 
-                            onClick={handleAvatarClick}
-                            className="absolute bottom-0 right-0 h-7 w-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center border-2 border-background"
-                        >
-                            <Camera className="h-4 w-4" />
+                        <>
+                            <button 
+                                onClick={handleAvatarClick}
+                                className="absolute bottom-0 right-0 h-7 w-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center border-2 border-background"
+                                aria-label="Change profile picture"
+                            >
+                                <Camera className="h-4 w-4" />
+                            </button>
                             <input
                                 type="file"
                                 ref={fileInputRef}
@@ -197,7 +200,7 @@ export default function ProfilePage() {
                                 className="hidden"
                                 accept="image/*"
                             />
-                        </button>
+                        </>
                     )}
                 </div>
                 <div className="flex-1">
@@ -215,15 +218,15 @@ export default function ProfilePage() {
                 </div>
                  {isEditing ? (
                      <div className="flex gap-2">
-                        <Button variant="default" size="icon" onClick={handleSave}>
+                        <Button variant="default" size="icon" onClick={handleSave} aria-label="Save changes">
                             <Save className="h-5 w-5" />
                         </Button>
-                         <Button variant="ghost" size="icon" onClick={handleCancel}>
+                         <Button variant="ghost" size="icon" onClick={handleCancel} aria-label="Cancel changes">
                             <X className="h-5 w-5" />
                         </Button>
                      </div>
                  ) : (
-                    <Button variant="outline" size="icon" className="ml-auto" onClick={handleEdit}>
+                    <Button variant="outline" size="icon" className="ml-auto" onClick={handleEdit} aria-label="Edit profile">
                         <Edit className="h-5 w-5" />
                     </Button>
                  )}
