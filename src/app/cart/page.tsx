@@ -29,13 +29,13 @@ export default function CartPage() {
   const [selectedInstruction, setSelectedInstruction] = useState<string | null>('Don\'t ring the bell');
 
 
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalMRP = cart.reduce((sum, item) => sum + item.mrp * item.quantity, 0);
-  const totalSavings = totalMRP - totalPrice;
+  const totalSavings = totalMRP - subtotal;
   const freeDeliveryThreshold = 199;
-  const deliveryFee = totalPrice > 0 && totalPrice < freeDeliveryThreshold ? 29 : 0;
+  const deliveryFee = subtotal > 0 && subtotal < freeDeliveryThreshold ? 29 : 0;
   const platformFee = cart.length > 0 ? 9 : 0;
-  const amountNeededForFreeDelivery = freeDeliveryThreshold - totalPrice;
+  const amountNeededForFreeDelivery = freeDeliveryThreshold - subtotal;
 
   let couponDiscount = 0;
   if (appliedCoupon === 'FLAT50') {
@@ -44,7 +44,7 @@ export default function CartPage() {
     couponDiscount = 150;
   }
   
-  const totalAmount = totalPrice + deliveryFee + platformFee - couponDiscount + tipAmount;
+  const totalAmount = subtotal + deliveryFee + platformFee - couponDiscount + tipAmount;
   
   const recentlyViewedProducts = products.slice(0, 5);
   const sponsoredProducts = products.slice(5, 10);
@@ -182,7 +182,7 @@ export default function CartPage() {
 
               {/* Auto-applied coupons */}
               <div className="m-2 space-y-2">
-                  {totalPrice > 1000 && (
+                  {subtotal > 1000 && (
                       <Card className="bg-green-50 border-green-200">
                           <CardContent className="p-3 flex items-center justify-between">
                               <div className="flex items-center gap-2">
@@ -204,7 +204,7 @@ export default function CartPage() {
                           </CardContent>
                       </Card>
                   )}
-                  {totalPrice > 2500 && (
+                  {subtotal > 2500 && (
                       <Card className="bg-green-50 border-green-200">
                           <CardContent className="p-3 flex items-center justify-between">
                               <div className="flex items-center gap-2">
@@ -376,7 +376,7 @@ export default function CartPage() {
        <div className="fixed bottom-0 left-0 z-50 w-full md:hidden">
            {cart.length > 0 && isDeliveryBannerVisible && (
               <div className="px-4 pb-2">
-                 {totalPrice >= freeDeliveryThreshold ? (
+                 {subtotal >= freeDeliveryThreshold ? (
                     <div className="mx-auto flex max-w-md items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
                         <div className="flex items-center gap-2">
                             <CheckCircle className="h-5 w-5 text-blue-600"/>
@@ -401,3 +401,5 @@ export default function CartPage() {
       </div>
     </div>
   );
+
+    
