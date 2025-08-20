@@ -287,7 +287,7 @@ export default function TrackOrderPage() {
             </Button>
       </div>
 
-      <FresBuddy isOpen={isBuddyOpen} onOpenChange={setIsBuddyOpen} />
+      <FreshozBuddy isOpen={isBuddyOpen} onOpenChange={setIsBuddyOpen} />
     </div>
   );
 }
