@@ -54,7 +54,7 @@ export default function OrderConfirmationPage() {
                                 Your order <span className="font-semibold text-primary">{order.orderId}</span> has been placed.
                             </p>
                             <p className="text-sm text-muted-foreground">Estimated delivery: 2-3 business days</p>
-                            <p className="text-sm text-muted-foreground">Payment Status: <span className="font-semibold text-green-600">Paid (COD)</span></p>
+                            <p className="text-sm text-muted-foreground">Payment Method: <span className="font-semibold text-foreground">Cash on Delivery</span></p>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
@@ -69,7 +69,7 @@ export default function OrderConfirmationPage() {
                                 </ul>
                                 <Separator />
                                 <div className="flex justify-between text-lg font-bold">
-                                    <span>Total Paid</span>
+                                    <span>Total to be Paid</span>
                                     <span>₹{order.total.toFixed(2)}</span>
                                 </div>
                             </div>
