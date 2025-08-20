@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
@@ -11,10 +12,27 @@ import Link from 'next/link';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import type { AssignedWarehouse } from '@/lib/types';
+import { useToast } from '@/hooks/use-toast';
+
+const WAREHOUSE_PINS = {
+  Sultanganj: ['813213'],
+  Bhagalpur: ['812001', '812002', '812003', '812004', '812005'],
+  Khagaria: ['851204', '851205', '851206', '851207', '851208', '851209', '851210'],
+};
+
+const getWarehouseFromPin = (pin: string): AssignedWarehouse => {
+    if (WAREHOUSE_PINS.Sultanganj.includes(pin)) return 'Sultanganj';
+    if (WAREHOUSE_PINS.Bhagalpur.includes(pin)) return 'Bhagalpur';
+    if (WAREHOUSE_PINS.Khagaria.includes(pin)) return 'Khagaria';
+    return 'N/A';
+};
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
   const router = useRouter();
+  const { toast } = useToast();
+  const [pinCode, setPinCode] = useState('');
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const freeDeliveryThreshold = 199;
@@ -22,11 +40,24 @@ export default function CheckoutPage() {
   const finalTotal = subtotal + deliveryFee;
 
   const handlePlaceOrder = () => {
+    if (pinCode.length !== 6) {
+        toast({ variant: 'destructive', title: 'Invalid PIN Code', description: 'Please enter a valid 6-digit PIN code.' });
+        return;
+    }
+
+    const assignedWarehouse = getWarehouseFromPin(pinCode);
+
+    if (assignedWarehouse === 'N/A') {
+        toast({ variant: 'destructive', title: 'Service Unavailable', description: 'Sorry, delivery is not available in your area.' });
+        return;
+    }
+
     const orderDetails = {
       items: cart,
       total: finalTotal,
       orderId: `FRES-${Date.now()}`,
       orderDate: new Date().toISOString(),
+      assigned_warehouse: assignedWarehouse,
     };
 
     const existingOrders = JSON.parse(localStorage.getItem('freshoz_orders') || '[]');
@@ -95,7 +126,13 @@ export default function CheckoutPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="pincode">PIN Code</Label>
-                                <Input id="pincode" placeholder="813213" />
+                                <Input 
+                                    id="pincode" 
+                                    placeholder="813213" 
+                                    value={pinCode}
+                                    onChange={(e) => setPinCode(e.target.value)}
+                                    maxLength={6}
+                                />
                             </div>
                         </div>
                          <div className="space-y-2">

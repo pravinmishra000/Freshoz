@@ -8,8 +8,9 @@ import { Footer } from '@/components/freshoz/footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Package } from 'lucide-react';
+import { Package, Warehouse } from 'lucide-react';
 import type { CartItem } from '@/context/cart-context';
+import type { AssignedWarehouse } from '@/lib/types';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 interface Order {
@@ -18,6 +19,7 @@ interface Order {
     orderId: string;
     orderDate: string;
     status?: 'Pending' | 'Shipped' | 'Delivered' | 'Out for Delivery';
+    assigned_warehouse: AssignedWarehouse;
 }
 
 export default function OrdersPage() {
@@ -28,8 +30,12 @@ export default function OrdersPage() {
         if (savedOrders) {
             const parsedOrders: Order[] = JSON.parse(savedOrders);
             // Add a default status if not present
-            const ordersWithStatus = parsedOrders.map(o => ({...o, status: o.status || 'Pending'}));
-            setOrders(ordersWithStatus.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()));
+            const ordersWithDefaults = parsedOrders.map(o => ({
+                ...o, 
+                status: o.status || 'Pending',
+                assigned_warehouse: o.assigned_warehouse || 'N/A',
+            }));
+            setOrders(ordersWithDefaults.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()));
         }
     }, []);
 
@@ -66,12 +72,18 @@ export default function OrdersPage() {
                         <div className="space-y-6">
                             {orders.map(order => (
                                 <Card key={order.orderId}>
-                                    <CardHeader className="flex flex-row justify-between items-center">
+                                    <CardHeader className="flex flex-row justify-between items-start">
                                         <div>
                                             <CardTitle>Order {order.orderId}</CardTitle>
                                             <p className="text-sm text-muted-foreground">
                                                 Placed on {new Date(order.orderDate).toLocaleDateString()}
                                             </p>
+                                             {order.assigned_warehouse !== 'N/A' && (
+                                                <p className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                                                    <Warehouse className="h-3 w-3"/>
+                                                    {order.assigned_warehouse}
+                                                </p>
+                                            )}
                                         </div>
                                         <div className="text-right">
                                             <p className="font-bold text-lg">₹{order.total.toFixed(2)}</p>

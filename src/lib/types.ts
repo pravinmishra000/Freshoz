@@ -1,3 +1,4 @@
+
 import type { LucideIcon } from 'lucide-react';
 
 export type Category = {
@@ -9,6 +10,11 @@ export type Category = {
   subCategories?: string[];
 };
 
+export type WarehouseStock = {
+  warehouse_id: 'sultanganj' | 'bhagalpur' | 'khagaria';
+  stock: number;
+};
+
 export type Product = {
   id: string;
   name_en: string;
@@ -18,7 +24,8 @@ export type Product = {
   category_id: string;
   mrp: number;
   price: number;
-  stock_qty: number;
+  warehouse_stock: WarehouseStock[];
+  stock_qty: number; // For compatibility, will be derived
   image: string;
   delivery_mode: 'quick' | 'ecom';
   is_veg: boolean;
@@ -28,3 +35,6 @@ export type Product = {
   rating?: number;
   rating_count?: number;
 };
+
+export type AssignedWarehouse = 'Sultanganj' | 'Bhagalpur' | 'Khagaria' | 'N/A';
+

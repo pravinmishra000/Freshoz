@@ -8,8 +8,9 @@ import { Footer } from '@/components/freshoz/footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Warehouse } from 'lucide-react';
 import type { CartItem } from '@/context/cart-context';
+import type { AssignedWarehouse } from '@/lib/types';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 
 interface OrderDetails {
@@ -17,6 +18,7 @@ interface OrderDetails {
     total: number;
     orderId: string;
     orderDate: string;
+    assigned_warehouse: AssignedWarehouse;
 }
 
 export default function OrderConfirmationPage() {
@@ -53,6 +55,12 @@ export default function OrderConfirmationPage() {
                             <p className="text-muted-foreground">
                                 Your order <span className="font-semibold text-primary">{order.orderId}</span> has been placed.
                             </p>
+                             {order.assigned_warehouse !== 'N/A' && (
+                                <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                                    <Warehouse className="h-4 w-4"/>
+                                    Assigned to <span className="font-semibold">{order.assigned_warehouse}</span> warehouse
+                                </p>
+                             )}
                             <p className="text-sm text-muted-foreground">Estimated delivery: 2-3 business days</p>
                             <p className="text-sm text-muted-foreground">Payment Method: <span className="font-semibold text-foreground">Cash on Delivery</span></p>
                         </CardHeader>
