@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Phone, ChevronRight, Mic, MapPin, MessageSquare, ShoppingBasket, Copy } from 'lucide-react';
+import { Phone, ChevronRight, Mic, MapPin, MessageSquare, ShoppingBasket, Copy, Star, ShieldCheck, PhoneCall } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { products } from '@/lib/data';
@@ -17,6 +17,7 @@ export default function TrackOrderPage() {
   const orderId = params?.id as string;
   
   const [etaMinutes, setEtaMinutes] = useState(2);
+  const deliveryPartnerPhoneNumber = '9097882555';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -41,6 +42,13 @@ export default function TrackOrderPage() {
     items: products.slice(0, 5) // Get first 5 products as dummy items
   };
 
+  const deliveryPartner = {
+      name: 'Rakesh Kumar',
+      photo: 'https://placehold.co/80x80.png',
+      rating: 4.8,
+      safetyStatus: 'Vaccinated & Safe'
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
        <header className="sticky top-0 z-40 w-full border-b bg-background shadow-sm">
@@ -63,22 +71,41 @@ export default function TrackOrderPage() {
         <Card>
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Mic className="h-6 w-6 text-primary"/>
+                    <div className="flex items-center gap-4">
+                        <Image src={deliveryPartner.photo} alt={deliveryPartner.name} width={64} height={64} className="rounded-full" data-ai-hint="person avatar" />
                         <div>
-                            <p className="font-bold">Instructions</p>
-                            <p className="text-sm text-muted-foreground">Help your delivery partner reach you faster</p>
+                            <p className="font-bold text-lg">{deliveryPartner.name}</p>
+                            <p className="text-sm text-muted-foreground">is your delivery partner</p>
+                            <div className="flex items-center gap-1 text-xs mt-1">
+                                <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" /> {deliveryPartner.rating}
+                            </div>
                         </div>
                     </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                    <div className="flex gap-2">
+                         <a href={`https://wa.me/${deliveryPartnerPhoneNumber}`} target="_blank" rel="noopener noreferrer">
+                            <Button size="icon" variant="outline" className="h-10 w-10 border-green-500 text-green-500">
+                                <MessageSquare className="h-5 w-5 fill-green-100" />
+                            </Button>
+                        </a>
+                        <a href={`tel:${deliveryPartnerPhoneNumber}`}>
+                            <Button size="icon" className="h-10 w-10">
+                                <PhoneCall className="h-5 w-5" />
+                            </Button>
+                        </a>
+                    </div>
+                </div>
+                 <Separator className="my-4"/>
+                <div className="flex items-center gap-2 text-sm text-blue-600">
+                    <ShieldCheck className="h-5 w-5" />
+                    <span>{deliveryPartner.safetyStatus}. Our delivery partners are trained for safe & hygienic deliveries.</span>
                 </div>
             </CardContent>
         </Card>
 
+
         <Card>
             <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-lg">
-                    <Image src="https://placehold.co/40x40.png" width={40} height={40} alt="Delivery scooter" data-ai-hint="delivery scooter" />
                     Your delivery details
                 </CardTitle>
                 <p className="text-sm text-muted-foreground pt-1">Details of your current order</p>
@@ -156,3 +183,5 @@ export default function TrackOrderPage() {
     </div>
   );
 }
+
+    
