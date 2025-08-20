@@ -82,7 +82,7 @@ export const products: Product[] = [
     mrp: 40,
     price: 37,
     stock_qty: 100,
-    image: 'https://images.pexels.com/photos/209401/pexels-photo-209401.jpeg',
+    image: 'https://placehold.co/400x400.png',
     delivery_mode: 'quick',
     is_veg: true,
     unit: 'kg',
