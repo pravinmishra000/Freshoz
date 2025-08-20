@@ -25,8 +25,24 @@ type ChatMessage = {
 
 type AIFlow = 'alternatives' | 'track' | 'availability' | 'cart';
 
-export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBannerVisible?: boolean }) {
-  const [isOpen, setIsOpen] = useState(false);
+interface FreshozBuddyProps {
+  isDeliveryBannerVisible?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  isButtonVisible?: boolean;
+}
+
+export default function FreshozBuddy({ 
+  isDeliveryBannerVisible, 
+  isOpen: controlledIsOpen, 
+  onOpenChange: setControlledIsOpen,
+  isButtonVisible = true
+}: FreshozBuddyProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+  const isOpen = controlledIsOpen ?? internalIsOpen;
+  const setIsOpen = setControlledIsOpen ?? setInternalIsOpen;
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentFlow, setCurrentFlow] = useState<AIFlow | null>(null);
   const [inputValue, setInputValue] = useState('');
@@ -87,10 +103,9 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
         const inputKey = flowConfig[currentFlow].inputKey;
         actionInput = { [inputKey]: inputValue };
     } else {
-        // Handle general queries when no flow is selected
         userMessage = { id: Date.now().toString(), role: 'user', content: inputValue };
         actionInput = { query: inputValue }; 
-        setCurrentFlow('cart'); // Default to cart flow for general queries
+        setCurrentFlow('cart'); 
     }
     
     const loadingMessage: ChatMessage = {
@@ -111,7 +126,7 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
       
       let responseContent: React.ReactNode;
 
-      if ('action' in result && typeof result.action === 'string') { // Cart flow
+      if ('action' in result && typeof result.action === 'string') {
         responseContent = result.message;
       } else if ('alternatives' in result) {
          responseContent = (
@@ -154,27 +169,27 @@ export default function FreshozBuddy({ isDeliveryBannerVisible }: { isDeliveryBa
 
   const getBottomPosition = () => {
     if (cart.length > 0) {
-      // Approx height of cart button (3rem/48px) + nav (4rem/64px) + delivery banner (3rem/48px) + spacings
-      return isDeliveryBannerVisible ? 'bottom-[13rem]' : 'bottom-[10rem]'; // ~160px and ~208px
+      return isDeliveryBannerVisible ? 'bottom-[13rem]' : 'bottom-[10rem]';
     }
-    // If cart is empty, position above the bottom nav bar (4rem/64px)
-    return 'bottom-20'; // 5rem/80px
+    return 'bottom-20';
   }
 
 
   return (
     <>
-        <Button
-          variant="outline"
-          onClick={() => setIsOpen(true)}
-          className={cn(
-              "fixed right-4 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-primary/20 md:right-8",
-              getBottomPosition()
-          )}
-          aria-label="Open AI Assistant"
-        >
-          <Sparkles className="h-7 w-7" />
-        </Button>
+        {isButtonVisible && (
+          <Button
+            variant="outline"
+            onClick={() => setIsOpen(true)}
+            className={cn(
+                "fixed right-4 z-50 h-14 w-14 rounded-full border-2 border-primary bg-primary/10 p-0 text-primary shadow-lg backdrop-blur-sm transition-all duration-300 ease-in-out hover:bg-primary/20 md:right-8",
+                getBottomPosition()
+            )}
+            aria-label="Open AI Assistant"
+          >
+            <Sparkles className="h-7 w-7" />
+          </Button>
+        )}
       <Sheet open={isOpen} onOpenChange={(open) => {
           setIsOpen(open);
           if (!open) handleReset();

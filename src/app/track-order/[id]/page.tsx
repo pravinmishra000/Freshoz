@@ -11,6 +11,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { CartItem } from '@/context/cart-context';
 import Link from 'next/link';
+import FreshozBuddy from '@/components/freshoz/freshoz-buddy';
 
 interface Order {
     items: CartItem[];
@@ -29,8 +30,10 @@ export default function TrackOrderPage() {
   
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [etaMinutes, setEtaMinutes] = useState(2); // Start with a more realistic ETA
-  const [currentStatusIndex, setCurrentStatusIndex] = useState(1); // 'Out for Delivery'
+  const [etaMinutes, setEtaMinutes] = useState(2); 
+  const [currentStatusIndex, setCurrentStatusIndex] = useState(1); 
+  const [isBuddyOpen, setIsBuddyOpen] = useState(false);
+
 
   const deliveryPartnerPhoneNumber = '9097882555';
 
@@ -47,15 +50,13 @@ export default function TrackOrderPage() {
   }, [orderId]);
 
   useEffect(() => {
-    // Simulate ETA countdown
     const timer = setInterval(() => {
       setEtaMinutes(prev => (prev > 0 ? prev - 1 : 0));
-    }, 60000); // Update every minute
+    }, 60000); 
 
-    // Simulate order progress
     const statusTimer = setTimeout(() => {
         if(etaMinutes <= 0) {
-            setCurrentStatusIndex(2); // 'Delivered'
+            setCurrentStatusIndex(2); 
             clearInterval(timer);
         }
     }, etaMinutes * 60000 + 1000);
@@ -124,7 +125,6 @@ export default function TrackOrderPage() {
 
       <main className="flex-1 space-y-4 p-2 pb-40">
         
-        {/* Status Bar */}
         <Card>
             <CardContent className="p-4">
                 <div className="flex justify-between items-end relative">
@@ -210,17 +210,19 @@ export default function TrackOrderPage() {
         </Card>
 
         <Card>
-            <CardContent className="p-4">
-                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <MessageSquare className="h-6 w-6 text-primary"/>
-                        <div>
-                            <p className="font-bold">Need help?</p>
-                            <p className="text-sm text-muted-foreground">Chat with us about any issue related to your order</p>
+            <CardContent className="p-0">
+                 <button className="w-full text-left" onClick={() => setIsBuddyOpen(true)}>
+                     <div className="p-4 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <MessageSquare className="h-6 w-6 text-primary"/>
+                            <div>
+                                <p className="font-bold">Need help?</p>
+                                <p className="text-sm text-muted-foreground">Chat with us about any issue related to your order</p>
+                            </div>
                         </div>
+                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                </div>
+                </button>
             </CardContent>
         </Card>
         
@@ -284,8 +286,8 @@ export default function TrackOrderPage() {
                 <Link href="/orders">View My Orders</Link>
             </Button>
       </div>
+
+      <FresBuddy isOpen={isBuddyOpen} onOpenChange={setIsBuddyOpen} />
     </div>
   );
 }
-
-    
