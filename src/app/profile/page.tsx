@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   User,
   ChevronRight,
@@ -25,7 +25,8 @@ import {
   MessageSquare,
   FileQuestion,
   Save,
-  X
+  X,
+  Camera
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,11 +42,13 @@ import { useToast } from '@/hooks/use-toast';
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [profile, setProfile] = useState({
       name: "Pravin Mishra",
       phone: "9097882555",
-      email: "pravin@example.com"
+      email: "pravin@example.com",
+      avatar: "" // Initially no avatar
   });
 
   const [editedProfile, setEditedProfile] = useState(profile);
@@ -72,7 +75,32 @@ export default function ProfilePage() {
       const { name, value } = e.target;
       setEditedProfile(prev => ({ ...prev, [name]: value }));
   }
+
+  const handleAvatarClick = () => {
+      fileInputRef.current?.click();
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              setEditedProfile(prev => ({ ...prev, avatar: reader.result as string }));
+              // In a real app, you would upload this file to Firebase Storage
+              // and save the URL. For now, we use the base64 data URI.
+          };
+          reader.readAsDataURL(file);
+      }
+  }
   
+  const getInitials = (name: string) => {
+    const parts = name.split(' ');
+    if (parts.length > 1) {
+        return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return name.charAt(0).toUpperCase();
+  }
+
   const menuItems = [
       {
           title: "My Orders",
@@ -141,15 +169,37 @@ export default function ProfilePage() {
     { label: "Privacy Policy", href: "/privacy" },
   ];
 
+  const currentAvatar = isEditing ? editedProfile.avatar : profile.avatar;
+  const currentName = isEditing ? editedProfile.name : profile.name;
+
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
       <header className="bg-background">
         <div className="container mx-auto px-4 py-6">
             <div className="flex items-center gap-4">
-                <Avatar className="h-20 w-20 border-2 border-primary">
-                    <AvatarImage src="https://placehold.co/100x100.png" alt={profile.name} data-ai-hint="user avatar" />
-                    <AvatarFallback>{profile.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                <div className="relative">
+                    <Avatar className="h-20 w-20 border-2 border-primary">
+                        <AvatarImage src={currentAvatar} alt={currentName} data-ai-hint="user avatar" />
+                        <AvatarFallback className="bg-green-600 text-white font-bold text-2xl">
+                           {getInitials(currentName)}
+                        </AvatarFallback>
+                    </Avatar>
+                     {isEditing && (
+                        <button 
+                            onClick={handleAvatarClick}
+                            className="absolute bottom-0 right-0 h-7 w-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center border-2 border-background"
+                        >
+                            <Camera className="h-4 w-4" />
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                                accept="image/*"
+                            />
+                        </button>
+                    )}
+                </div>
                 <div className="flex-1">
                     {isEditing ? (
                         <div className="space-y-2">
