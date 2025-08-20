@@ -26,7 +26,8 @@ import {
   FileQuestion,
   Save,
   X,
-  Camera
+  Camera,
+  Trash2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,12 +38,24 @@ import Link from 'next/link';
 import { BottomNav } from '@/components/freshoz/bottom-nav';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
 
   const [profile, setProfile] = useState({
       name: "Pravin Mishra",
@@ -76,21 +89,19 @@ export default function ProfilePage() {
       setEditedProfile(prev => ({ ...prev, [name]: value }));
   }
 
-  const handleAvatarClick = () => {
-      fileInputRef.current?.click();
-  }
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
           const file = e.target.files[0];
           const reader = new FileReader();
           reader.onloadend = () => {
               setEditedProfile(prev => ({ ...prev, avatar: reader.result as string }));
-              // In a real app, you would upload this file to Firebase Storage
-              // and save the URL. For now, we use the base64 data URI.
           };
           reader.readAsDataURL(file);
       }
+  }
+
+  const handleRemovePicture = () => {
+      setEditedProfile(prev => ({ ...prev, avatar: "" }));
   }
   
   const getInitials = (name: string) => {
@@ -186,19 +197,51 @@ export default function ProfilePage() {
                     </Avatar>
                      {isEditing && (
                         <>
-                            <button 
-                                onClick={handleAvatarClick}
-                                className="absolute bottom-0 right-0 h-7 w-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center border-2 border-background"
-                                aria-label="Change profile picture"
-                            >
-                                <Camera className="h-4 w-4" />
-                            </button>
+                           <Dialog>
+                                <DialogTrigger asChild>
+                                    <button 
+                                        className="absolute bottom-0 -right-2 h-8 w-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center border-2 border-background"
+                                        aria-label="Change profile picture"
+                                    >
+                                        <Camera className="h-4 w-4" />
+                                    </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-xs">
+                                     <DialogHeader>
+                                        <DialogTitle>Profile Photo</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="flex flex-col gap-2">
+                                        <DialogClose asChild>
+                                            <Button variant="outline" onClick={() => cameraInputRef.current?.click()}>Take Photo</Button>
+                                        </DialogClose>
+                                        <DialogClose asChild>
+                                            <Button variant="outline" onClick={() => fileInputRef.current?.click()}>Choose from Gallery</Button>
+                                        </DialogClose>
+                                        {currentAvatar && 
+                                        <DialogClose asChild>
+                                            <Button variant="destructive" onClick={handleRemovePicture}>
+                                                <Trash2 className="mr-2 h-4 w-4"/> Remove Photo
+                                            </Button>
+                                        </DialogClose>
+                                        }
+                                    </div>
+                                </DialogContent>
+                            </Dialog>
+                            
                             <input
                                 type="file"
                                 ref={fileInputRef}
                                 onChange={handleFileChange}
                                 className="hidden"
                                 accept="image/*"
+                            />
+                             <input
+                                type="file"
+                                ref={cameraInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                                accept="image/*"
+                                capture="user"
                             />
                         </>
                     )}
