@@ -165,7 +165,7 @@ export default function Home() {
                   <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open profile"><Link href="/profile"><User /></Link></Button>
               </div>
            </div>
-            <p className="text-sm font-medium text-white">HOME - Pravin Mishra ▼</p>
+           <Link href="/profile" className="text-sm font-medium text-white">HOME - Pravin Mishra ▼</Link>
          </div>
       </header>
        <div className="sticky top-0 z-40 w-full bg-orange-400/80 p-4 pt-0 backdrop-blur-sm">
