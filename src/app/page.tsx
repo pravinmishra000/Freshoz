@@ -21,6 +21,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FreshozLogo } from '@/components/freshoz/freshoz-logo';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -108,11 +109,6 @@ export default function Home() {
     recognitionRef.current = recognition;
   };
 
-
-  if (loading) {
-    return <SplashScreen />;
-  }
-
   const mainCategories = categories.filter(c => ['1', '3', '4', '5'].includes(c.id));
   const frequentlyBought = [
       { name: 'Milk, Curd & Paneer', images: ['p4', 'p24'], href: '/category/dairy-bakery' },
@@ -142,202 +138,209 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-orange-400 to-background text-foreground">
-       <header className="w-full text-white">
-         <div className="container mx-auto flex h-auto flex-col gap-2 px-4 py-3">
-           <div className="flex items-center justify-between">
-              <div className="flex flex-col">
-                <Link href="/" className="flex items-center gap-2">
-                  <div className="flex-shrink-0">
-                    <h1 className="font-headline text-2xl font-bold text-green-600 drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">FRESHOZ</h1>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fresh & Fast</p>
+    <>
+      <AnimatePresence>
+        {loading && <SplashScreen />}
+      </AnimatePresence>
+
+      {!loading && (
+        <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="flex min-h-screen flex-col bg-gradient-to-b from-orange-400 to-background text-foreground"
+        >
+          <header className="w-full text-white">
+            <div className="container mx-auto flex h-auto flex-col gap-2 px-4 py-3">
+              <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <Link href="/" className="flex items-center gap-2">
+                      <div className="flex-shrink-0">
+                        <h1 className="font-headline text-2xl font-bold text-green-600 drop-shadow-[0_0_12px_rgba(255,255,255,0.9)]">FRESHOZ</h1>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fresh & Fast</p>
+                      </div>
+                    </Link>
                   </div>
-                </Link>
+                  <div className="flex items-center gap-2">
+                      <a href="tel:9097882555" aria-label="Call support">
+                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><Phone /></Button>
+                      </a>
+                      <a href="https://wa.me/9097882555" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><MessageSquare /></Button>
+                      </a>
+                      <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open wallet"><Link href="/wallet"><Wallet /></Link></Button>
+                      <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open profile"><Link href="/profile"><User /></Link></Button>
+                  </div>
               </div>
-              <div className="flex items-center gap-2">
-                  <a href="tel:9097882555" aria-label="Call support">
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><Phone /></Button>
-                  </a>
-                   <a href="https://wa.me/9097882555" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20"><MessageSquare /></Button>
-                  </a>
-                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open wallet"><Link href="/wallet"><Wallet /></Link></Button>
-                  <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/20" aria-label="Open profile"><Link href="/profile"><User /></Link></Button>
-              </div>
-           </div>
-           <Link href="/profile" className="text-sm font-medium text-white">HOME - Pravin Mishra ▼</Link>
-         </div>
-      </header>
-       <div className="sticky top-0 z-40 w-full bg-orange-400/80 p-4 pt-0 backdrop-blur-sm">
-         <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search for atta, dal, milk..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border-2 border-primary/30 bg-background text-foreground pl-10 pr-10"
-          />
-          <button onClick={handleMicClick} className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" aria-label="Search with voice">
-            <Mic className={cn("h-5 w-5", isRecording ? "text-destructive animate-pulse" : "text-muted-foreground")} />
-          </button>
-        </div>
-      </div>
-
-      <main className="flex-1 pb-40">
-        <LocationGate />
-
-        {searchQuery.trim() !== '' ? (
-            <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-background">
-                <h2 className="font-bold text-xl mb-4">Search Results for "{searchQuery}"</h2>
-                {filteredProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                    {filteredProducts.map(product => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-10">
-                        <p className="text-muted-foreground">No products found matching your search.</p>
-                    </div>
-                )}
+              <Link href="/profile" className="text-sm font-medium text-white">HOME - Pravin Mishra ▼</Link>
             </div>
-        ) : (
-            <>
-                <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-                    
-                     <section className="mb-8">
-                        <div className="relative w-full overflow-hidden">
-                            <div className="flex animate-marquee motion-reduce:animate-none hover:[animation-play-state:paused]">
-                                {duplicatedFeaturedItems.map((item, index) => (
-                                    <Link href={item.href} key={index} className="flex-shrink-0 mx-2">
-                                        <Card className="w-40 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all">
-                                            <CardContent className="p-2">
-                                                <div className="relative aspect-square w-full">
-                                                    {item.image && !item.image.includes('placehold.co') ? (
-                                                        <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
-                                                    ) : (
-                                                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
-                                                            <ShoppingCart className="h-20 w-20 text-slate-400" />
-                                                            <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
-                                            </CardContent>
-                                        </Card>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
+          </header>
+          <div className="sticky top-0 z-40 w-full bg-orange-400/80 p-4 pt-0 backdrop-blur-sm">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search for atta, dal, milk..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-lg border-2 border-primary/30 bg-background text-foreground pl-10 pr-10"
+              />
+              <button onClick={handleMicClick} className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" aria-label="Search with voice">
+                <Mic className={cn("h-5 w-5", isRecording ? "text-destructive animate-pulse" : "text-muted-foreground")} />
+              </button>
+            </div>
+          </div>
 
-                    {/* Frequently Bought */}
-                    <section className="mb-8">
-                        <h2 className="font-bold text-xl mb-4">Frequently bought</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        {frequentlyBought.map((item, index) => (
-                                <Link key={index} href={item.href}>
-                                    <Card className="p-2 h-full">
-                                    <div className="flex justify-between items-center mb-2">
-                                        {item.images.map(imgId => {
-                                            const product = products.find(p => p.id === imgId);
-                                            return product ? <Image key={product.id} src={product.image || 'https://placehold.co/40x40.png'} alt={product.name_en} width={40} height={40} className="object-contain" data-ai-hint="product image"/> : null;
-                                        })}
-                                        <div className="text-xs bg-muted p-1 rounded-md">+1 more</div>
-                                    </div>
-                                    <p className="font-semibold text-sm">{item.name}</p>
-                                    </Card>
-                                </Link>
+          <main className="flex-1 pb-40">
+            <LocationGate />
+
+            {searchQuery.trim() !== '' ? (
+                <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-background">
+                    <h2 className="font-bold text-xl mb-4">Search Results for "{searchQuery}"</h2>
+                    {filteredProducts.length > 0 ? (
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                        {filteredProducts.map(product => (
+                            <ProductCard key={product.id} product={product} />
                         ))}
-                        </div>
-                    </section>
-
-                    <Tabs defaultValue={mainCategories.length > 0 ? mainCategories[0].id : ''} className="w-full">
-                    <TabsList className="grid w-full grid-cols-4 h-auto bg-transparent p-0 gap-2">
-                        {mainCategories.map(category => (
-                        <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg bg-white/70 backdrop-blur-sm">
-                            <category.icon className="h-8 w-8 mb-1" />
-                            <span className="text-[11px] text-center leading-tight">{category.name_en}</span>
-                        </TabsTrigger>
-                        ))}
-                    </TabsList>
-                    
-                    <div className="my-4 p-3 rounded-lg bg-green-50 border border-green-200 text-center">
-                        <p className="font-semibold text-sm text-green-800">Free Delivery above ₹199</p>
-                    </div>
-
-                    {mainCategories.map(category => (
-                        <TabsContent key={category.id} value={category.id}>
-                            <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                            {getProductsForCategory(category.id).map(product => (
-                                <ProductCard key={product.id} product={product} />
-                            ))}
-                            </div>
-                            <Button variant="outline" className="w-full mt-6 bg-white/70 backdrop-blur-sm">
-                                View All in {category.name_en} <ChevronRight className="ml-2 h-4 w-4" />
-                            </Button>
-                        </TabsContent>
-                    ))}
-                    </Tabs>
-                </div>
-            </>
-        )}
-      </main>
-
-      {cart.length > 0 && (
-         <div className="fixed bottom-24 left-0 z-40 w-full px-4 pb-2 md:bottom-4">
-            <div className="mx-auto max-w-md">
-                {isDeliveryBannerVisible && (
-                    totalPrice >= freeDeliveryThreshold ? (
-                        <div className="mb-2 flex items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
-                            <div className="flex items-center gap-2">
-                                <CheckCircle className="h-5 w-5 text-blue-600"/>
-                                <p><span className="font-bold">Yay! You got FREE Delivery.</span> No coupon needed</p>
-                            </div>
-                            <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
                         </div>
                     ) : (
-                         <div className="mb-2 flex items-center justify-between rounded-lg bg-amber-100 p-2 text-sm text-amber-800 shadow-lg">
-                            <div className="flex items-center gap-2">
-                                <Bike className="h-5 w-5 text-amber-600"/>
-                                <p>Add <span className="font-bold">₹{amountNeededForFreeDelivery.toFixed(2)}</span> to get free delivery</p>
-                            </div>
-                            <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                        <div className="text-center py-10">
+                            <p className="text-muted-foreground">No products found matching your search.</p>
                         </div>
-                    )
-                )}
-                 <Link href="/cart">
-                    <div className="flex h-12 items-center justify-between rounded-full bg-primary p-1 text-primary-foreground shadow-lg">
-                        <div className="flex items-center gap-2">
-                             <div className="relative flex">
-                                {cart.filter(item => item.image).slice(0, 2).map((item, index) => (
-                                    <div key={item.id} className="relative h-10 w-10 rounded-full border-2 border-primary-foreground" style={{ zIndex: 2 - index, marginLeft: index > 0 ? '-16px' : 0 }}>
-                                        <Image src={item.image} alt={item.name_en} fill className="object-contain rounded-full bg-white p-1" data-ai-hint="product image"/>
-                                    </div>
-                                ))}
+                    )}
+                </div>
+            ) : (
+                <>
+                    <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
+                        
+                        <section className="mb-8">
+                            <div className="relative w-full overflow-hidden">
+                                <div className="flex animate-marquee motion-reduce:animate-none hover:[animation-play-state:paused]">
+                                    {duplicatedFeaturedItems.map((item, index) => (
+                                        <Link href={item.href} key={index} className="flex-shrink-0 mx-2">
+                                            <Card className="w-40 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all">
+                                                <CardContent className="p-2">
+                                                    <div className="relative aspect-square w-full">
+                                                        {item.image && !item.image.includes('placehold.co') ? (
+                                                            <Image src={item.image} alt={item.title} fill className="rounded-lg object-cover" data-ai-hint={item.hint}/>
+                                                        ) : (
+                                                            <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-br from-slate-50 to-blue-100 p-2">
+                                                                <ShoppingCart className="h-20 w-20 text-slate-400" />
+                                                                <span className="mt-2 text-center text-xs text-slate-500">Image coming soon</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <p className="mt-2 text-center font-semibold leading-tight">{item.title}</p>
+                                                </CardContent>
+                                            </Card>
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="font-bold">View cart</span>
-                                <span className="text-xs">{totalItems} Items</span>
-                            </div>
-                        </div>
-                        <ChevronRight className="h-6 w-6 mr-2"/>
-                    </div>
-                </Link>
-            </div>
-        </div>
-      )}
+                        </section>
 
-      <Footer />
-      <BottomNav />
-      <FreshozBuddy isDeliveryBannerVisible={isDeliveryBannerVisible && cart.length > 0 && totalPrice < freeDeliveryThreshold} />
-    </div>
+                        {/* Frequently Bought */}
+                        <section className="mb-8">
+                            <h2 className="font-bold text-xl mb-4">Frequently bought</h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            {frequentlyBought.map((item, index) => (
+                                    <Link key={index} href={item.href}>
+                                        <Card className="p-2 h-full">
+                                        <div className="flex justify-between items-center mb-2">
+                                            {item.images.map(imgId => {
+                                                const product = products.find(p => p.id === imgId);
+                                                return product ? <Image key={product.id} src={product.image || 'https://placehold.co/40x40.png'} alt={product.name_en} width={40} height={40} className="object-contain" data-ai-hint="product image"/> : null;
+                                            })}
+                                            <div className="text-xs bg-muted p-1 rounded-md">+1 more</div>
+                                        </div>
+                                        <p className="font-semibold text-sm">{item.name}</p>
+                                        </Card>
+                                    </Link>
+                            ))}
+                            </div>
+                        </section>
+
+                        <Tabs defaultValue={mainCategories.length > 0 ? mainCategories[0].id : ''} className="w-full">
+                        <TabsList className="grid w-full grid-cols-4 h-auto bg-transparent p-0 gap-2">
+                            {mainCategories.map(category => (
+                            <TabsTrigger key={category.id} value={category.id} className="flex-col h-auto p-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-md border-2 border-transparent data-[state=active]:border-primary/50 rounded-lg bg-white/70 backdrop-blur-sm">
+                                <category.icon className="h-8 w-8 mb-1" />
+                                <span className="text-[11px] text-center leading-tight">{category.name_en}</span>
+                            </TabsTrigger>
+                            ))}
+                        </TabsList>
+                        
+                        <div className="my-4 p-3 rounded-lg bg-green-50 border border-green-200 text-center">
+                            <p className="font-semibold text-sm text-green-800">Free Delivery above ₹199</p>
+                        </div>
+
+                        {mainCategories.map(category => (
+                            <TabsContent key={category.id} value={category.id}>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                                {getProductsForCategory(category.id).map(product => (
+                                    <ProductCard key={product.id} product={product} />
+                                ))}
+                                </div>
+                                <Button variant="outline" className="w-full mt-6 bg-white/70 backdrop-blur-sm">
+                                    View All in {category.name_en} <ChevronRight className="ml-2 h-4 w-4" />
+                                </Button>
+                            </TabsContent>
+                        ))}
+                        </Tabs>
+                    </div>
+                </>
+            )}
+          </main>
+
+          {cart.length > 0 && (
+            <div className="fixed bottom-24 left-0 z-40 w-full px-4 pb-2 md:bottom-4">
+                <div className="mx-auto max-w-md">
+                    {isDeliveryBannerVisible && (
+                        totalPrice >= freeDeliveryThreshold ? (
+                            <div className="mb-2 flex items-center justify-between rounded-lg bg-blue-100 p-2 text-sm text-blue-800 shadow-lg">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="h-5 w-5 text-blue-600"/>
+                                    <p><span className="font-bold">Yay! You got FREE Delivery.</span> No coupon needed</p>
+                                </div>
+                                <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                            </div>
+                        ) : (
+                            <div className="mb-2 flex items-center justify-between rounded-lg bg-amber-100 p-2 text-sm text-amber-800 shadow-lg">
+                                <div className="flex items-center gap-2">
+                                    <Bike className="h-5 w-5 text-amber-600"/>
+                                    <p>Add <span className="font-bold">₹{amountNeededForFreeDelivery.toFixed(2)}</span> to get free delivery</p>
+                                </div>
+                                <button onClick={() => setIsDeliveryBannerVisible(false)}><X className="h-5 w-5"/></button>
+                            </div>
+                        )
+                    )}
+                    <Link href="/cart">
+                        <div className="flex h-12 items-center justify-between rounded-full bg-primary p-1 text-primary-foreground shadow-lg">
+                            <div className="flex items-center gap-2">
+                                <div className="relative flex">
+                                    {cart.filter(item => item.image).slice(0, 2).map((item, index) => (
+                                        <div key={item.id} className="relative h-10 w-10 rounded-full border-2 border-primary-foreground" style={{ zIndex: 2 - index, marginLeft: index > 0 ? '-16px' : 0 }}>
+                                            <Image src={item.image} alt={item.name_en} fill className="object-contain rounded-full bg-white p-1" data-ai-hint="product image"/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="font-bold">View cart</span>
+                                    <span className="text-xs">{totalItems} Items</span>
+                                </div>
+                            </div>
+                            <ChevronRight className="h-6 w-6 mr-2"/>
+                        </div>
+                    </Link>
+                </div>
+            </div>
+          )}
+
+          <Footer />
+          <BottomNav />
+          <FreshozBuddy isDeliveryBannerVisible={isDeliveryBannerVisible && cart.length > 0 && totalPrice < freeDeliveryThreshold} />
+        </motion.div>
+      )}
+    </>
   );
 }
-
-    
-
-    
-
-    

@@ -3,7 +3,12 @@ import { FreshozLogo } from "./freshoz-logo";
 
 export default function SplashScreen() {
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center 
+    <motion.div
+        key="splash"
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="fixed inset-0 z-[100] flex flex-col items-center justify-center 
                     bg-gradient-to-b from-green-500 via-green-100 to-white">
       
       {/* Logo with white glow background */}
@@ -28,6 +33,6 @@ export default function SplashScreen() {
       >
         Fresh &amp; Fast
       </motion.p>
-    </div>
+    </motion.div>
   );
 }
