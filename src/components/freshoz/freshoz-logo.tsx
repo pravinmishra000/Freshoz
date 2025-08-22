@@ -3,11 +3,16 @@ import { Leaf } from 'lucide-react';
 
 export function FreshozLogo() {
   return (
-    <a href="/" className="flex items-center gap-2">
-      <div className="flex-shrink-0">
-        <h1 className="font-headline text-2xl font-bold text-green-600">FRESHOZ</h1>
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fresh & Fast</p>
-      </div>
-    </a>
+    <div className="flex items-center justify-center">
+      <h1
+        className="text-5xl font-extrabold tracking-tight text-green-600 drop-shadow-lg"
+        style={{
+          fontFamily: "'Poppins', sans-serif", // clean modern font
+          letterSpacing: "-1px",
+        }}
+      >
+        FRESHOZ
+      </h1>
+    </div>
   );
 }
