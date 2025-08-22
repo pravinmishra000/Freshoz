@@ -9,7 +9,7 @@ export default function SplashScreen() {
       {/* Logo with white glow background */}
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: 1.2, opacity: 1 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative"
       >
@@ -21,10 +21,10 @@ export default function SplashScreen() {
 
       {/* Tagline */}
       <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="mt-6 text-2xl font-semibold text-slate-800 text-center"
+        initial={{ opacity: 0, y: 20, letterSpacing: "-0.5px" }}
+        animate={{ opacity: 1, y: 0, letterSpacing: "2px" }}
+        transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
+        className="mt-6 text-2xl font-semibold text-black text-center"
       >
         Fresh & Fast
       </motion.p>
