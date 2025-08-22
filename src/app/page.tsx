@@ -149,7 +149,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <Link href="/" className="flex items-center gap-2">
                   <div className="flex-shrink-0">
-                    <h1 className="font-headline text-2xl font-bold text-green-600 drop-shadow-[0_0_4px_rgba(255,255,255,0.7)]">FRESHOZ</h1>
+                    <h1 className="font-headline text-2xl font-bold text-green-600 drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">FRESHOZ</h1>
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fresh & Fast</p>
                   </div>
                 </Link>
@@ -335,5 +335,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
