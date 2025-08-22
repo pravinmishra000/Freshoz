@@ -24,7 +24,7 @@ export default function SplashScreen() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="mt-6 text-xl font-semibold text-green-700 text-center"
+        className="mt-6 text-2xl font-semibold text-slate-800 text-center"
       >
         Fresh & Fast
       </motion.p>
