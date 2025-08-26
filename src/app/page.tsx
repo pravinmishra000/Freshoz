@@ -157,7 +157,7 @@ export default function Home() {
                     <Link href="/" className="flex items-center gap-2">
                       <div className="flex-shrink-0">
                         <h1 className="font-headline text-2xl font-extrabold text-green-600 drop-shadow-lg">FRESHOZ</h1>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">Fresh & Fast</p>
+                        <p className="text-xs font-bold uppercase tracking-wider text-black drop-shadow-sm">Fresh & Fast</p>
                       </div>
                     </Link>
                   </div>
