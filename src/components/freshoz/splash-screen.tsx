@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { FreshozLogo } from "./freshoz-logo";
 
@@ -29,7 +30,7 @@ export default function SplashScreen() {
         initial={{ opacity: 0, y: 20, letterSpacing: "-0.5px" }}
         animate={{ opacity: 1, y: 0, letterSpacing: "2px" }}
         transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-        className="mt-6 text-2xl font-semibold text-black text-center"
+        className="mt-6 text-2xl font-semibold text-black text-center drop-shadow-sm"
       >
         Fresh &amp; Fast
       </motion.p>
